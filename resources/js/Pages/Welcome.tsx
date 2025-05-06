@@ -1,15 +1,21 @@
-import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
-import { Button } from "@/Components/ui/button";
-import Layout from "@/Layouts/GuestLayout";
-
+import Layout from "@/Layouts/AppLayout";
+import HeroSection from "@/Components/home/HeroSection";
+import AboutSection from "@/Components/home/AboutSection";
+import VideoProfileSection from "@/Components/home/VideoProfileSection";
+import BenefitSection from "@/Components/home/BenefitSection";
+import CategoriesSection from "@/Components/home/CategoriesSection";
+import GeneralClassesSection from "@/Components/home/GeneralClassesSection";
 function Welcome() {
     return (
         <>
             <Head title="Welcome" />
-            <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-                <Button variant="destructive">Destructive</Button>
-            </div>
+            <HeroSection />
+            <AboutSection />
+            <VideoProfileSection />
+            <BenefitSection />
+            <CategoriesSection />
+            <GeneralClassesSection />
         </>
     );
 }
