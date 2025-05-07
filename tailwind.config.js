@@ -22,7 +22,6 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...fontFamily.sans],
                 sans: ["Oswald", ...fontFamily.sans],
             },
             colors: {
@@ -45,12 +44,10 @@ export default {
                 "popover-foreground": "hsl(var(--popover-foreground))",
                 card: "hsl(var(--card))",
                 "card-foreground": "hsl(var(--card-foreground))",
-
-                // 🎨 Custom colors from you
                 Base_Color: "#7966CE",
                 Second_Color: "#88DE53",
                 Third_Color: "#EBEBEB",
-                Fourt_Color: "#141414", // <- pastikan ini ada!
+                Fourt_Color: "#141414",
                 Fifth_Color: "#4A5E71",
                 Sixth_Color: "#D7D4D4",
                 Card_Color: "#2C2B2B",
@@ -62,17 +59,53 @@ export default {
             },
             keyframes: {
                 "accordion-down": {
-                    from: { height: "0" },
-                    to: { height: "var(--radix-accordion-content-height)" },
+                    from: {
+                        height: "0",
+                    },
+                    to: {
+                        height: "var(--radix-accordion-content-height)",
+                    },
                 },
                 "accordion-up": {
-                    from: { height: "var(--radix-accordion-content-height)" },
-                    to: { height: "0" },
+                    from: {
+                        height: "var(--radix-accordion-content-height)",
+                    },
+                    to: {
+                        height: "0",
+                    },
+                },
+                "accordion-down": {
+                    from: {
+                        height: "0",
+                    },
+                    to: {
+                        height: "var(--radix-accordion-content-height)",
+                    },
+                },
+                "accordion-up": {
+                    from: {
+                        height: "var(--radix-accordion-content-height)",
+                    },
+                    to: {
+                        height: "0",
+                    },
                 },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
+                "accordion-down": "accordion-down 0.2s ease-out",
+                "accordion-up": "accordion-up 0.2s ease-out",
+            },
+            animation: {
+                float: "float 6s ease-in-out infinite",
+                "float-slow": "float 10s ease-in-out infinite",
+            },
+            keyframes: {
+                float: {
+                    "0%, 100%": { transform: "translateY(0)" },
+                    "50%": { transform: "translateY(-10px)" },
+                },
             },
         },
     },

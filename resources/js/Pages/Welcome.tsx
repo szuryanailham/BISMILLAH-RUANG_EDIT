@@ -6,6 +6,11 @@ import VideoProfileSection from "@/Components/home/VideoProfileSection";
 import BenefitSection from "@/Components/home/BenefitSection";
 import CategoriesSection from "@/Components/home/CategoriesSection";
 import GeneralClassesSection from "@/Components/home/GeneralClassesSection";
+import ExperedClassesSection from "@/Components/home/ExperedClassesSection";
+import TestimoniesSection from "@/Components/home/TestimoniesSection";
+import QuestionSection from "@/Components/home/QuestionSection";
+import QuotesSection from "@/Components/home/QuotesSection";
+
 function Welcome() {
     return (
         <>
@@ -16,6 +21,10 @@ function Welcome() {
             <BenefitSection />
             <CategoriesSection />
             <GeneralClassesSection />
+            <ExperedClassesSection />
+            <TestimoniesSection />
+            <QuestionSection />
+            <QuotesSection />
         </>
     );
 }

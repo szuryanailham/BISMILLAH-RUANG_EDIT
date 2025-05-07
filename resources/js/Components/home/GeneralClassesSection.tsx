@@ -23,7 +23,7 @@ function GeneralClassesSection() {
                     price={0}
                     rating={4.5}
                     image="/image/mentors/mentor_sample.png"
-                    categoryIcon="/image/icons/Adobe_Photoshop.svg"
+                    categoryIcon="Photoshop"
                     mentorName="Salsa Julianj P"
                     isBestSeller
                     href="#"
@@ -35,7 +35,7 @@ function GeneralClassesSection() {
                     price={0}
                     rating={4.5}
                     image="/image/mentors/mentor_sample.png"
-                    categoryIcon="/image/icons/Adobe_Photoshop.svg"
+                    categoryIcon="CapCut"
                     mentorName="Salsa Julianj P"
                     isBestSeller
                     href="#"
@@ -47,7 +47,7 @@ function GeneralClassesSection() {
                     price={25000}
                     rating={4.5}
                     image="/image/mentors/mentor_sample.png"
-                    categoryIcon="/image/icons/Adobe_Photoshop.svg"
+                    categoryIcon="Adobe Premiere"
                     mentorName="Salsa Julianj P"
                     isBestSeller
                     href="#"
