@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "@/Components/ui/button";
 import { MoveRight } from "lucide-react";
+import { Link } from "@inertiajs/react";
+
 export default function AboutSection() {
     return (
         <div className="h-[400px] flex flex-col justify-center items-center p-2 mt-3 mb-5">
@@ -14,13 +16,16 @@ export default function AboutSection() {
                 mengasah keterampilan kreatif dan menciptakan karya yang
                 memukau.
             </p>
-            <Button
-                variant="outline"
-                className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 "
-            >
-                Ikuti Kelas
-                <MoveRight />
-            </Button>
+
+            <Link href={"/All-Classes"}>
+                <Button
+                    variant="outline"
+                    className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 "
+                >
+                    Ikuti Kelas
+                    <MoveRight />
+                </Button>
+            </Link>
         </div>
     );
 }

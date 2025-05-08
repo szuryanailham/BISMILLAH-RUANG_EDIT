@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import CardClass from "../CardClass";
 import { MoveRight } from "lucide-react";
+import { Link } from "@inertiajs/react";
 function ExperedClassesSection() {
     return (
         <>
@@ -42,13 +43,15 @@ function ExperedClassesSection() {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <Button
-                        variant="outline"
-                        className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 text-center"
-                    >
-                        Telusuri Kelas
-                        <MoveRight />
-                    </Button>
+                    <Link href={"/All-Classes"}>
+                        <Button
+                            variant="outline"
+                            className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 text-center"
+                        >
+                            Telusuri Kelas
+                            <MoveRight />
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </>

@@ -4,7 +4,7 @@ import { Dialog, DialogTrigger } from "@/Components/ui/dialog";
 import { useAuthDialog } from "@/stores/useAuthDialog";
 import DialogRegister from "@/Components/auth/DialogRegister";
 import DialogLogin from "@/Components/auth/DialogLogin";
-
+import { Link } from "@inertiajs/react";
 export default function AppLayouts({ children }: PropsWithChildren) {
     const { isRegister, openLogin, openRegister } = useAuthDialog();
 
@@ -22,10 +22,14 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                     <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-4">
                         <div className="flex justify-between items-center">
                             {/* logo icon */}
-                            <h1 className="text-xl font-semibold">
-                                RUANG{" "}
-                                <span className="text-Base_Color">EDIT</span>
-                            </h1>
+                            <Link href={"/"}>
+                                <h1 className="text-xl font-semibold">
+                                    RUANG{" "}
+                                    <span className="text-Base_Color">
+                                        EDIT
+                                    </span>
+                                </h1>
+                            </Link>
                             {/* Login button */}
                             <DialogTrigger asChild>
                                 <Button
@@ -50,7 +54,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                 <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
                     © 2025{" "}
                     <a href="#" className="hover:underline">
-                        Suryana_dev™
+                        Ruang_Edit™
                     </a>
                     . All Rights Reserved.
                 </span>

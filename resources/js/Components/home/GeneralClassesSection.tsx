@@ -26,7 +26,7 @@ function GeneralClassesSection() {
                     categoryIcon="Photoshop"
                     mentorName="Salsa Julianj P"
                     isBestSeller
-                    href="#"
+                    href="/Detail-Class"
                 />
 
                 <CardClass
@@ -54,13 +54,15 @@ function GeneralClassesSection() {
                 />
             </div>
             <div className="flex justify-center">
-                <Button
-                    variant="outline"
-                    className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 text-center"
-                >
-                    Telusuri Kelas
-                    <MoveRight />
-                </Button>
+                <Link href={"/All-Classes"}>
+                    <Button
+                        variant="outline"
+                        className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 text-center"
+                    >
+                        Telusuri Kelas
+                        <MoveRight />
+                    </Button>
+                </Link>
             </div>
         </div>
     );

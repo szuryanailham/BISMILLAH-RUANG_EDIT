@@ -5,6 +5,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
 import { Button } from "@/Components/ui/button";
 import { PageProps } from "@/types";
+import { Link } from "@inertiajs/react";
 function HeroSection() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-3">
@@ -23,13 +24,16 @@ function HeroSection() {
                     BEBASKAN IDE CREATIVITAS
                 </h2>
                 <div className="mt-12 flex justify-between py-3">
-                    <Button
-                        variant="outline"
-                        className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-5 rounded-xl"
-                    >
-                        Mulai Belajar
-                        <MoveRight />
-                    </Button>
+                    <Link href={"/All-Classes"}>
+                        <Button
+                            variant="outline"
+                            className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-5 rounded-xl"
+                        >
+                            Mulai Belajar
+                            <MoveRight />
+                        </Button>
+                    </Link>
+
                     <h3 className="text-sm w-24 text-Fourt_Color font-medium leading-tight text-bold">
                         PLATFORM KURSUS EDITING
                     </h3>
