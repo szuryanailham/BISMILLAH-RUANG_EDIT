@@ -39,7 +39,7 @@ class HomeController extends Controller
     {
        $classModel = ClassModel::with([
     'materials',
-    'mentor:id,id,name,description,photo,instagram_link'
+    'mentor:id,id,name,description,photo,instagram_link,specialist'
 ])->where('class_code', $classModel->class_code)
   ->firstOrFail();
         return Inertia::render('User/DetailCourse', [

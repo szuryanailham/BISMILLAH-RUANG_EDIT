@@ -156,13 +156,13 @@ function DetailCourse({ course }: DetailCourseProps) {
                     ))}
                 </Accordion>
                 {/* Deskripsi Detail Mentors */}
-                {/* <ProfileMentor
+                <ProfileMentor
                     name={course.mentor.name}
-                    role="Creative Digital Specialist"
+                    role={course.mentor.specialist}
                     description={course.mentor.description}
                     photo={course.mentor.photo}
                     instagram={course.mentor.instagram_link}
-                /> */}
+                />
             </div>
         </>
     );

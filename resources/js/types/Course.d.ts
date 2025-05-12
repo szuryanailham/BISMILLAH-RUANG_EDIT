@@ -21,6 +21,7 @@ type MaterialItem = {
 export type Mentor = {
     id: number;
     name: string;
+    specialist: string;
     description: string;
     photo: string;
     instagram_link: string;
