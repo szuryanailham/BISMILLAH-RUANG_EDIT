@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\MentorSpecialist;
 
 return new class extends Migration
 {
@@ -14,10 +15,12 @@ return new class extends Migration
         Schema::create('mentors', function (Blueprint $table) {
                 $table->id();
                 $table->string('name', 100);
+                $table->string('photo');
+               $table->enum('specialist', array_column(MentorSpecialist::cases(), 'value'));
                 $table->enum('status', ['active', 'inactive', 'guest']);
                 $table->decimal('rating_mentor', 5, 1);
                 $table->text('description');
-                $table->text('social_links');
+                $table->text('instagram_link');
                 $table->timestamps();
         });
     }

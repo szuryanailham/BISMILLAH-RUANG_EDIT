@@ -54,7 +54,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                 <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
                     © 2025{" "}
                     <a href="#" className="hover:underline">
-                        Ruang_Edit™
+                        Suryana_dev™
                     </a>
                     . All Rights Reserved.
                 </span>

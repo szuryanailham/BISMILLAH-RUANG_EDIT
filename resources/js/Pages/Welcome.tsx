@@ -10,8 +10,14 @@ import ExperedClassesSection from "@/Components/home/ExperedClassesSection";
 import TestimoniesSection from "@/Components/home/TestimoniesSection";
 import QuestionSection from "@/Components/home/QuestionSection";
 import QuotesSection from "@/Components/home/QuotesSection";
+import { ClassModel } from "@/types/ClassModel";
 
-function Welcome() {
+interface WelcomeProps {
+    beginnerClasses: ClassModel[];
+    expertClasses: ClassModel[];
+}
+
+function Welcome({ beginnerClasses, expertClasses }: WelcomeProps) {
     return (
         <>
             <Head title="Welcome" />
@@ -20,8 +26,8 @@ function Welcome() {
             <VideoProfileSection />
             <BenefitSection />
             <CategoriesSection />
-            <GeneralClassesSection />
-            <ExperedClassesSection />
+            <GeneralClassesSection classes={beginnerClasses} />
+            <ExperedClassesSection classes={expertClasses} />
             <TestimoniesSection />
             <QuestionSection />
             <QuotesSection />

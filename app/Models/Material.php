@@ -11,10 +11,25 @@ class Material extends Model
 
     protected $fillable = ['class_id', 'tittle', 'embed_url', 'description', 'pdf_url', 'order'];
 
-    // Relasi Material -> Class (Many to One)
     public function class()
     {
-        return $this->belongsTo(ClassModel::class);
+         return $this->belongsTo(ClassModel::class, 'class_id');
     }
+
+    protected static function booted()
+{
+    static::created(function ($material) {
+        $material->class?->update([
+            'total_videos' => $material->class->materials()->count(),
+        ]);
+    });
+
+    static::deleted(function ($material) {
+        $material->class?->update([
+            'total_videos' => $material->class->materials()->count(),
+        ]);
+    });
+}
+
 }
 

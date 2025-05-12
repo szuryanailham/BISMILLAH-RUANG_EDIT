@@ -2,32 +2,56 @@
 
 namespace Database\Factories;
 
+use App\Models\ClassModel;
 use App\Models\Mentor;
 use Illuminate\Database\Eloquent\Factories\Factory;
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ClassModel>
- */
+use Illuminate\Support\Str;
+
 class ClassModelFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = ClassModel::class;
+
     public function definition(): array
     {
+        $levels = ['beginner', 'intermediate', 'expert'];
+        $categories = [
+            'Capcut',
+            'Figma',
+            'Canva',
+            'Photoshop',
+            'Illustrator',
+            'Premiere Pro',
+            'After Effects',
+            'Lightroom',
+            'DaVinci Resolve',
+            'Final Cut Pro'
+        ];
+
+        $title = $this->faker->sentence(4); // generate title terlebih dahulu
+        $requirements = collect($this->faker->sentences(3))->map(function ($item, $i) {
+            return [
+                'label' => 'Requirement ' . ($i + 1),
+                'description' => $item,
+            ];
+        })->toArray();
+
+
         return [
-            'mentor_id' => rand(1, 5),// Pilih mentor acak
-            'title' => $this->faker->sentence(3), // Judul kelas, 3 kata acak
-            'description' => $this->faker->paragraph(3), // Deskripsi kelas, 3 paragraf acak
-            'rating_class' => $this->faker->randomFloat(1, 1, 5), // Rating antara 1 dan 5
-            'goals' => $this->faker->paragraph(2), // Tujuan kelas
-            'tools_needed' => $this->faker->words(3, true), // Alat yang dibutuhkan
-            'total_videos' => $this->faker->numberBetween(10, 30), // Jumlah video antara 10 dan 30
-            'students_count' => $this->faker->numberBetween(10, 100), // Jumlah siswa antara 10 dan 100
-            'price' => $this->faker->numberBetween(100000, 500000), // Harga kelas antara 100.000 dan 500.000
-            'is_free' => $this->faker->boolean(50), // Free atau tidak (50% kemungkinan)
-            'token_code' => strtoupper($this->faker->lexify('??????')), // Token kelas, 6 karakter acak
+            'class_code' => strtoupper(Str::random(8)),
+            'mentor_id' => Mentor::factory(),
+            'title' => $title,
+            'slug' => Str::slug($title), // generate slug dari title
+            'description' => $this->faker->paragraph(4),
+            'rating_class' => $this->faker->randomFloat(2, 3, 5),
+            'goals' => $this->faker->sentences(4), // hasilnya array of 4 kalimat
+           'requirements' => $requirements,
+            'students_count' => $this->faker->numberBetween(0, 1000),
+            'price' => $this->faker->numberBetween(50000, 300000),
+            'is_free' => $this->faker->boolean(30),
+            'token_code' => strtoupper(Str::random(10)),
+            'level_category' => $this->faker->randomElement($levels),
+            'category_class' => $this->faker->randomElement($categories),
+            'video_preview_url' => 'https://www.youtube.com/watch?v=' . Str::random(10),
         ];
     }
 }

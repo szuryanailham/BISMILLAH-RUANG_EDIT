@@ -9,7 +9,32 @@ class ClassModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mentor_id', 'title', 'description', 'rating_class', 'goals', 'tools_needed', 'total_videos', 'students_count', 'price', 'is_free', 'token_code'];
+ protected $fillable = [
+    'mentor_id',
+    'class_code',
+    'title',
+    'slug',
+    'description',
+    'rating_class',
+    'goals',
+    'requirements',
+    'total_videos',
+    'students_count',
+    'price',
+    'is_free',
+    'token_code',
+    'level_category',
+    'category_class',
+    'video_preview_url',
+];
+protected $casts = [
+    'goals' => 'array',
+    'requirements' => 'array',
+];
+
+
+
+
 
     // Relasi Class -> Mentor (Many to One)
     public function mentor()
@@ -24,10 +49,11 @@ class ClassModel extends Model
     }
 
     // Relasi Class -> Materials (One to Many)
-    public function materials()
-    {
-        return $this->hasMany(Material::class);
-    }
+   public function materials()
+{
+    return $this->hasMany(Material::class, 'class_id');
+}
+
 
     // Relasi Class -> Tokens (One to Many)
     public function tokens()
@@ -46,4 +72,14 @@ class ClassModel extends Model
     {
         return $this->belongsToMany(User::class, 'token_usages')->withTimestamps();
     }
+
+    
+
+public function getRouteKeyName(): string
+{
+    return 'class_code';
+}
+
+
+
 }

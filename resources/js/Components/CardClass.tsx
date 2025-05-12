@@ -32,26 +32,31 @@ export default function CardClass({
 
                         <div>
                             <img
-                                className=" w-16 absolute bottom-1 left-2"
+                                className="w-16 absolute bottom-1 left-2"
                                 src={
-                                    categoryIcon === "Photoshop"
-                                        ? "/image/icons/Adobe_Photoshop.svg"
-                                        : categoryIcon === "CapCut"
-                                        ? "/image/icons/CapCut.svg"
-                                        : categoryIcon === "Canva"
-                                        ? "/image/icons/Canva.svg"
-                                        : categoryIcon === "Figma"
-                                        ? "/image/icons/Figma.svg"
-                                        : categoryIcon === "Adobe Premiere"
-                                        ? "/image/icons/Premiere.svg"
-                                        : categoryIcon === "DaVinci"
-                                        ? "/image/icons/DaVinci.svg"
-                                        : categoryIcon === "Lightroom"
-                                        ? "/image/icons/Lightroom.svg"
-                                        : "/image/icons/default.svg" // fallback
+                                    {
+                                        Photoshop:
+                                            "/image/icons/Adobe_Photoshop.svg",
+                                        Capcut: "/image/icons/CapCut.svg",
+                                        Canva: "/image/icons/Canva.svg",
+                                        Figma: "/image/icons/Figma.svg",
+                                        Illustrator:
+                                            "/image/icons/Illustrator.svg",
+                                        "Premiere Pro":
+                                            "/image/icons/Premiere.svg",
+                                        "After Effects":
+                                            "/image/icons/AfterEffects.svg",
+                                        Lightroom: "/image/icons/Lightroom.svg",
+                                        "DaVinci Resolve":
+                                            "/image/icons/DaVinci.svg",
+                                        "Final Cut Pro":
+                                            "/image/icons/FinalCutPro.svg",
+                                    }[categoryIcon] ||
+                                    "/image/icons/default.svg" // fallback
                                 }
                                 alt={`${categoryIcon} Icon`}
                             />
+
                             <div className="absolute bottom-4 right-2 bg-Base_Color text-Fourt_Color px-5 py-3 rounded-lg">
                                 {mentorName}
                             </div>

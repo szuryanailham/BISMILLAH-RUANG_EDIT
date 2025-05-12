@@ -3,10 +3,16 @@ import React from "react";
 import CardClass from "../CardClass";
 import { Button } from "../ui/button";
 import { MoveRight } from "lucide-react";
+import { ClassModel } from "@/types/ClassModel"; // Pastikan path ini benar
 
-function GeneralClassesSection() {
+interface Props {
+    classes: ClassModel[];
+}
+
+const GeneralClassesSection: React.FC<Props> = ({ classes }) => {
+    console.log(classes);
     return (
-        <div className="px-5">
+        <div className="p-5">
             <div className="flex">
                 <h1 className="text-xl w-[50%] mb-3 text-Second_Color">
                     Generalist Class
@@ -15,44 +21,25 @@ function GeneralClassesSection() {
                     Lorem ipsum odor amet, consectetuer adipiscing
                 </p>
             </div>
+
             {/* cards class */}
-            <div className="flex flex-col gap-2">
-                <CardClass
-                    title="Photoshop Mastering Become New Legend of Manipulation"
-                    description="Here are the biggest enterprise technology acquisitions of 2021 so far."
-                    price={0}
-                    rating={4.5}
-                    image="/image/mentors/mentor_sample.png"
-                    categoryIcon="Photoshop"
-                    mentorName="Salsa Julianj P"
-                    isBestSeller
-                    href="/Detail-Class"
-                />
-
-                <CardClass
-                    title="Photoshop Mastering Become New Legend of Manipulation"
-                    description="Here are the biggest enterprise technology acquisitions of 2021 so far."
-                    price={0}
-                    rating={4.5}
-                    image="/image/mentors/mentor_sample.png"
-                    categoryIcon="CapCut"
-                    mentorName="Salsa Julianj P"
-                    isBestSeller
-                    href="#"
-                />
-
-                <CardClass
-                    title="Photoshop Mastering Become New Legend of Manipulation"
-                    description="Here are the biggest enterprise technology acquisitions of 2021 so far."
-                    price={25000}
-                    rating={4.5}
-                    image="/image/mentors/mentor_sample.png"
-                    categoryIcon="Adobe Premiere"
-                    mentorName="Salsa Julianj P"
-                    isBestSeller
-                    href="#"
-                />
+            <div className="flex flex-col gap-5">
+                {classes.map((classItem) => (
+                    <CardClass
+                        key={classItem.id}
+                        title={classItem.title}
+                        description={classItem.description}
+                        price={classItem.is_free ? 0 : classItem.price}
+                        rating={classItem.rating_class}
+                        image="/image/mentors/mentor_sample.png" // Ganti jika sudah ada path image
+                        categoryIcon={classItem.category_Class}
+                        mentorName={classItem.mentor?.name ?? "Unknown Mentor"}
+                        isBestSeller={classItem.students_count > 50}
+                        href={`/Detail-Class/${classItem.class_code}`}
+                    />
+                ))}
             </div>
+
             <div className="flex justify-center">
                 <Link href={"/All-Classes"}>
                     <Button
@@ -66,6 +53,6 @@ function GeneralClassesSection() {
             </div>
         </div>
     );
-}
+};
 
 export default GeneralClassesSection;

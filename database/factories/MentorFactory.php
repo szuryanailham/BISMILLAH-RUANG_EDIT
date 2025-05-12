@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\MentorSpecialist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,13 +19,12 @@ class MentorFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+             'specialist' => $this->faker->randomElement(MentorSpecialist::cases())->value,
+            'photo' => 'image/mentors/mentor_sample.png',
             'status' => $this->faker->randomElement(['active', 'inactive', 'guest']),
             'rating_mentor' => $this->faker->randomFloat(1, 3.0, 5.0),
             'description' => $this->faker->paragraph(),
-            'social_links' => json_encode([
-                'instagram' => 'https://instagram.com/' . $this->faker->userName(),
-                'linkedin' => 'https://linkedin.com/in/' . $this->faker->userName()
-            ]),
+            'instagram_link' =>'https://instagram.com/' . $this->faker->userName(), 
             'created_at' => now(),
             'updated_at' => now(),
         ];
