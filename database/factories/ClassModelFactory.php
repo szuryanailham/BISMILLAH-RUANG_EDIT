@@ -20,11 +20,10 @@ class ClassModelFactory extends Factory
             'Canva',
             'Photoshop',
             'Illustrator',
-            'Premiere Pro',
-            'After Effects',
+            'PremierePro',
+            'AfterEffects',
             'Lightroom',
-            'DaVinci Resolve',
-            'Final Cut Pro'
+            'DaVinciResolve',
         ];
 
         $title = $this->faker->sentence(4); // generate title terlebih dahulu

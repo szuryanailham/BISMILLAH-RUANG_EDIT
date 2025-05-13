@@ -35,24 +35,20 @@ export default function CardClass({
                                 className="w-16 absolute bottom-1 left-2"
                                 src={
                                     {
+                                        Capcut: "/image/icons/CapCut.svg",
+                                        Figma: "/image/icons/Figma.svg",
+                                        Canva: "/image/icons/Canva.svg",
                                         Photoshop:
                                             "/image/icons/Adobe_Photoshop.svg",
-                                        Capcut: "/image/icons/CapCut.svg",
-                                        Canva: "/image/icons/Canva.svg",
-                                        Figma: "/image/icons/Figma.svg",
                                         Illustrator:
                                             "/image/icons/Illustrator.svg",
-                                        "Premiere Pro":
+                                        PremierePro:
                                             "/image/icons/Premiere.svg",
-                                        "After Effects":
-                                            "/image/icons/AfterEffects.svg",
                                         Lightroom: "/image/icons/Lightroom.svg",
-                                        "DaVinci Resolve":
+                                        DaVinciResolve:
                                             "/image/icons/DaVinci.svg",
-                                        "Final Cut Pro":
-                                            "/image/icons/FinalCutPro.svg",
                                     }[categoryIcon] ||
-                                    "/image/icons/default.svg" // fallback
+                                    "/image/icons/default.svg"
                                 }
                                 alt={`${categoryIcon} Icon`}
                             />

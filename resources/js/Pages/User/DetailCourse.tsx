@@ -25,6 +25,7 @@ interface DetailCourseProps {
 }
 
 function DetailCourse({ course }: DetailCourseProps) {
+    console.log(course);
     return (
         <>
             <div className="px-3">

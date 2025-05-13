@@ -16,9 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(10)->create();
-        ClassModel::factory()->count(10)->create();
-        Mentor::factory()->count(10)->create();
-        Material::factory()->count(10)->create();
+        $this->call([
+            UserSeeder::class,
+              MentorSeeder::class,
+             ClassModelSeeder::class,
+            MaterialSeeder::class
+        ]);
     }
 }

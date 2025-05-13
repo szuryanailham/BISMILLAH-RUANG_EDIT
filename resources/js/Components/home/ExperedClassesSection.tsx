@@ -31,7 +31,7 @@ function ExperedClassesSection({ classes }: Props) {
                         price={item.price}
                         rating={item.rating_class}
                         image="/image/mentors/mentor_sample.png"
-                        categoryIcon={item.category_Class}
+                        categoryIcon={item.category_class}
                         mentorName={item.mentor?.name ?? "Unknown Mentor"}
                         isBestSeller={item.students_count > 50}
                         href={`/Detail-Class/${item.id}`}

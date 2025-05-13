@@ -10,7 +10,6 @@ interface Props {
 }
 
 const GeneralClassesSection: React.FC<Props> = ({ classes }) => {
-    console.log(classes);
     return (
         <div className="p-5">
             <div className="flex">
@@ -32,7 +31,7 @@ const GeneralClassesSection: React.FC<Props> = ({ classes }) => {
                         price={classItem.is_free ? 0 : classItem.price}
                         rating={classItem.rating_class}
                         image="/image/mentors/mentor_sample.png" // Ganti jika sudah ada path image
-                        categoryIcon={classItem.category_Class}
+                        categoryIcon={classItem.category_class}
                         mentorName={classItem.mentor?.name ?? "Unknown Mentor"}
                         isBestSeller={classItem.students_count > 50}
                         href={`/Detail-Class/${classItem.class_code}`}

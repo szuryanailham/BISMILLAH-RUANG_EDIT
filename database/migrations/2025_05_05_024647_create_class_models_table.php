@@ -28,17 +28,17 @@ return new class extends Migration
         $table->string('token_code', 50)->unique();
         $table->enum('level_category', ['beginner', 'intermediate', 'expert'])->default('beginner');
         $table->enum('category_class', [
-            'Capcut',
+             'Capcut',
             'Figma',
             'Canva',
             'Photoshop',
             'Illustrator',
-            'Premiere Pro',
-            'After Effects',
+            'PremierePro',
+            'AfterEffects',
             'Lightroom',
-            'DaVinci Resolve',
-            'Final Cut Pro'
+            'DaVinciResolve',
         ])->default('Canva');
+
 
         // Optional - useful for UI
         $table->string('video_preview_url')->nullable();

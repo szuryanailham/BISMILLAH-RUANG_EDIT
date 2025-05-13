@@ -26,11 +26,10 @@ export interface ClassModel {
         | "Canva"
         | "Photoshop"
         | "Illustrator"
-        | "Premiere Pro"
-        | "After Effects"
+        | "PremierePro"
+        | "AfterEffects"
         | "Lightroom"
-        | "DaVinci Resolve"
-        | "Final Cut Pro";
+        | "DaVinciResolve";
     video_preview_url?: string; // Optional field
     mentor: Mentor; // <- Tambahan relasi mentor
     created_at: string;
