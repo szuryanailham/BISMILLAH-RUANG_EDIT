@@ -32,12 +32,12 @@ import { TeamSwitcher } from "./team-switcher";
 const items = [
     {
         title: "Kelola Kelas",
-        url: "/admin/classes",
+        url: "/dashboard",
         icon: BookOpen,
     },
     {
         title: "Kelola Materi",
-        url: "/admin/materials",
+        url: "/dashboard/manage-class",
         icon: FileText,
     },
     {

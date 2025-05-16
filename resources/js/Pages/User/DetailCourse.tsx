@@ -18,7 +18,6 @@ import DescriptionClass from "@/Components/Detail-Class/DescriptionClass";
 import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
 import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
-import CourseContent from "@/Components/Detail-Class/CourseContent";
 
 interface DetailCourseProps {
     course: Course;
