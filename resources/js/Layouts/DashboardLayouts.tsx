@@ -1,40 +1,85 @@
-import { SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar";
-import { AppSidebar } from "@/Components/Dashboard/AppSidebar";
-import { Header } from "@/Components/Dashboard/Header";
-import { TopNav } from "@/Components/Dashboard/Top-nav";
+// src/Layouts/DashboardLayout.tsx
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-    const navLinks = [
-        {
-            title: "Home",
-            href: "/",
-            isActive: true,
-        },
-        {
-            title: "About",
-            href: "/about",
-            isActive: false,
-        },
-        {
-            title: "Contact",
-            href: "/contact",
-            isActive: false,
-            disabled: true,
-        },
-        {
-            title: "Penyelenggara Kelas",
-            href: "/kelas/penyelenggara",
-            isActive: false,
-        },
-    ];
+import React from "react";
+import { AppSidebar } from "@/Components/Dashboard/AppSidebar";
+import {
+    SidebarProvider,
+    SidebarTrigger,
+    SidebarInset,
+} from "@/Components/ui/sidebar";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/Components/ui/breadcrumb";
+import { Separator } from "@/Components/ui/separator";
+
+/**
+ * DashboardLayout
+ *
+ * Layout utama untuk halaman dashboard admin Ruang Edit.
+ * Menyediakan struktur dasar berupa:
+ * - Sidebar
+ * - Header dengan tombol trigger & breadcrumb
+ * - Area konten
+ *
+ * Props:
+ * - children: React.ReactNode — konten utama halaman
+ *
+ * Struktur layout:
+ * ┌────────────────────────────────────────────┐
+ * │ Sidebar                                    │
+ * │ ┌────────────────────────────────────────┐ │
+ * │ │ Header (Trigger + Breadcrumb)          │ │
+ * │ │ ┌────────────────────────────────────┐ │ │
+ * │ │ │ Main Content                      │ │ │
+ * │ │ └────────────────────────────────────┘ │ │
+ * └────────────────────────────────────────────┘
+ */
+export default function DashboardLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
-        <>
-            <SidebarProvider>
-                <AppSidebar />
-                <Header>
-                    <TopNav links={navLinks} />
-                </Header>
-            </SidebarProvider>
-        </>
+        <SidebarProvider>
+            <AppSidebar />
+
+            <SidebarInset>
+                {/* HEADER SECTION */}
+                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator
+                            orientation="vertical"
+                            className="mr-2 h-4"
+                        />
+
+                        {/* Breadcrumb Navigation */}
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="#">
+                                        Dashboard
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Home</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+                </header>
+
+                {/* MAIN CONTENT SECTION */}
+                <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    {children}
+                </main>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

@@ -30,7 +30,7 @@ import { ClassModel } from "@/types/ClassModel";
  * @returns JSX.Element - Halaman welcome lengkap dengan section-section konten
  */
 
-// interface type w
+// interface type welcomeprops
 interface WelcomeProps {
     beginnerClasses: ClassModel[];
     expertClasses: ClassModel[];

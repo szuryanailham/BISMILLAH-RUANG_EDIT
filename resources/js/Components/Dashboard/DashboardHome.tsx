@@ -1,46 +1,96 @@
-import { BookOpen, FileText, Users, UserCheck, PlusCircle } from "lucide-react";
+import React from "react";
+import DashboardLayout from "@/Layouts/DashboardLayouts";
+import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
-type StatItem = {
-    title: string;
-    value: number;
-    icon: React.ReactNode;
-};
 
-const stats: StatItem[] = [
-    {
-        title: "Jumlah Kelas",
-        value: 24,
-        icon: <BookOpen className="w-5 h-5 text-white" />,
-    },
-    {
-        title: "Jumlah Materi",
-        value: 120,
-        icon: <FileText className="w-5 h-5 text-white" />,
-    },
-    {
-        title: "Jumlah Mentor",
-        value: 8,
-        icon: <Users className="w-5 h-5 text-white" />,
-    },
-    {
-        title: "Jumlah Pengguna",
-        value: 302,
-        icon: <UserCheck className="w-5 h-5 text-white" />,
-    },
-];
-
-const activities: string[] = [
-    "User IlhamS baru saja mendaftar.",
-    "Kelas 'Belajar UI Figma' ditambahkan.",
-    "Mentor Nanda bergabung ke platform.",
-];
-
-export default function DashboardHome() {
+/**
+ * Halaman utama dashboard admin Ruang Edit
+ */
+function DashboardHome() {
     return (
-        <div className="w-full max-w-full px-4 md:px-8 py-6 space-y-6">
-            <h2 className="text-2xl font-semibold tracking-tight">
-                Selamat datang, Admin 👋
-            </h2>
-        </div>
+        <>
+            {/* Statistik Utama */}
+            <section className="grid gap-4 md:grid-cols-3">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Jumlah Kelas</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-2xl font-bold">12</p>
+                        <p className="text-sm text-muted-foreground">
+                            Kelas aktif saat ini
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Jumlah Member</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-2xl font-bold">320</p>
+                        <p className="text-sm text-muted-foreground">
+                            Member terdaftar
+                        </p>
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Transaksi Berhasil</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-2xl font-bold">96</p>
+                        <p className="text-sm text-muted-foreground">
+                            Pembelian kelas bulan ini
+                        </p>
+                    </CardContent>
+                </Card>
+            </section>
+
+            {/* Navigasi ke halaman lintasan */}
+            <section className="mt-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Akses Cepat</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Button variant="default" className="text-sm">
+                            Lihat Lintasan Kelas
+                        </Button>
+                    </CardContent>
+                </Card>
+            </section>
+
+            {/* Aktivitas Terbaru */}
+            <section className="mt-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Aktivitas Terbaru</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 text-sm">
+                        <p>
+                            📦 Member baru mendaftar:{" "}
+                            <strong>Ayu Rahmawati</strong>
+                        </p>
+                        <p>
+                            💳 Pembelian kelas:{" "}
+                            <strong>Kelas Editing Mobile</strong> oleh{" "}
+                            <strong>Dimas</strong>
+                        </p>
+                        <p>
+                            📝 Kelas baru ditambahkan:{" "}
+                            <strong>Editing Storytelling</strong>
+                        </p>
+                    </CardContent>
+                </Card>
+            </section>
+        </>
     );
 }
+
+DashboardHome.layout = (page: React.ReactNode) => (
+    <DashboardLayout>{page}</DashboardLayout>
+);
+
+export default DashboardHome;
