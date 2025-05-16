@@ -6,13 +6,22 @@ import {
     FaWhatsapp,
 } from "react-icons/fa";
 
+/**
+ * QuotesSection Component
+ *
+ * Komponen ini menampilkan sebuah pesan motivasi yang mengajak pengguna
+ * untuk mengembangkan keterampilan mereka secara online.
+ *
+ * Terdapat elemen dekorasi animasi (floating SVGs) dan ikon media sosial
+ * untuk memperkuat pesan brand secara visual.
+ */
 function QuotesSection() {
     return (
         <div className="p-2 px-5">
             <div className="relative w-full bg-Base_Color p-5 rounded-md text-center overflow-hidden">
-                {/* Floating Images inside the box */}
+                {/* Dekorasi Gambar Floating */}
                 <img
-                    src="/image/decor/Decor_1.svg "
+                    src="/image/decor/Decor_1.svg"
                     alt="decoration 1"
                     className="w-14 h-12 absolute top-14 left-2 animate-float"
                 />
@@ -32,7 +41,7 @@ function QuotesSection() {
                     className="w-12 h-12 absolute bottom-2 right-2 animate-float-slow"
                 />
 
-                {/* Main content */}
+                {/* Konten Utama Quotes */}
                 <h1 className="text-3xl font-semibold leading-10">
                     BUILD YOUR SKILLS{" "}
                     <span className="text-Second_Color">ONLINE</span>
@@ -42,7 +51,7 @@ function QuotesSection() {
                     luar biasa bersama kami
                 </p>
 
-                {/* Social media icons */}
+                {/* Ikon Sosial Media */}
                 <div className="flex justify-center items-center gap-4 text-2xl mt-7">
                     <FaFacebookF />
                     <FaInstagram />

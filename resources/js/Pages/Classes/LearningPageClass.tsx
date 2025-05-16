@@ -5,9 +5,9 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { ClassData, Material } from "@/types/LearningPage";
 import useActiveMaterial from "@/stores/useActiveMaterial";
-import DescriptionClass from "@/Components/DetailCourse/DescriptionClass";
-import RequirtmentTools from "@/Components/DetailCourse/RequirtmentTools";
-import ProfileMentor from "@/Components/DetailCourse/ProfileMentor";
+import DescriptionClass from "@/Components/Detail-Class/DescriptionClass";
+import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
+import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 interface Props {
     class: ClassData;
     materials: Material[];

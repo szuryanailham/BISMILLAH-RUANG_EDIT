@@ -6,13 +6,27 @@ import {
     AccordionTrigger,
 } from "@/Components/ui/accordion";
 
+/**
+ * QuestionSection Component
+ * Menampilkan daftar Frequently Asked Questions (FAQ) dalam bentuk accordion.
+ * Menggunakan komponen Accordion untuk memperlihatkan dan menyembunyikan jawaban
+ * secara interaktif.
+ *
+ * @returns JSX.Element - Section pertanyaan umum dengan accordion
+ */
 export default function QuestionSection() {
     return (
         <div className="p-3 px-7">
+            {/* Judul section */}
             <h2 className="text-2xl font-bold mb-4 text-Second_Color">
                 Pertanyaan Umum
             </h2>
+
+            {/* Accordion utama dengan mode single: hanya 1 item terbuka sekaligus,
+             dan collapsible (bisa ditutup semua) */}
+
             <Accordion type="single" collapsible>
+                {/* Item 1 */}
                 <AccordionItem value="item-1">
                     <AccordionTrigger>
                         Bagaimana cara membeli kelas di Ruang Edit?
@@ -26,6 +40,7 @@ export default function QuestionSection() {
                     </AccordionContent>
                 </AccordionItem>
 
+                {/* Item 2 */}
                 <AccordionItem value="item-2">
                     <AccordionTrigger>
                         Apakah saya perlu memasukkan token untuk mengikuti
@@ -38,6 +53,7 @@ export default function QuestionSection() {
                     </AccordionContent>
                 </AccordionItem>
 
+                {/* Item 3 */}
                 <AccordionItem value="item-3">
                     <AccordionTrigger>
                         Apakah kelas bisa diakses selamanya?
@@ -48,6 +64,7 @@ export default function QuestionSection() {
                     </AccordionContent>
                 </AccordionItem>
 
+                {/* Item 4 */}
                 <AccordionItem value="item-4">
                     <AccordionTrigger>
                         Apakah saya bisa mendapatkan sertifikat?
@@ -60,6 +77,7 @@ export default function QuestionSection() {
                     </AccordionContent>
                 </AccordionItem>
 
+                {/* Item 6 */}
                 <AccordionItem value="item-6">
                     <AccordionTrigger>
                         Apakah saya mendapat relasi setelah ikut kelas?

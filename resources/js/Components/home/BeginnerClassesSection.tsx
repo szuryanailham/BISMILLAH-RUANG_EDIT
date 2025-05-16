@@ -1,0 +1,75 @@
+import React from "react";
+import { Link } from "@inertiajs/react";
+import CardClass from "../CardClass";
+import { Button } from "../ui/button";
+import { MoveRight } from "lucide-react";
+import { ClassModel } from "@/types/ClassModel"; // Pastikan path ini sesuai struktur project
+
+/**
+ * Props untuk komponen BeginnerClassesSection
+ */
+interface Props {
+    classes: ClassModel[];
+}
+
+/**
+ * BeginnerClassesSection Component
+ *
+ * Menampilkan daftar kelas generalist dengan informasi singkat dan tombol navigasi ke halaman semua kelas.
+ *
+ * Fitur utama:
+ * - Header dengan judul dan deskripsi singkat
+ * - Daftar kartu kelas dengan data dinamis dari props `classes`
+ * - Tombol untuk menelusuri seluruh kelas
+ *
+ * @param {Props} props - berisi array kelas yang akan ditampilkan
+ * @returns {JSX.Element} Section kelas generalist
+ */
+const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
+    return (
+        <section className="p-5">
+            {/* Header Section */}
+            <header className="mb-3 flex justify-between">
+                <h1 className="text-xl text-Second_Color w-[50%]">
+                    Generalist Class
+                </h1>
+                <p className="w-[40%] text-right text-xs">
+                    Lorem ipsum odor amet, consectetuer adipiscing
+                </p>
+            </header>
+
+            {/* List Semua Kelas */}
+            <div className="flex flex-col gap-5">
+                {classes.map((classItem) => (
+                    <CardClass
+                        key={classItem.id}
+                        title={classItem.title}
+                        description={classItem.description}
+                        price={classItem.is_free ? 0 : classItem.price}
+                        rating={classItem.rating_class}
+                        image="/image/mentors/mentor_sample.png" // Ganti dengan path gambar yang sesuai jika ada
+                        categoryIcon={classItem.category_class}
+                        mentorName={classItem.mentor?.name ?? "Unknown Mentor"}
+                        isBestSeller={classItem.students_count > 50}
+                        href={`/Detail-Class/${classItem.class_code}`}
+                    />
+                ))}
+            </div>
+
+            {/* Tombol Untuk Menelusuri Semua Kelas */}
+            <div className="mt-7 flex justify-center">
+                <Link href="/All-Classes">
+                    <Button
+                        variant="outline"
+                        className="rounded-xl border-Base_Color bg-transparent px-5 py-6 text-Base_Color hover:bg-Base_Color hover:text-white"
+                    >
+                        Telusuri Kelas
+                        <MoveRight className="ml-2" />
+                    </Button>
+                </Link>
+            </div>
+        </section>
+    );
+};
+
+export default BeginnerClassesSection;

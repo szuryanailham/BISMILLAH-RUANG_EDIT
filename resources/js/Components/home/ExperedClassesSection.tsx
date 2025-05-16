@@ -8,10 +8,20 @@ import { ClassModel } from "@/types/ClassModel"; // Pastikan path-nya sesuai
 interface Props {
     classes: ClassModel[];
 }
+/**
+ * ExperedClassesSection Component
+ * Menampilkan daftar kelas dengan tipe Expert.
+ * Setiap kelas ditampilkan dalam bentuk kartu menggunakan komponen CardClass.
+ * Terdapat juga tombol navigasi untuk melihat semua kelas.
+ *
+ * @param {Props} props - Properti yang diterima komponen, berupa array kelas
+ * @returns JSX Element - Tampilan section kelas expert
+ */
 
 function ExperedClassesSection({ classes }: Props) {
     return (
         <div className="px-5 mt-10">
+            {/* Header Section: Judul dan deskripsi singkat */}
             <div className="flex">
                 <h1 className="text-xl w-[50%] mb-3 text-Second_Color">
                     Expert Class
@@ -21,7 +31,7 @@ function ExperedClassesSection({ classes }: Props) {
                 </p>
             </div>
 
-            {/* cards class */}
+            {/* Daftar kartu kelas */}
             <div className="flex flex-col gap-2">
                 {classes.map((item) => (
                     <CardClass
@@ -30,15 +40,16 @@ function ExperedClassesSection({ classes }: Props) {
                         description={item.description}
                         price={item.price}
                         rating={item.rating_class}
-                        image="/image/mentors/mentor_sample.png"
+                        image="/image/mentors/mentor_sample.png" // Ganti jika ada gambar mentor spesifik
                         categoryIcon={item.category_class}
                         mentorName={item.mentor?.name ?? "Unknown Mentor"}
-                        isBestSeller={item.students_count > 50}
-                        href={`/Detail-Class/${item.id}`}
+                        isBestSeller={item.students_count > 50} // Tandai best seller jika siswa > 50
+                        href={`/Detail-Class/${item.id}`} // Link ke halaman detail kelas
                     />
                 ))}
             </div>
 
+            {/* Tombol untuk menavigasi ke halaman semua kelas */}
             <div className="flex justify-center">
                 <Link href={"/All-Classes"}>
                     <Button

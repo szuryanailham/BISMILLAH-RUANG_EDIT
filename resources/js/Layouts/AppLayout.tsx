@@ -5,24 +5,31 @@ import { useAuthDialog } from "@/stores/useAuthDialog";
 import DialogRegister from "@/Components/auth/DialogRegister";
 import DialogLogin from "@/Components/auth/DialogLogin";
 import { Link } from "@inertiajs/react";
+
+/**
+ * AppLayouts Component
+ *
+ * Layout utama untuk aplikasi Ruang Edit.
+ * Menyediakan struktur dasar halaman dengan header, footer, dan dialog login/register.
+ */
 export default function AppLayouts({ children }: PropsWithChildren) {
     const { isRegister, openLogin, openRegister } = useAuthDialog();
 
     return (
-        <div className="min-h-screen bg-Fourt_Color text-white ">
-            {/* Fixed Header */}
+        <div className="min-h-screen bg-Fourt_Color text-white">
+            {/* Header tetap di atas layar */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-Fourt_Color text-white drop-shadow-lg py-1">
                 <Dialog
                     onOpenChange={(isOpen) => {
                         if (!isOpen) {
-                            openLogin(); // Reset ke form login ketika dialog ditutup
+                            openLogin(); // Reset ke login form saat dialog ditutup
                         }
                     }}
                 >
                     <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-4">
                         <div className="flex justify-between items-center">
-                            {/* logo icon */}
-                            <Link href={"/"}>
+                            {/* Logo / Brand */}
+                            <Link href="/">
                                 <h1 className="text-xl font-semibold">
                                     RUANG{" "}
                                     <span className="text-Base_Color">
@@ -30,7 +37,8 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                     </span>
                                 </h1>
                             </Link>
-                            {/* Login button */}
+
+                            {/* Tombol Login */}
                             <DialogTrigger asChild>
                                 <Button
                                     variant="outline"
@@ -41,14 +49,19 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                             </DialogTrigger>
                         </div>
                     </div>
-                    {/* dialog login */}
+
+                    {/* Menampilkan form Login atau Register */}
                     {!isRegister ? <DialogLogin /> : <DialogRegister />}
                 </Dialog>
             </header>
-            {/* Spacer to offset fixed header */}
-            <div className="h-[84px]" />{" "}
-            {/* Ubah sesuai tinggi header jika perlu */}
+
+            {/* Spacer untuk menghindari konten tertutup header */}
+            <div className="h-[84px]" />
+
+            {/* Konten utama */}
             <main>{children}</main>
+
+            {/* Footer */}
             <footer className="p-2 text-center">
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
                 <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">

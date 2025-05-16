@@ -35,6 +35,7 @@ class ClassesController extends Controller
                 'title' => $material->title,
                 'video_url' => $material->video_url,
                 'order' => $material->order,
+                'pdf_url'=> $material->pdf_url
             ];
         }),
     ]);

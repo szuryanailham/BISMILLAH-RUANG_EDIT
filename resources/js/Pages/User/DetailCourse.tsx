@@ -14,11 +14,11 @@ import {
     AccordionTrigger,
 } from "@/Components/ui/accordion";
 import { FiCheck, FiCheckCircle } from "react-icons/fi";
-import DescriptionClass from "@/Components/DetailCourse/DescriptionClass";
-import RequirtmentTools from "@/Components/DetailCourse/RequirtmentTools";
-import ProfileMentor from "@/Components/DetailCourse/ProfileMentor";
+import DescriptionClass from "@/Components/Detail-Class/DescriptionClass";
+import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
+import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
-import CourseContent from "@/Components/DetailCourse/CourseContent";
+import CourseContent from "@/Components/Detail-Class/CourseContent";
 
 interface DetailCourseProps {
     course: Course;
