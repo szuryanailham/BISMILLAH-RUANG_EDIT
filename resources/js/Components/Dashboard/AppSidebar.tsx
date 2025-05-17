@@ -7,6 +7,7 @@ import {
     ChevronUp,
     Camera,
     GraduationCap,
+    NotepadText,
     Megaphone,
 } from "lucide-react";
 import {
@@ -28,27 +29,33 @@ import {
     DropdownMenuItem,
 } from "@/Components/ui/dropdown-menu";
 import { TeamSwitcher } from "./team-switcher";
+import { Link } from "@inertiajs/react";
 // Menu items.
 const items = [
     {
         title: "Kelola Kelas",
-        url: "/dashboard",
+        url: "/dashboard/manage-class",
         icon: BookOpen,
     },
     {
         title: "Kelola Materi",
-        url: "/dashboard/manage-class",
+        url: "/dashboard/manage-course",
         icon: FileText,
     },
     {
         title: "Kelola Mentor",
-        url: "/admin/mentors",
+        url: "/dashboard/manage-mentor",
         icon: Users,
     },
     {
         title: "Kelola Pengguna",
-        url: "/admin/users",
+        url: "/dashboard/manage-users",
         icon: UserCheck,
+    },
+    {
+        title: "Kelola Order",
+        url: "/dashboard/manage-orders",
+        icon: NotepadText,
     },
 ];
 
@@ -83,10 +90,10 @@ export function AppSidebar() {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <Link href={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}

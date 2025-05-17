@@ -18,4 +18,8 @@ use Inertia\Inertia;
 Route::namespace('App\Http\Controllers\Admin')->group(function () {
     Route::get('/dashboard', 'DashboardController@index');
     Route::get('/dashboard/manage-class', 'DashboardController@manageClass');
+    Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
+    Route::get('/dashboard/manage-mentor', 'DashboardController@manageMentor');
+    Route::get('/dashboard/manage-users', 'DashboardController@manageUser');
+       Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');
 });

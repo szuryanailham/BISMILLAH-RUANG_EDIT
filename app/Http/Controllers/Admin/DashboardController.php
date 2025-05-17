@@ -13,4 +13,20 @@ class DashboardController extends Controller
       public function manageClass(){
         return Inertia::render('Dashboard/Manage-class-dashboard');
     }
+
+     public function manageCourse(){
+        return Inertia::render('Dashboard/Manage-materi-dashboard');
+    }
+
+     public function manageMentor(){
+        return Inertia::render('Dashboard/Manage-mentor-dashboard');
+    }
+
+         public function manageUser(){
+        return Inertia::render('Dashboard/Manage-user-dashboard');
+    }
+
+        public function manageOrder(){
+        return Inertia::render('Dashboard/Manage-order-dashboard');
+    }
 }
