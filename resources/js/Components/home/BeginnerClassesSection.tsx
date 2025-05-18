@@ -22,8 +22,7 @@ interface Props {
  * - Daftar kartu kelas dengan data dinamis dari props `classes`
  * - Tombol untuk menelusuri seluruh kelas
  *
- * @param {Props} props - berisi array kelas yang akan ditampilkan
- * @returns {JSX.Element} Section kelas generalist
+
  */
 const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
     return (

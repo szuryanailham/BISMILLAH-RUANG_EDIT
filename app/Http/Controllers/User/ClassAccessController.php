@@ -5,10 +5,10 @@ use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
 use Inertia\Inertia;
 
-class ClassesController extends Controller
+class ClassAccessController extends Controller
 {
-    
-    public function LearningClass(ClassModel $classModel){
+    //
+       public function LearningClass(ClassModel $classModel){
         $classModel->load(['materials', 'mentor']);
         return Inertia::render('Classes/LearningPageClass', [
         'class' => [

@@ -50,4 +50,5 @@ class HomeController extends Controller
     public function AllCourse(){
         return Inertia::render('User/ListClasses');
     }
+    
 }

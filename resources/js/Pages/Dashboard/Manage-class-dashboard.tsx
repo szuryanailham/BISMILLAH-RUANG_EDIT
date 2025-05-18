@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { PageProps } from "@/types";
+import { usePage } from "@inertiajs/react";
 import DashboardLayout from "@/Layouts/DashboardLayouts";
 import { Pencil, Trash2 } from "lucide-react";
 import {
@@ -8,34 +10,17 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/Components/ui/dialog";
+import { ClassData } from "@/types/dashboard/manage-class-dashboard/ClassData";
+import { formatRupiah } from "@/lib/formatRupiah";
+import { Button } from "@/Components/ui/button";
 
 function ManageClassDashboard() {
+    const { classes } = usePage<PageProps<{ classes: ClassData[] }>>().props;
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedClass, setSelectedClass] = useState<{
-        title: string;
-        mentorName: string;
-        price: number;
-        rating: number;
-    } | null>(null);
+    const [selectedClass, setSelectedClass] = useState<ClassData | null>(null);
 
-    const classes = [
-        {
-            id: 1,
-            title: "Photoshop Mastering: Become Legend",
-            mentorName: "Salsa Julianj P",
-            price: 0,
-            rating: 4.5,
-        },
-        {
-            id: 2,
-            title: "Premiere Pro Basic to Hero",
-            mentorName: "Budi Santoso",
-            price: 150000,
-            rating: 4.8,
-        },
-    ];
-
-    const handleClassClick = (kelas: (typeof classes)[0]) => {
+    const handleClassClick = (kelas: ClassData) => {
         setSelectedClass(kelas);
         setIsDialogOpen(true);
     };
@@ -44,7 +29,6 @@ function ManageClassDashboard() {
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6">Kelola Kelas</h1>
 
-            {/* Tabel daftar kelas */}
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
                     <table className="min-w-full text-sm text-left">
@@ -71,15 +55,17 @@ function ManageClassDashboard() {
                                         {kelas.title}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {kelas.mentorName}
+                                        {kelas.mentor?.name ?? "-"}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {kelas.price === 0
+                                        {kelas.is_free
                                             ? "Gratis"
-                                            : `Rp ${kelas.price.toLocaleString()}`}
+                                            : formatRupiah(kelas.price)}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {kelas.rating}
+                                        {parseFloat(kelas.rating_class).toFixed(
+                                            1
+                                        )}
                                     </td>
                                     <td className="px-4 py-3 text-center space-x-2">
                                         <button
@@ -107,25 +93,57 @@ function ManageClassDashboard() {
                         <DialogTitle>Detail Kelas</DialogTitle>
                         <DialogDescription>
                             {selectedClass ? (
-                                <div className="space-y-2 text-sm mt-4">
+                                <div className="space-y-3 text-sm mt-4">
                                     <p>
                                         <strong>Judul:</strong>{" "}
                                         {selectedClass.title}
                                     </p>
                                     <p>
                                         <strong>Mentor:</strong>{" "}
-                                        {selectedClass.mentorName}
+                                        {selectedClass.mentor?.name ?? "-"}
                                     </p>
                                     <p>
                                         <strong>Harga:</strong>{" "}
-                                        {selectedClass.price === 0
+                                        {selectedClass.is_free
                                             ? "Gratis"
-                                            : `Rp ${selectedClass.price.toLocaleString()}`}
+                                            : formatRupiah(selectedClass.price)}
                                     </p>
                                     <p>
                                         <strong>Rating:</strong>{" "}
-                                        {selectedClass.rating}
+                                        {parseFloat(
+                                            selectedClass.rating_class
+                                        ).toFixed(1)}
                                     </p>
+                                    <p>
+                                        <strong>Total Video:</strong>{" "}
+                                        {selectedClass.total_videos}
+                                    </p>
+
+                                    {/* Tombol aksi */}
+                                    <div className="flex space-x-3 mt-7">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-2"
+                                            onClick={() => {
+                                                // aksi edit materi di dalam kelas
+                                            }}
+                                        >
+                                            <Pencil className="w-4 h-4" />
+                                            Edit Materi
+                                        </Button>
+                                        <Button
+                                            variant="destructive"
+                                            size="sm"
+                                            className="flex items-center gap-2"
+                                            onClick={() => {
+                                                // aksi hapus disini
+                                            }}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                            Hapus
+                                        </Button>
+                                    </div>
                                 </div>
                             ) : (
                                 "Tidak ada data kelas yang dipilih."
