@@ -25,7 +25,8 @@ class ClassesController extends Controller
      */
     public function create()
     {
-        //
+        $classes = ClassModel::all();
+        return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass');
     }
 
     /**
@@ -49,6 +50,7 @@ class ClassesController extends Controller
      */
     public function edit(ClassModel $classModel)
     {
+        
           return Inertia::render('Dashboard/edit-class-dashboard/EditClass');
     }
 

@@ -19,7 +19,7 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
     Route::get('/dashboard', 'DashboardController@index');
     // manage class 
     Route::get('/dashboard/manage-class', 'ClassesController@index');
-     Route::get('/dashboard/manage-class/{classModel}/edit', 'ClassesController@edit');
+     Route::get('/dashboard/manage-class/create', 'ClassesController@create');
     // manage course
     Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
     Route::get('/dashboard/manage-mentor', 'DashboardController@manageMentor');

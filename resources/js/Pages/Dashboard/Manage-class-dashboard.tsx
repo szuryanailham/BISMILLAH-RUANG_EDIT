@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { PageProps } from "@/types";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import DashboardLayout from "@/Layouts/DashboardLayouts";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import {
     Dialog,
     DialogContent,
@@ -27,7 +27,16 @@ function ManageClassDashboard() {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">Kelola Kelas</h1>
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold">Kelola Kelas</h1>
+                <Link
+                    href="/dashboard/manage-class/create"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition"
+                >
+                    <Plus className="w-4 h-4" />
+                    Create Class
+                </Link>
+            </div>
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
@@ -68,18 +77,19 @@ function ManageClassDashboard() {
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-center space-x-2">
-                                        <button
-                                            className="text-blue-600 hover:text-blue-800"
+                                        <Link
+                                            href={`/dashboard/manage-class/${kelas.class_code}/edit`}
+                                            className="inline-flex items-center justify-center w-9 h-9 rounded hover:bg-blue-100"
                                             aria-label="Edit"
                                         >
-                                            <Pencil className="w-5 h-5" />
-                                        </button>
-                                        <button
-                                            className="text-red-600 hover:text-red-800"
+                                            <Pencil className="w-4 h-4 text-blue-600" />
+                                        </Link>
+                                        <Button
+                                            className="bg-transparent hover:bg-transparent"
                                             aria-label="Hapus"
                                         >
-                                            <Trash2 className="w-5 h-5" />
-                                        </button>
+                                            <Trash2 className="w-5 h-5 text-red-600" />
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}
@@ -121,17 +131,13 @@ function ManageClassDashboard() {
 
                                     {/* Tombol aksi */}
                                     <div className="flex space-x-3 mt-7">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
+                                        <Link
                                             className="flex items-center gap-2"
-                                            onClick={() => {
-                                                // aksi edit materi di dalam kelas
-                                            }}
+                                            href={`/dashboard/manage-class/${selectedClass.class_code}/edit`}
                                         >
                                             <Pencil className="w-4 h-4" />
                                             Edit Materi
-                                        </Button>
+                                        </Link>
                                         <Button
                                             variant="destructive"
                                             size="sm"
