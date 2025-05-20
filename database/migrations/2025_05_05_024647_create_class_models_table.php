@@ -27,19 +27,7 @@ return new class extends Migration
         $table->boolean('is_free')->default(false);
         $table->string('token_code', 50)->unique();
         $table->enum('level_category', ['beginner', 'intermediate', 'expert'])->default('beginner');
-        $table->enum('category_class', [
-             'Capcut',
-            'Figma',
-            'Canva',
-            'Photoshop',
-            'Illustrator',
-            'PremierePro',
-            'AfterEffects',
-            'Lightroom',
-            'DaVinciResolve',
-        ])->default('Canva');
-
-
+        $table->foreignId('category_class_id')->constrained()->onDelete('cascade');
         // Optional - useful for UI
         $table->string('video_preview_url')->nullable();
 

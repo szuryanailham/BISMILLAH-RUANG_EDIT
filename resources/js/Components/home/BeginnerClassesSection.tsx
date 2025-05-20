@@ -39,20 +39,29 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
 
             {/* List Semua Kelas */}
             <div className="flex flex-col gap-5">
-                {classes.map((classItem) => (
-                    <CardClass
-                        key={classItem.id}
-                        title={classItem.title}
-                        description={classItem.description}
-                        price={classItem.is_free ? 0 : classItem.price}
-                        rating={classItem.rating_class}
-                        image="/image/mentors/mentor_sample.png" // Ganti dengan path gambar yang sesuai jika ada
-                        categoryIcon={classItem.category_class}
-                        mentorName={classItem.mentor?.name ?? "Unknown Mentor"}
-                        isBestSeller={classItem.students_count > 50}
-                        href={`/Detail-Class/${classItem.class_code}`}
-                    />
-                ))}
+                {classes.map((classItem) => {
+                    console.log(classItem); // <-- Log di sini
+
+                    return (
+                        <CardClass
+                            key={classItem.id}
+                            title={classItem.title}
+                            description={classItem.description}
+                            price={classItem.is_free ? 0 : classItem.price}
+                            rating={classItem.rating_class}
+                            image="/image/mentors/mentor_sample.png"
+                            categoryIcon={
+                                classItem.category_class?.category_class ??
+                                "Default Category"
+                            }
+                            mentorName={
+                                classItem.mentor?.name ?? "Unknown Mentor"
+                            }
+                            isBestSeller={classItem.students_count > 50}
+                            href={`/Detail-Class/${classItem.class_code}`}
+                        />
+                    );
+                })}
             </div>
 
             {/* Tombol Untuk Menelusuri Semua Kelas */}

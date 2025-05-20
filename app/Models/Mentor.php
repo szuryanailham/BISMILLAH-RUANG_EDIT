@@ -16,4 +16,9 @@ class Mentor extends Model
     {
         return $this->hasMany(ClassModel::class, 'mentor_id');
     }
+
+    public function categoryClass()
+{
+    return $this->belongsTo(CategoryClass::class, 'category_class_id');
+}
 }

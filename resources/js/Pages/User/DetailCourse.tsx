@@ -5,7 +5,6 @@ import { FaVideo, FaLaptop, FaInstagram } from "react-icons/fa";
 import { MdAccessTime } from "react-icons/md";
 import { PiCertificateLight } from "react-icons/pi";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
 import { FaShoppingCart } from "react-icons/fa";
 import {
     Accordion,
@@ -18,13 +17,13 @@ import DescriptionClass from "@/Components/Detail-Class/DescriptionClass";
 import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
 import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
+import { Label } from "@/Components/ui/label";
 
 interface DetailCourseProps {
     course: Course;
 }
 
 function DetailCourse({ course }: DetailCourseProps) {
-    console.log(course);
     return (
         <>
             <div className="px-3">
@@ -158,7 +157,7 @@ function DetailCourse({ course }: DetailCourseProps) {
                 {/* Deskripsi Detail Mentors */}
                 <ProfileMentor
                     name={course.mentor.name}
-                    role={course.mentor.specialist}
+                    role={course.mentor.category_class.category_class}
                     description={course.mentor.description}
                     photo={course.mentor.photo}
                     instagram={course.mentor.instagram_link}

@@ -41,7 +41,10 @@ function ExperedClassesSection({ classes }: Props) {
                         price={item.price}
                         rating={item.rating_class}
                         image="/image/mentors/mentor_sample.png" // Ganti jika ada gambar mentor spesifik
-                        categoryIcon={item.category_class}
+                        categoryIcon={
+                            item.category_class?.category_class ??
+                            "Default Category"
+                        }
                         mentorName={item.mentor?.name ?? "Unknown Mentor"}
                         isBestSeller={item.students_count > 50} // Tandai best seller jika siswa > 50
                         href={`/Detail-Class/${item.id}`} // Link ke halaman detail kelas

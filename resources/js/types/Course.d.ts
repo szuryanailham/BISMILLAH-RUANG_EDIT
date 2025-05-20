@@ -18,6 +18,11 @@ type MaterialItem = {
     description: string;
 };
 
+type Category_class = {
+    category_class: string;
+    description: string;
+};
+
 export type Mentor = {
     id: number;
     name: string;
@@ -25,8 +30,8 @@ export type Mentor = {
     description: string;
     photo: string;
     instagram_link: string;
+    category_class: Category_class; // ✅ Bukan array, karena belongsTo
 };
-
 export interface Course {
     id: number;
     class_code: string; // Kode Kelas

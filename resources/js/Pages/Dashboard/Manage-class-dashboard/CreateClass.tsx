@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import DashboardLayout from "@/Layouts/DashboardLayouts";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Button } from "@/Components/ui/button";
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
+    FormMessage,
 } from "@/Components/ui/form";
 import {
     Select,
@@ -19,45 +23,87 @@ import {
     SelectValue,
 } from "@/Components/ui/select";
 import { Input } from "@/Components/ui/input";
-import { Textarea } from "@/Components/ui/textarea";
-import { useDescriptionStore } from "@/stores/dashboard/manage-class-dashboard/CreateClass";
-import { useGoalsStore } from "@/stores/dashboard/manage-class-dashboard/goalsStore";
-import { useRequirementsStore } from "@/stores/dashboard/manage-class-dashboard/requirementsStore";
+import { Switch } from "@/Components/ui/switch";
+import { mentorsDummy } from "@/Data/MentorsDummy";
+const formSchema = z
+    .object({
+        titleClass: z
+            .string()
+            .min(2, { message: "Judul kelas minimal 2 karakter" })
+            .max(50, { message: "Judul kelas maksimal 50 karakter" }),
 
-const formSchema = z.object({
-    title: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-    slug: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-});
+        slug: z
+            .string()
+            .min(2, { message: "Slug minimal 2 karakter" })
+            .max(50, { message: "Slug maksimal 50 karakter" }),
 
-import DashboardLayout from "@/Layouts/DashboardLayouts";
-import { Button } from "@/Components/ui/button";
-import { Label } from "@/components/ui/label";
+        isActive: z.boolean(),
+        isFree: z.boolean(),
+        price: z.string().optional(),
+        previewUrl: z
+            .string()
+            .url({ message: "URL preview tidak valid" })
+            .optional(),
+        mentor: z.string().min(1, { message: "Mentor harus dipilih" }),
+        categoryClass: z.string().min(1, { message: "Kategori harus dipilih" }),
+        categoryLevel: z.string().min(1, { message: "Level harus dipilih" }),
+    })
+    .superRefine((data, ctx) => {
+        if (!data.isFree) {
+            if (!data.price || data.price.trim() === "") {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["price"],
+                    message: "Harga harus diisi jika kelas tidak gratis",
+                });
+            } else if (!/^\d+$/.test(data.price)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["price"],
+                    message: "Harga harus berupa angka tanpa simbol atau huruf",
+                });
+            }
+        }
+    });
+
+// Membantu generelasi slug
+function generateSlug(text: string) {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+// Update slug otomatis setiap titleClass berubah
+
 function CreateClass() {
-    const { description, setDescription } = useDescriptionStore();
-    const { goals, setGoal, addGoal, removeGoal } = useGoalsStore();
-    const { requirements, setRequirement, addRequirement, removeRequirement } =
-        useRequirementsStore();
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
+            titleClass: "",
             slug: "",
+            isActive: false,
+            isFree: false,
+            categoryLevel: "",
+            categoryClass: "",
+            previewUrl: "",
         },
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const input: string = e.target.value;
-        const words: string[] = input.trim().split(/\s+/);
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        // Do something with the form values.
+        // ✅ This will be type-safe and validated.
+        console.log(values);
+    }
 
-        if (words.length <= 25) {
-            setDescription(input);
-        }
-    };
+    useEffect(() => {
+        const title = form.watch("titleClass");
+        const slug = generateSlug(title);
+        form.setValue("slug", slug);
+    }, [form.watch("titleClass")]);
+
+    const isFree = form.watch("isFree");
 
     return (
         <section>
@@ -67,42 +113,31 @@ function CreateClass() {
             <div className="max-w-screen-sm mx-auto mt-5">
                 <Form {...form}>
                     <form
-                        // onSubmit={form.handleSubmit("")}
-                        className="space-y-4"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8"
                     >
-                        {/* LInk youtube preview */}
+                        {/* Input Judul Kelas */}
                         <FormField
                             control={form.control}
-                            name="title"
+                            name="titleClass"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Preview Url</FormLabel>
+                                    <FormLabel>Title Course</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="shadcn"
                                             {...field}
                                         />
                                     </FormControl>
+                                    <FormDescription>
+                                        Masukan Nama Kelas Baru
+                                    </FormDescription>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        {/* Title Class */}
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Title Class</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="shadcn"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        {/* Slug Title Class */}
+
+                        {/* Input Slug Otomatis */}
                         <FormField
                             control={form.control}
                             name="slug"
@@ -111,251 +146,227 @@ function CreateClass() {
                                     <FormLabel>Slug</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="shadcn"
+                                            placeholder="slug"
                                             {...field}
+                                            readOnly
                                         />
                                     </FormControl>
+                                    <FormDescription>
+                                        Slug akan terisi otomatis dari judul
+                                    </FormDescription>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        {/* Price Input */}
+                        {/* Switch for Change Status Actif Class */}
                         <FormField
                             control={form.control}
-                            name="slug"
+                            name="isActive"
                             render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Harga</FormLabel>
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                    <div className="space-y-0.5">
+                                        <FormLabel className="text-base">
+                                            Kelas Aktif
+                                        </FormLabel>
+                                        <FormDescription>
+                                            Aktifkan jika kelas sudah siap
+                                            dipublikasikan.
+                                        </FormDescription>
+                                    </div>
                                     <FormControl>
-                                        <Input
-                                            placeholder="Harga Kelas"
-                                            {...field}
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
                                         />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-                        {/* Mentor */}
-                        <FormItem>
-                            <FormLabel>Mentor</FormLabel>
-                            <Select>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Pilih Mentor" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Figma</SelectLabel>
-                                        <SelectItem value="dimas_saputra">
-                                            Dimas Saputra
-                                        </SelectItem>
-                                        <SelectItem value="raisa_putri">
-                                            Raisa Putri
-                                        </SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Canva</SelectLabel>
-                                        <SelectItem value="ilham_suryana">
-                                            Ilham Suryana
-                                        </SelectItem>
-                                        <SelectItem value="nadya_lestari">
-                                            Nadya Lestari
-                                        </SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Capcut</SelectLabel>
-                                        <SelectItem value="bagas_pratama">
-                                            Bagas Pratama
-                                        </SelectItem>
-                                        <SelectItem value="anisa_maharani">
-                                            Anisa Maharani
-                                        </SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Photoshop</SelectLabel>
-                                        <SelectItem value="fajar_nugraha">
-                                            Fajar Nugraha
-                                        </SelectItem>
-                                        <SelectItem value="sinta_dewi">
-                                            Sinta Dewi
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormItem>
 
-                        {/* Category Class  and Category Level*/}
-                        <div className="flex gap-3">
-                            <div>
-                                <FormItem>
-                                    <FormLabel>Category Class</FormLabel>
-                                    <Select>
-                                        <SelectTrigger className="w-[280px]">
-                                            <SelectValue placeholder="Category Class" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>
-                                                    Category Aplikasi
-                                                </SelectLabel>
-                                                <SelectItem value="Figma">
-                                                    Figma
-                                                </SelectItem>
-                                                <SelectItem value="Canva">
-                                                    Canva
-                                                </SelectItem>
-                                                <SelectItem value="Capcut">
-                                                    Capcut
-                                                </SelectItem>
-                                                <SelectItem value="Photoshop">
-                                                    Photoshop
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                        {/* Status Price Class */}
+                        <FormField
+                            control={form.control}
+                            name="isFree"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                    <div className="space-y-0.5">
+                                        <FormLabel className="text-base">
+                                            Kelas Gratis
+                                        </FormLabel>
+                                        <FormDescription>
+                                            Tandai jika kelas ini dapat diakses
+                                            secara gratis.
+                                        </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
                                 </FormItem>
-                            </div>
-                            <div>
-                                <FormItem>
-                                    <FormLabel>Category Level</FormLabel>
-                                    <Select>
-                                        <SelectTrigger className="w-[280px]">
-                                            <SelectValue placeholder="Category Class" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>
-                                                    Category Aplikasi
-                                                </SelectLabel>
-                                                <SelectItem value="Bignner">
-                                                    Beginner
-                                                </SelectItem>
-                                                <SelectItem value="Medium">
-                                                    Medium
-                                                </SelectItem>
-                                                <SelectItem value="Experted">
-                                                    Experted
-                                                </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            </div>
-                        </div>
+                            )}
+                        />
 
-                        {/* Description Class */}
-                        <FormItem>
-                            <FormLabel>Desciption Class</FormLabel>
-                            <Textarea
-                                value={description}
-                                onChange={handleChange}
-                                placeholder="Type your message here."
+                        <div className="flex flex-col md:flex-row gap-4">
+                            {/* Input Category Class */}
+                            <FormField
+                                control={form.control}
+                                name="categoryClass"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Category Class</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <SelectTrigger className="w-[280px]">
+                                                <SelectValue placeholder="Pilih Kategori Aplikasi" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>
+                                                        Category Aplikasi
+                                                    </SelectLabel>
+                                                    <SelectItem value="Figma">
+                                                        Figma
+                                                    </SelectItem>
+                                                    <SelectItem value="Canva">
+                                                        Canva
+                                                    </SelectItem>
+                                                    <SelectItem value="Capcut">
+                                                        Capcut
+                                                    </SelectItem>
+                                                    <SelectItem value="Photoshop">
+                                                        Photoshop
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
                             />
-                            <p className="text-sm text-gray-500 mt-1">
-                                {
-                                    description
-                                        .trim()
-                                        .split(/\s+/)
-                                        .filter(Boolean).length
-                                }{" "}
-                                / 25 kata
-                            </p>
-                        </FormItem>
-                        {/* input goals */}
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium">
-                                Tujuan Pembelajaran
-                            </label>
-                            {goals.map((goal, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-center gap-2"
-                                >
-                                    <Input
-                                        type="text"
-                                        value={goal}
-                                        onChange={(e) =>
-                                            setGoal(index, e.target.value)
-                                        }
-                                        placeholder={`Tujuan #${index + 1}`}
-                                    />
-                                    {goals.length > 1 && (
-                                        <Button
-                                            type="button"
-                                            onClick={() => removeGoal(index)}
-                                            className="text-red-500 hover:underline bg-transparent hover:bg-transparent"
+
+                            {/* Input Category Level */}
+                            <FormField
+                                control={form.control}
+                                name="categoryLevel"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Category Level</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
                                         >
-                                            Hapus
-                                        </Button>
-                                    )}
-                                </div>
-                            ))}
-
-                            <Button
-                                type="button"
-                                onClick={addGoal}
-                                className="px-3 py-1 mt-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
-                            >
-                                + Tambah Goal
-                            </Button>
-
-                            <p className="text-sm text-gray-500 mt-2">
-                                Total goals:{" "}
-                                {goals.filter((g) => g.trim() !== "").length}
-                            </p>
+                                            <SelectTrigger className="w-[280px]">
+                                                <SelectValue placeholder="Pilih Tingkat Kelas" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>
+                                                        Level Kelas
+                                                    </SelectLabel>
+                                                    <SelectItem value="beginner">
+                                                        Beginner
+                                                    </SelectItem>
+                                                    <SelectItem value="intermediate">
+                                                        Intermediate
+                                                    </SelectItem>
+                                                    <SelectItem value="expert">
+                                                        Expert
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormItem>
+                                )}
+                            />
                         </div>
-                        {/* Input Requirment */}
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium">
-                                Requirements Tools
-                            </label>
-                            {requirements.map((req, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-center gap-2"
-                                >
-                                    <input
-                                        type="text"
-                                        value={req}
-                                        onChange={(e) =>
-                                            setRequirement(
-                                                index,
-                                                e.target.value
-                                            )
-                                        }
-                                        placeholder={`Requirement #${
-                                            index + 1
-                                        }`}
-                                        className="flex-1 px-3 py-2 border border-gray-300 rounded"
-                                    />
-                                    {requirements.length > 1 && (
-                                        <Button
-                                            type="button"
-                                            onClick={() =>
-                                                removeRequirement(index)
-                                            }
-                                            className="text-red-500 hover:underline bg-transparent hover:bg-transparent"
-                                        >
-                                            Hapus
-                                        </Button>
-                                    )}
-                                </div>
-                            ))}
 
-                            <button
-                                type="button"
-                                onClick={addRequirement}
-                                className="px-3 py-1 mt-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
-                            >
-                                + Tambah Requirement
-                            </button>
+                        {/* Price of Class */}
 
-                            <p className="text-sm text-gray-500 mt-2">
-                                Total requirements:{" "}
-                                {
-                                    requirements.filter((r) => r.trim() !== "")
-                                        .length
-                                }
-                            </p>
-                        </div>
+                        {!isFree && (
+                            <FormField
+                                control={form.control}
+                                name="price"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Harga</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Harga Kelas"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            Masukkan harga kelas dalam Rupiah
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
+
+                        {/* Input URL Preview */}
+                        <FormField
+                            control={form.control}
+                            name="previewUrl"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Preview URL</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Link Youtube Review ..."
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Masukkan link video (contoh: YouTube)
+                                        yang menampilkan cuplikan atau review
+                                        kelas.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* pilih Mentor */}
+                        <FormField
+                            control={form.control}
+                            name="mentor"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Mentor</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Pilih Mentor" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {mentorsDummy.map((mentorGroup) => (
+                                                <SelectGroup
+                                                    key={mentorGroup.specialist}
+                                                >
+                                                    <SelectLabel>
+                                                        {mentorGroup.specialist}
+                                                    </SelectLabel>
+                                                    <SelectItem
+                                                        value={mentorGroup.name}
+                                                    >
+                                                        {mentorGroup.name}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Input Otomatis Slug kelas */}
+                        <Button type="submit">Submit</Button>
                     </form>
                 </Form>
             </div>
@@ -365,5 +376,4 @@ function CreateClass() {
 CreateClass.layout = (page: React.ReactNode) => (
     <DashboardLayout>{page}</DashboardLayout>
 );
-
 export default CreateClass;

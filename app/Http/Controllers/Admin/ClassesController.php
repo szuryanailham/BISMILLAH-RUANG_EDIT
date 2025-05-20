@@ -25,7 +25,7 @@ class ClassesController extends Controller
      */
     public function create()
     {
-        $classes = ClassModel::all();
+
         return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass');
     }
 

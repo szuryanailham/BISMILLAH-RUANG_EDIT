@@ -16,17 +16,19 @@ class HomeController extends Controller
      * @return \Inertia\Response
      */
     public function index(){
-         // Ambil 3 terbaru berdasarkan level_category = 'beginner'
-    $beginnerClasses = ClassModel::where('level_category', 'beginner')
-        ->latest()
-        ->take(3)
-        ->get();
 
-    // Ambil 3 terbaru berdasarkan level_category = 'expert'
-    $expertClasses = ClassModel::where('level_category', 'expert')
-        ->latest()
-        ->take(3)
-        ->get();
+    $beginnerClasses = ClassModel::with('categoryClass')
+    ->where('level_category', 'beginner')
+    ->latest()
+    ->take(3)
+    ->get();
+
+$expertClasses = ClassModel::with('categoryClass')
+    ->where('level_category', 'expert')
+    ->latest()
+    ->take(3)
+    ->get();
+ 
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -35,17 +37,19 @@ class HomeController extends Controller
         ]);
     }
 
-    public function show(ClassModel $classModel)
-    {
-       $classModel = ClassModel::with([
-    'materials',
-    'mentor:id,id,name,description,photo,instagram_link,specialist'
-])->where('class_code', $classModel->class_code)
-  ->firstOrFail();
-        return Inertia::render('User/DetailCourse', [
-               'course' => $classModel,
-        ]);
-    }
+   public function show(ClassModel $classModel)
+{
+    $classModel = ClassModel::with([
+        'materials',
+        'mentor', // Ambil semua data relasi materi
+        'mentor.categoryClass'       // Ambil semua data relasi mentor tanpa select kolom tertentu
+    ])->where('class_code', $classModel->class_code)
+      ->firstOrFail();
+
+    return Inertia::render('User/DetailCourse', [
+        'course' => $classModel,
+    ]);
+}
 
     public function AllCourse(){
         return Inertia::render('User/ListClasses');

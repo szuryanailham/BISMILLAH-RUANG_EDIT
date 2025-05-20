@@ -4,6 +4,21 @@ export type RequirementItem = {
     description: string;
 };
 
+export interface Category {
+    id: number;
+    category_class:
+        | "Capcut"
+        | "Figma"
+        | "Canva"
+        | "Photoshop"
+        | "Illustrator"
+        | "PremierePro"
+        | "AfterEffects"
+        | "Lightroom"
+        | "DaVinciResolve";
+    description: string;
+}
+
 export interface ClassModel {
     id: number;
     class_code: string;
@@ -20,16 +35,7 @@ export interface ClassModel {
     is_free: boolean;
     token_code: string;
     level_category: "beginner" | "intermediate" | "expert";
-    category_class:
-        | "Capcut"
-        | "Figma"
-        | "Canva"
-        | "Photoshop"
-        | "Illustrator"
-        | "PremierePro"
-        | "AfterEffects"
-        | "Lightroom"
-        | "DaVinciResolve";
+    category_class?: Category | null;
     video_preview_url?: string; // Optional field
     mentor: Mentor; // <- Tambahan relasi mentor
     created_at: string;

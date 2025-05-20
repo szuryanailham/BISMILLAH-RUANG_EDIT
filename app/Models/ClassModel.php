@@ -73,7 +73,10 @@ protected $casts = [
         return $this->belongsToMany(User::class, 'token_usages')->withTimestamps();
     }
 
-    
+    public function categoryClass()
+{
+    return $this->belongsTo(CategoryClass::class, 'category_class_id');
+}
 
 public function getRouteKeyName(): string
 {

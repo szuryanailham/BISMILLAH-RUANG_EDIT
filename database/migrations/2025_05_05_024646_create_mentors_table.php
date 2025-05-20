@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('name', 100);
                 $table->string('photo');
-               $table->enum('specialist', array_column(MentorSpecialist::cases(), 'value'));
+                $table->foreignId('category_class_id')->constrained()->onDelete('cascade');
                 $table->enum('status', ['active', 'inactive', 'guest']);
                 $table->decimal('rating_mentor', 5, 1);
                 $table->text('description');

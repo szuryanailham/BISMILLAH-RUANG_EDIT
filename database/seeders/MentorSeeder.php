@@ -16,7 +16,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Andi Pratama',
             'photo' => 'mentors/andi-pratama.jpg',
-            'specialist' => 'Graphic Design', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 2, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.8,
             'description' => 'Andi adalah seorang desainer grafis profesional dengan pengalaman lebih dari 8 tahun di industri kreatif. Spesialisasi dalam desain brand identity, UI/UX, dan ilustrasi digital. Alumnus Universitas Seni Indonesia dengan berbagai penghargaan desain nasional.',
@@ -29,7 +29,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Dina Wijaya',
             'photo' => 'mentors/dina-wijaya.jpg',
-            'specialist' => 'UI/UX Design', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 3, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.9,
             'description' => 'Dina adalah UI/UX Designer dengan pengalaman 6 tahun bekerja di perusahaan teknologi terkemuka di Indonesia dan Singapura. Fokus pada desain produk digital yang user-centered dan memiliki sertifikasi internasional di bidang UX Research.',
@@ -42,7 +42,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Budi Santoso',
             'photo' => 'mentors/budi-santoso.jpg',
-            'specialist' => 'Video Editing', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 2, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.7,
             'description' => 'Budi adalah seorang video editor profesional dengan portofolio yang mencakup iklan TV, film pendek, dan konten media sosial. Memiliki keahlian khusus dalam Adobe Premiere Pro, After Effects, dan DaVinci Resolve. Pengalaman 10 tahun di industri perfilman Indonesia.',
@@ -55,7 +55,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Citra Dewi',
             'photo' => 'mentors/citra-dewi.jpg',
-            'specialist' => 'Photography', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' =>1, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.6,
             'description' => 'Citra adalah fotografer profesional dan content creator dengan spesialisasi dalam mobile photography. Karyanya telah dipublikasikan di berbagai majalah digital dan digunakan oleh brand ternama. Berpengalaman mengajar workshop fotografi di berbagai kota di Indonesia.',
@@ -68,7 +68,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Eko Purnomo',
             'photo' => 'mentors/eko-purnomo.jpg',
-            'specialist' => 'Motion Graphics', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 2, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.9,
             'description' => 'Eko adalah motion graphics artist dengan pengalaman 12 tahun bekerja untuk studio animasi dan agensi kreatif. Spesialisasi dalam After Effects dan Cinema 4D. Karyanya mencakup bumper TV nasional, iklan, dan sequence opening film.',
@@ -81,7 +81,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Fina Amalia',
             'photo' => 'mentors/fina-amalia.jpg',
-            'specialist' => 'Illustration', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 1, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.8,
             'description' => 'Fina adalah illustrator profesional dengan gaya khas yang telah dikenal di industri buku dan komik digital. Berpengalaman dalam ilustrasi digital menggunakan Procreate dan Adobe Illustrator. Karyanya telah diterbitkan oleh penerbit nasional dan internasional.',
@@ -94,7 +94,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Galih Prakoso',
             'photo' => 'mentors/galih-prakoso.jpg',
-            'specialist' => '3D Design', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 2, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'active',
             'rating_mentor' => 4.7,
             'description' => 'Galih adalah 3D artist dengan keahlian dalam pemodelan, texturing, dan rendering. Berpengalaman lebih dari 7 tahun menggunakan Blender, Maya, dan 3Ds Max. Telah mengerjakan proyek untuk iklan, game, dan arsitektur.',
@@ -107,7 +107,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Hana Suryana',
             'photo' => 'mentors/hana-suryana.jpg',
-            'specialist' => 'Digital Marketing', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 2, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'guest',
             'rating_mentor' => 4.9,
             'description' => 'Hana adalah pakar digital marketing dengan pengalaman 10 tahun mengelola kampanye pemasaran untuk brand nasional dan multinasional. Spesialis dalam content strategy dan social media marketing. Saat ini bekerja sebagai Digital Marketing Director di agensi terkemuka.',
@@ -120,7 +120,7 @@ class MentorSeeder extends Seeder
         DB::table('mentors')->insert([
             'name' => 'Irfan Mahendra',
             'photo' => 'mentors/irfan-mahendra.jpg',
-            'specialist' => 'Graphic Design', // Sesuaikan dengan nilai yang ada di MentorSpecialist
+            'category_class_id' => 1, // Sesuaikan dengan nilai yang ada di Mentorcategory_class_id
             'status' => 'inactive',
             'rating_mentor' => 4.5,
             'description' => 'Irfan adalah desainer grafis dengan pengalaman mengajar di berbagai institusi pendidikan. Memiliki keahlian dalam Adobe Photoshop dan Illustrator. Saat ini sedang menempuh pendidikan lanjutan di luar negeri.',

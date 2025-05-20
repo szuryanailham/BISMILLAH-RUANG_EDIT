@@ -41,7 +41,6 @@ export default function CardClass({
         Lightroom: "/image/icons/Lightroom.svg",
         DaVinciResolve: "/image/icons/DaVinci.svg",
     };
-
     return (
         <Link href={href}>
             <div className="mt-2">
