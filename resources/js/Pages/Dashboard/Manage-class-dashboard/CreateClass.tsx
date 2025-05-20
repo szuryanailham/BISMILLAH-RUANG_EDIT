@@ -24,43 +24,88 @@ import {
 } from "@/Components/ui/select";
 import { Input } from "@/Components/ui/input";
 import { Switch } from "@/Components/ui/switch";
+import {
+    Mentor,
+    Category,
+} from "@/types/dashboard/manage-class-dashboard/CreateData";
 import { mentorsDummy } from "@/Data/MentorsDummy";
+import { Textarea } from "@/Components/ui/textarea";
+
+const sanitizeString = (value: string): boolean => {
+    // Cegah tag HTML dan karakter berbahaya
+    const blacklist = /<script.*?>.*?<\/script>|<.*?>|['"\\]/gi;
+    return !blacklist.test(value);
+};
+
 const formSchema = z
     .object({
         titleClass: z
             .string()
             .min(2, { message: "Judul kelas minimal 2 karakter" })
-            .max(50, { message: "Judul kelas maksimal 50 karakter" }),
+            .max(50, { message: "Judul kelas maksimal 50 karakter" })
+            .refine(sanitizeString, {
+                message:
+                    "Judul tidak boleh mengandung tag HTML atau karakter berbahaya",
+            }),
 
         slug: z
             .string()
             .min(2, { message: "Slug minimal 2 karakter" })
-            .max(50, { message: "Slug maksimal 50 karakter" }),
+            .max(50, { message: "Slug maksimal 50 karakter" })
+            .regex(/^[a-z0-9-]+$/, {
+                message:
+                    "Slug hanya boleh mengandung huruf kecil, angka, dan tanda hubung (-)",
+            }),
 
         isActive: z.boolean(),
         isFree: z.boolean(),
-        price: z.string().optional(),
+
+        price: z.coerce
+            .number({
+                invalid_type_error: "Harga harus berupa angka",
+            })
+            .optional(),
+
         previewUrl: z
             .string()
             .url({ message: "URL preview tidak valid" })
             .optional(),
-        mentor: z.string().min(1, { message: "Mentor harus dipilih" }),
+
+        mentor: z.coerce
+            .number({
+                invalid_type_error: "Mentor harus dipilih dan berupa angka",
+            })
+            .int({ message: "ID Mentor harus berupa bilangan bulat" })
+            .positive({ message: "ID Mentor tidak valid" }),
+
+        description: z
+            .string()
+            .min(10, { message: "Deskripsi minimal 10 karakter" })
+            .refine(sanitizeString, {
+                message:
+                    "Deskripsi tidak boleh mengandung tag HTML atau karakter berbahaya",
+            })
+            .refine((val) => val.trim().split(/\s+/).length <= 30, {
+                message: "Deskripsi maksimal 30 kata",
+            }),
+
         categoryClass: z.string().min(1, { message: "Kategori harus dipilih" }),
+
         categoryLevel: z.string().min(1, { message: "Level harus dipilih" }),
     })
     .superRefine((data, ctx) => {
         if (!data.isFree) {
-            if (!data.price || data.price.trim() === "") {
+            if (data.price === undefined || data.price === null) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     path: ["price"],
                     message: "Harga harus diisi jika kelas tidak gratis",
                 });
-            } else if (!/^\d+$/.test(data.price)) {
+            } else if (data.price <= 0) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     path: ["price"],
-                    message: "Harga harus berupa angka tanpa simbol atau huruf",
+                    message: "Harga harus lebih dari 0",
                 });
             }
         }
@@ -77,17 +122,24 @@ function generateSlug(text: string) {
 
 // Update slug otomatis setiap titleClass berubah
 
-function CreateClass() {
+export type PageProps = {
+    categories: Category[];
+    mentors: Mentor[];
+};
+
+function CreateClass({ mentors, categories }: PageProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             titleClass: "",
             slug: "",
             isActive: false,
+            price: 0,
             isFree: false,
             categoryLevel: "",
             categoryClass: "",
             previewUrl: "",
+            description: "",
         },
     });
 
@@ -104,7 +156,6 @@ function CreateClass() {
     }, [form.watch("titleClass")]);
 
     const isFree = form.watch("isFree");
-
     return (
         <section>
             <header className="text-center">
@@ -224,23 +275,22 @@ function CreateClass() {
                                                 <SelectValue placeholder="Pilih Kategori Aplikasi" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectGroup>
-                                                    <SelectLabel>
-                                                        Category Aplikasi
-                                                    </SelectLabel>
-                                                    <SelectItem value="Figma">
-                                                        Figma
-                                                    </SelectItem>
-                                                    <SelectItem value="Canva">
-                                                        Canva
-                                                    </SelectItem>
-                                                    <SelectItem value="Capcut">
-                                                        Capcut
-                                                    </SelectItem>
-                                                    <SelectItem value="Photoshop">
-                                                        Photoshop
-                                                    </SelectItem>
-                                                </SelectGroup>
+                                                <SelectContent>
+                                                    {categories.map(
+                                                        (category) => (
+                                                            <SelectItem
+                                                                key={
+                                                                    category.id
+                                                                }
+                                                                value={category.id.toString()}
+                                                            >
+                                                                {
+                                                                    category.category_class
+                                                                }
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectContent>
                                             </SelectContent>
                                         </Select>
                                     </FormItem>
@@ -338,31 +388,58 @@ function CreateClass() {
                                 <FormItem>
                                     <FormLabel>Mentor</FormLabel>
                                     <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
+                                        onValueChange={(value) =>
+                                            field.onChange(Number(value))
+                                        } // ubah string ke number
+                                        defaultValue={field.value?.toString()} // pastikan defaultValue dalam string
                                     >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Pilih Mentor" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {mentorsDummy.map((mentorGroup) => (
-                                                <SelectGroup
-                                                    key={mentorGroup.specialist}
-                                                >
-                                                    <SelectLabel>
-                                                        {mentorGroup.specialist}
-                                                    </SelectLabel>
+                                            <SelectGroup>
+                                                {mentors.map((mentor) => (
                                                     <SelectItem
-                                                        value={mentorGroup.name}
+                                                        key={mentor.id}
+                                                        value={mentor.id.toString()}
                                                     >
-                                                        {mentorGroup.name}
+                                                        {mentor.name}
                                                     </SelectItem>
-                                                </SelectGroup>
-                                            ))}
+                                                ))}
+                                            </SelectGroup>
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
                             )}
+                        />
+                        {/* Deskripsi */}
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => {
+                                const wordCount =
+                                    field.value?.trim().split(/\s+/).length ||
+                                    0;
+
+                                return (
+                                    <FormItem>
+                                        <FormLabel>Deskripsi Kelas</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Textarea
+                                                    {...field}
+                                                    className="min-h-[120px] resize-y"
+                                                    placeholder="Tulis deskripsi lengkap tentang kelas..."
+                                                />
+                                                <p className="absolute bottom-2 right-3 text-xs text-muted-foreground">
+                                                    {wordCount} kata
+                                                </p>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
                         />
 
                         {/* Input Otomatis Slug kelas */}

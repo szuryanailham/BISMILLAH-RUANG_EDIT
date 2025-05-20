@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\CategoryClass;
 use App\Models\ClassModel;
+use App\Models\Mentor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
@@ -23,11 +25,17 @@ class ClassesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+   public function create()
+{
+    $categories = CategoryClass::all();
+    $mentors = Mentor::all();
 
-        return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass');
-    }
+    return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass', [
+        'categories' => $categories,
+        'mentors' => $mentors,
+    ]);
+}
+
 
     /**
      * Store a newly created resource in storage.
