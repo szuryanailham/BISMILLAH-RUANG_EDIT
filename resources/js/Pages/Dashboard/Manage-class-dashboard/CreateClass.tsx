@@ -36,11 +36,12 @@ import { formSchema } from "@/Schema/CreateClassSchema";
 import { generateSlug } from "@/utils/stringHelpers";
 import { IoClose } from "react-icons/io5";
 import { router } from "@inertiajs/react";
+import { useToast } from "@/hooks/use-toast";
 
 function CreateClass({ mentors, categories }: PageProps) {
     // useState untuk loading
     const [isLoading, setIsLoading] = useState(false);
-
+    const { toast } = useToast();
     // Inisialisasi form menggunakan react-hook-form dengan validasi Zod
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -75,18 +76,29 @@ function CreateClass({ mentors, categories }: PageProps) {
 
     // Handler ketika form disubmit
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
         setIsLoading(true);
+
         router.post("/dashboard/manage-class", values, {
             onSuccess: () => {
-                // misalnya reset form atau redirect
+                toast({
+                    title: "Kelas Berhasil dibuat",
+                    description:
+                        "Kelas berhasil dibuat dan disimpan ke database.",
+                });
+
+                // Redirect setelah 2 detik
+                setTimeout(() => {
+                    router.visit("/dashboard/manage-class");
+                    setIsLoading(false);
+                }, 2000);
             },
             onError: (errors) => {
-                // tampilkan validasi error
                 console.log(errors);
-            },
-            onFinish: () => {
-                // setelah semua selesai
+                toast({
+                    variant: "destructive",
+                    title: "Terjadi Kesalahan",
+                    description: "Periksa kembali isian formulir kamu.",
+                });
                 setIsLoading(false);
             },
         });

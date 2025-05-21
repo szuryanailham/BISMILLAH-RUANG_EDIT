@@ -19,7 +19,9 @@ use Inertia\Inertia;
 Route::namespace('App\Http\Controllers\Admin')->group(function () {
     Route::get('/dashboard', 'DashboardController@index');
     // manage class 
-     Route::resource('dashboard/manage-class', ClassesController::class);
+   Route::resource('dashboard/manage-class', ClassesController::class)
+    ->parameters(['manage-class' => 'classModel']);
+
   // routes/web.php
     Route::get('/dashboard/manage-class/create', 'ClassesController@create');
     // manage course

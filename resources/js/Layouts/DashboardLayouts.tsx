@@ -15,6 +15,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/Components/ui/breadcrumb";
+import { Toaster } from "@/Components/ui/toaster";
 import { Separator } from "@/Components/ui/separator";
 
 /**
@@ -78,6 +79,7 @@ export default function DashboardLayout({
                 {/* MAIN CONTENT SECTION */}
                 <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
                     {children}
+                    <Toaster />
                 </main>
             </SidebarInset>
         </SidebarProvider>

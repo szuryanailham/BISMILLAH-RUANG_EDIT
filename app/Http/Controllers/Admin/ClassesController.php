@@ -19,7 +19,10 @@ class ClassesController extends Controller
      */
     public function index()
     {
-        $classes = ClassModel::with(['mentor', 'materials'])->get();
+       $classes = ClassModel::with(['mentor', 'materials'])
+    ->latest()
+    ->get();
+
         return Inertia::render('Dashboard/Manage-class-dashboard', [
         'classes' => $classes
     ]);
@@ -45,42 +48,47 @@ class ClassesController extends Controller
      */
 public function store(CreateClassRequest $request)
 {
-    // Ambil data tervalidasi dari form request
-    $validated = $request->validated();
+    try {
+        // Ambil data tervalidasi
+        $validated = $request->validated();
 
-    // Konversi goals & requirements dari format [{value: "Tujuan"}] menjadi ["Tujuan"]
-    $goals = array_map(fn($item) => $item['value'], $validated['goals']);
-    $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
+        // Ambil array goals dan requirements dari inputan
+        $goals = array_map(fn($item) => $item['value'], $validated['goals']);
+        $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
 
-    // Siapkan data untuk disimpan
-    $data = [
-        // Generate kode kelas unik
-        'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
+        // Siapkan data
+        $data = [
+            'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
+            'title'             => $validated['ClassTittle'],
+            'slug'              => $validated['slug'],
+            'mentor_id'         => $validated['mentor_id'],
+            'description'       => $validated['description'],
+            'is_published'      => $validated['isPublished'],
+            'is_free'           => $validated['isFree'],
+            'price'             => $validated['price'] ?? 0,
+            'level_category'    => $validated['Level'],
+            'preview_url'       => $validated['previewUrl'] ?? null,
+            'category_class_id' => $validated['Category_id'],
+            'goals'             => $goals,
+            'requirements'      => $requirements,
+        ];
 
-        // Mapping data input ke kolom database
-        'title'             => $validated['ClassTittle'],
-        'slug'              => $validated['slug'],
-        'mentor_id'         => $validated['mentor_id'],
-        'description'       => $validated['description'],
-        'is_published'      => $validated['isPublished'],
-        'is_free'           => $validated['isFree'],
-        'price'             => $validated['price'] ?? 0,
-        'level_category'    => $validated['Level'],
-        'preview_url'       => $validated['previewUrl'] ?? null,
-        'category_class_id' => $validated['Category_id'],
-        'goals'             => $goals,
-        'requirements'      => $requirements,
-    ];
+        // Simpan ke database
+        $class = ClassModel::create($data);
 
-    // Simpan ke database
-    $class = ClassModel::create($data);
+        // Redirect dengan pesan sukses
+        return redirect()->route('manage-class.index')
+            ->with('success', 'Class created successfully!');
+    } catch (\Exception $e) {
 
-    // Kembalikan response JSON
-    return response()->json([
-        'message' => 'Class created successfully',
-        'data'    => $class,
-    ], 201);
+        // Jika gagal, redirect dengan pesan error
+        return redirect()->back()
+            ->withInput() 
+            ->with('error', 'Failed to create class. ' . $e->getMessage());
+    }
 }
+
+
 
     /**
      * Display the specified resource.
@@ -111,9 +119,20 @@ public function store(CreateClassRequest $request)
      * Remove the specified resource from storage.
      */
     public function destroy(ClassModel $classModel)
-    {
-        //
+{
+    try {
+        // Hapus data class
+        $classModel->delete();
+        // Redirect dengan pesan sukses
+      return redirect()->route('manage-class.index')->with('deleted', 'Kelas berhasil dihapus.');
+
+    } catch (\Exception $e) {
+        // Redirect kembali jika terjadi error saat menghapus
+        return redirect()->back()
+            ->with('error', 'Failed to delete class. ' . $e->getMessage());
     }
+}
+
 
 
 }

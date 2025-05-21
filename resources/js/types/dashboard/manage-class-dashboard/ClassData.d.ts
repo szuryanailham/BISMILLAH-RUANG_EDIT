@@ -26,3 +26,7 @@ export type ClassData = {
         instagram_link?: string;
     };
 };
+
+export type ClassDeleteProps = {
+    kode_class: string;
+};
