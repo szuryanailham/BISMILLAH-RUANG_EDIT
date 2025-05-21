@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\ClassesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,11 +19,13 @@ use Inertia\Inertia;
 Route::namespace('App\Http\Controllers\Admin')->group(function () {
     Route::get('/dashboard', 'DashboardController@index');
     // manage class 
-    Route::get('/dashboard/manage-class', 'ClassesController@index');
-     Route::get('/dashboard/manage-class/create', 'ClassesController@create');
+     Route::resource('dashboard/manage-class', ClassesController::class);
+  // routes/web.php
+    Route::get('/dashboard/manage-class/create', 'ClassesController@create');
     // manage course
     Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
     Route::get('/dashboard/manage-mentor', 'DashboardController@manageMentor');
     Route::get('/dashboard/manage-users', 'DashboardController@manageUser');
     Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');
+
 });

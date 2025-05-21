@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::namespace('App\Http\Controllers\User')->group(function () {
     Route::get('/', 'HomeController@index');
-    Route::get('/Detail-Class/{classModel}', [HomeController::class, 'show']);
+    Route::get('/detail-class/{classModel}', [HomeController::class, 'show']);
     Route::get('/All-Classes', 'HomeController@AllCourse');
     Route::get('/Learning-Class/{classModel}', [ClassAccessController::class, 'LearningClass']);
 });

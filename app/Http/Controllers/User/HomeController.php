@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
@@ -17,18 +16,20 @@ class HomeController extends Controller
      */
     public function index(){
 
-    $beginnerClasses = ClassModel::with('categoryClass')
+ $beginnerClasses = ClassModel::with('categoryClass')
     ->where('level_category', 'beginner')
+    ->where('is_published', true)
     ->latest()
     ->take(3)
     ->get();
 
 $expertClasses = ClassModel::with('categoryClass')
     ->where('level_category', 'expert')
+    ->where('is_published', true)
     ->latest()
     ->take(3)
     ->get();
- 
+
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

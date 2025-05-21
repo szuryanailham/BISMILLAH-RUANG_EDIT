@@ -58,7 +58,7 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
                                 classItem.mentor?.name ?? "Unknown Mentor"
                             }
                             isBestSeller={classItem.students_count > 50}
-                            href={`/Detail-Class/${classItem.class_code}`}
+                            href={`/detail-class/${classItem.class_code}`}
                         />
                     );
                 })}

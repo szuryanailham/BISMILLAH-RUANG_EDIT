@@ -30,7 +30,7 @@ function ListClasses() {
                     categoryIcon="Photoshop"
                     mentorName="Salsa Julianj P"
                     isBestSeller
-                    href="/Detail-Class"
+                    href="/detail-class/"
                 />
 
                 {/* Kartu Kelas #2 */}
@@ -43,7 +43,7 @@ function ListClasses() {
                     categoryIcon="Photoshop"
                     mentorName="Salsa Julianj P"
                     isBestSeller
-                    href="/Detail-Class"
+                    href="/detail-class/"
                 />
             </div>
         </div>

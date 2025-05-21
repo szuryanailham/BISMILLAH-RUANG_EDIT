@@ -24,7 +24,7 @@ class ClassModel extends Model
     'is_free',
     'token_code',
     'level_category',
-    'category_class',
+    'category_class_id',
     'video_preview_url',
 ];
 protected $casts = [

@@ -11,7 +11,7 @@ import {
     DialogTitle,
 } from "@/Components/ui/dialog";
 import { ClassData } from "@/types/dashboard/manage-class-dashboard/ClassData";
-import { formatRupiah } from "@/lib/formatRupiah";
+import { formatRupiah } from "@/utils/formatRupiah";
 import { Button } from "@/Components/ui/button";
 
 function ManageClassDashboard() {

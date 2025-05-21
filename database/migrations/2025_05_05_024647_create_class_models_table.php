@@ -25,7 +25,7 @@ return new class extends Migration
         $table->unsignedInteger('students_count')->default(0);
         $table->decimal('price', 10, 2)->default(0);
         $table->boolean('is_free')->default(false);
-        $table->string('token_code', 50)->unique();
+        $table->boolean('is_published')->default(true);
         $table->enum('level_category', ['beginner', 'intermediate', 'expert'])->default('beginner');
         $table->foreignId('category_class_id')->constrained()->onDelete('cascade');
         // Optional - useful for UI

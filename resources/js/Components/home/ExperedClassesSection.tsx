@@ -47,7 +47,7 @@ function ExperedClassesSection({ classes }: Props) {
                         }
                         mentorName={item.mentor?.name ?? "Unknown Mentor"}
                         isBestSeller={item.students_count > 50} // Tandai best seller jika siswa > 50
-                        href={`/Detail-Class/${item.id}`} // Link ke halaman detail kelas
+                        href={`/detail-class/${item.id}`} // Link ke halaman detail kelas
                     />
                 ))}
             </div>

@@ -1,6 +1,7 @@
+type RequirementItem = {
+    description: string;
+};
+
 export interface RequirementToolsProps {
-    items: {
-        label: string;
-        description: string;
-    }[];
+    items: RequirementItem[];
 }

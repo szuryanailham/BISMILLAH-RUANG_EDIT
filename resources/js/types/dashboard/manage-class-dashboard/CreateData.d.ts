@@ -8,3 +8,8 @@ export type Mentor = {
     name: string;
     specialist: string;
 };
+
+export type PageProps = {
+    categories: Category[];
+    mentors: Mentor[];
+};

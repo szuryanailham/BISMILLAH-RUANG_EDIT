@@ -1,20 +1,87 @@
+import { sanitizeString } from "@/utils/stringHelpers";
 import * as z from "zod";
 
-export const formSchema = z.object({
-    previewUrl: z.string().url({ message: "Masukkan URL Youtube yang valid." }),
-    title: z.string().min(2, { message: "Judul minimal 2 karakter." }),
-    slug: z.string().min(2, { message: "Slug minimal 2 karakter." }),
-    isActive: z.boolean(),
-    price: z
-        .string()
-        .min(1, { message: "Harga tidak boleh kosong." })
-        .regex(/^\d+$/, { message: "Harga harus berupa angka." }),
-    mentor: z.string().min(1, { message: "Pilih mentor." }),
-    category: z.string().min(1, { message: "Pilih kategori kelas." }),
-    level: z.string().min(1, { message: "Pilih level kelas." }),
-    description: z.string().min(25, { message: "Minimal 25 kata." }),
-    goals: z.array(z.string().min(1)).min(1, { message: "Minimal 1 Goal." }),
-    requirements: z
-        .array(z.string().min(1))
-        .min(1, { message: "Minimal 1 Requirment." }),
-});
+export const formSchema = z
+    .object({
+        ClassTittle: z
+            .string()
+            .min(2, { message: "Judul kelas minimal 2 karakter" })
+            .max(50, { message: "Judul kelas maksimal 50 karakter" })
+            .refine(sanitizeString, {
+                message:
+                    "Judul tidak boleh mengandung tag HTML atau karakter berbahaya",
+            }),
+        goals: z.array(
+            z.object({
+                value: z.string().min(1, "Goal tidak boleh kosong"),
+            })
+        ),
+        requirements: z.array(
+            z.object({
+                value: z.string().min(1, "Requirement tidak boleh kosong"),
+            })
+        ),
+
+        slug: z
+            .string()
+            .min(2, { message: "Slug minimal 2 karakter" })
+            .max(50, { message: "Slug maksimal 50 karakter" })
+            .regex(/^[a-z0-9-]+$/, {
+                message:
+                    "Slug hanya boleh mengandung huruf kecil, angka, dan tanda hubung (-)",
+            }),
+
+        isPublished: z.boolean(),
+        isFree: z.boolean(),
+
+        price: z.coerce
+            .number({
+                invalid_type_error: "Harga harus berupa angka",
+            })
+            .optional(),
+
+        previewUrl: z
+            .string()
+            .url({ message: "URL preview tidak valid" })
+            .optional(),
+
+        mentor_id: z.coerce
+            .number({
+                invalid_type_error: "Mentor harus dipilih dan berupa angka",
+            })
+            .int({ message: "ID Mentor harus berupa bilangan bulat" })
+            .positive({ message: "ID Mentor tidak valid" }),
+
+        description: z
+            .string()
+            .min(10, { message: "Deskripsi minimal 10 karakter" })
+            .refine(sanitizeString, {
+                message:
+                    "Deskripsi tidak boleh mengandung tag HTML atau karakter berbahaya",
+            })
+            .refine((val) => val.trim().split(/\s+/).length <= 30, {
+                message: "Deskripsi maksimal 30 kata",
+            }),
+
+        Category_id: z.coerce
+            .number()
+            .min(1, { message: "Kategori harus dipilih" }),
+        Level: z.string().min(1, { message: "Level harus dipilih" }),
+    })
+    .superRefine((data, ctx) => {
+        if (!data.isFree) {
+            if (data.price === undefined || data.price === null) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["price"],
+                    message: "Harga harus diisi jika kelas tidak gratis",
+                });
+            } else if (data.price <= 0) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    path: ["price"],
+                    message: "Harga harus lebih dari 0",
+                });
+            }
+        }
+    });

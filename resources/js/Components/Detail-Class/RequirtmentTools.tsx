@@ -1,8 +1,10 @@
 import { FiCheckCircle } from "react-icons/fi";
 import { RequirementToolsProps } from "@/types/RequirementTools";
+
 function RequirtmentTools({ items }: RequirementToolsProps) {
+    console.log(items);
     return (
-        <div className="flex flex-col items-center justify-center px-4 py-8 text-Sixth_Color ">
+        <div className="flex flex-col items-center justify-center px-4 py-8 text-Sixth_Color">
             <h1 className="text-3xl font-semibold text-center text-Second_Color mb-7 w-full max-w-xl">
                 Requirement Tools
             </h1>
