@@ -178,16 +178,19 @@ function ManageClassDashboard() {
                                             <AlertDialogContent>
                                                 <AlertDialogHeader>
                                                     <AlertDialogTitle>
-                                                        Are you absolutely sure?
+                                                        Apakah Anda yakin ingin
+                                                        menghapus kelas ini?
                                                     </AlertDialogTitle>
                                                     <AlertDialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete your
-                                                        account and remove your
-                                                        data from our servers.
+                                                        Tindakan ini tidak dapat
+                                                        dibatalkan. Kelas akan
+                                                        dihapus secara permanen
+                                                        dan semua data terkait
+                                                        akan dihapus dari
+                                                        sistem.
                                                     </AlertDialogDescription>
                                                 </AlertDialogHeader>
+
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>
                                                         Cancel
@@ -246,8 +249,8 @@ function ManageClassDashboard() {
                                     {/* Aksi */}
                                     <div className="flex space-x-3 mt-7">
                                         <Link
-                                            className="flex items-center gap-2"
-                                            href={`/dashboard/manage-class/${selectedClass.class_code}/edit`}
+                                            href={`/dashboard/manage-materi/${selectedClass.class_code}/edit`}
+                                            className="flex items-center gap-2 px-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                                         >
                                             <Pencil className="w-4 h-4" />
                                             Edit Materi
