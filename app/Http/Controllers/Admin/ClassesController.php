@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateClassRequest;
 use  Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 class ClassesController extends Controller
@@ -36,7 +37,7 @@ class ClassesController extends Controller
     $categories = CategoryClass::all();
     $mentors = Mentor::all();
 
-    return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass', [
+    return Inertia::render('Dashboard/manage-class-dashboard/CreateClass', [
         'categories' => $categories,
         'mentors' => $mentors,
     ]);
@@ -48,14 +49,20 @@ class ClassesController extends Controller
      */
 public function store(CreateClassRequest $request)
 {
+
     try {
         // Ambil data tervalidasi
         $validated = $request->validated();
+        $posterFile = $request->file('poster')[0];
+       $posterPath = $posterFile->store('class_images', 'public');
+
 
         // Ambil array goals dan requirements dari inputan
         $goals = array_map(fn($item) => $item['value'], $validated['goals']);
-        $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
+        $requirements = array_map(fn($item) => ['description' => $item['value']], $validated['requirements']);
 
+  // ✅ Simpan file poster jika ada
+        
         // Siapkan data
         $data = [
             'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
@@ -67,10 +74,11 @@ public function store(CreateClassRequest $request)
             'is_free'           => $validated['isFree'],
             'price'             => $validated['price'] ?? 0,
             'level_category'    => $validated['Level'],
-            'preview_url'       => $validated['previewUrl'] ?? null,
+            'video_preview_url'  => $validated['previewUrl'] ?? null,
             'category_class_id' => $validated['Category_id'],
             'goals'             => $goals,
-            'requirements'      => $requirements,
+            'requirements'      => $requirements,     
+            'poster_image' => $posterPath,  
         ];
 
         // Simpan ke database

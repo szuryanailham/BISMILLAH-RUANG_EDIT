@@ -13,6 +13,7 @@ return new class extends Migration
 {
     Schema::create('class_models', function (Blueprint $table) {
         $table->id();
+        $table->string('poster_image')->nullable();
         $table->string('class_code', 20)->unique();
         $table->string('slug')->unique();
         $table->foreignId('mentor_id')->constrained('mentors')->onDelete('cascade');

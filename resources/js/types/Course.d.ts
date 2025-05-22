@@ -8,7 +8,7 @@ export interface CourseInclude {
 }
 
 type RequirementItem = {
-    value: string;
+    description: string;
 };
 
 type MaterialItem = {

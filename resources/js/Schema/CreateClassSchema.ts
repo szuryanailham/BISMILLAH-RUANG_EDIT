@@ -1,6 +1,34 @@
 import { sanitizeString } from "@/utils/stringHelpers";
 import * as z from "zod";
 
+const posterSchema = z
+    .instanceof(FileList, { message: "The poster field must be a file." })
+    .refine((fileList) => fileList.length === 1, {
+        message: "Gambar wajib diunggah",
+    })
+    .refine((fileList) => fileList[0].size <= 200 * 1024, {
+        message: "Ukuran gambar maksimal 200 KB",
+    })
+    .refine(
+        async (fileList) => {
+            const poster = fileList[0];
+            if (!poster) return false;
+
+            const img = await new Promise<HTMLImageElement>((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const imgEl = new Image();
+                    imgEl.onload = () => resolve(imgEl);
+                    imgEl.src = reader.result as string;
+                };
+                reader.readAsDataURL(poster);
+            });
+
+            return img.width === 600 && img.height === 400;
+        },
+        { message: "Resolusi gambar harus 600×400 piksel" }
+    );
+
 export const formSchema = z
     .object({
         ClassTittle: z
@@ -11,6 +39,7 @@ export const formSchema = z
                 message:
                     "Judul tidak boleh mengandung tag HTML atau karakter berbahaya",
             }),
+        poster: posterSchema,
         goals: z.array(
             z.object({
                 value: z.string().min(1, "Goal tidak boleh kosong"),

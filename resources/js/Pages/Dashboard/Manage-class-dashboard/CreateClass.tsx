@@ -38,9 +38,13 @@ import { IoClose } from "react-icons/io5";
 import { router } from "@inertiajs/react";
 import { useToast } from "@/hooks/use-toast";
 
+import { useImageStore } from "@/stores/dashboard/manage-class-dashboard/useImageStore";
+
 function CreateClass({ mentors, categories }: PageProps) {
     // useState untuk loading
     const [isLoading, setIsLoading] = useState(false);
+    // state preview image
+    const { file, preview, setFile, setPreview, reset } = useImageStore();
     const { toast } = useToast();
     // Inisialisasi form menggunakan react-hook-form dengan validasi Zod
     const form = useForm<z.infer<typeof formSchema>>({
@@ -55,6 +59,7 @@ function CreateClass({ mentors, categories }: PageProps) {
             Category_id: 0,
             previewUrl: "",
             description: "",
+            poster: undefined,
             goals: [{ value: "" }],
         },
     });
@@ -77,7 +82,11 @@ function CreateClass({ mentors, categories }: PageProps) {
     // Handler ketika form disubmit
     function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-
+        console.log(values);
+        const formData = new FormData();
+        if (values.poster && values.poster.length > 0) {
+            formData.append("poster", values.poster[0]);
+        }
         router.post("/dashboard/manage-class", values, {
             onSuccess: () => {
                 toast({
@@ -90,6 +99,9 @@ function CreateClass({ mentors, categories }: PageProps) {
                 setTimeout(() => {
                     router.visit("/dashboard/manage-class");
                     setIsLoading(false);
+                    reset();
+                    setFile(null);
+                    setPreview("");
                 }, 2000);
             },
             onError: (errors) => {
@@ -117,6 +129,20 @@ function CreateClass({ mentors, categories }: PageProps) {
 
     // Pantau apakah kelas ditandai sebagai gratis
     const isFree = form.watch("isFree");
+
+    // function preview image input
+    const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+
+            const reader = new FileReader();
+            reader.onloadend = () => setPreview(reader.result as string);
+            reader.readAsDataURL(selectedFile);
+        } else {
+            reset();
+        }
+    };
 
     return (
         <section>
@@ -173,6 +199,55 @@ function CreateClass({ mentors, categories }: PageProps) {
                                 </FormItem>
                             )}
                         />
+
+                        {/* Input : Uploud Poster ( uploud poster class ) */}
+                        <FormField
+                            control={form.control}
+                            name="poster"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Picture</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => {
+                                                field.onChange(e.target.files);
+                                                handlePreview(e);
+                                            }}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        <strong>Kriteria poster kelas:</strong>
+                                        <ul className="list-disc ml-5">
+                                            <li>
+                                                Format gambar: JPEG, PNG, atau
+                                                WEBP (WEBP disarankan)
+                                            </li>
+                                            <li>Ukuran maksimal: 200 KB</li>
+                                            <li>
+                                                Resolusi minimal: 600 × 400
+                                                piksel
+                                            </li>
+                                        </ul>
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {preview && (
+                            <div>
+                                <p className="text-sm text-muted-foreground mb-1">
+                                    Preview:
+                                </p>
+                                <img
+                                    src={preview}
+                                    alt="Preview"
+                                    className="rounded-lg border max-h-48 object-contain"
+                                />
+                            </div>
+                        )}
 
                         {/* Switch: Status Aktif */}
                         <FormField

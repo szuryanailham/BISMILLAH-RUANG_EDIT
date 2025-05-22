@@ -21,6 +21,7 @@ class ClassModelSeeder extends Seeder
             'title' => 'Dasar-Dasar Desain dengan Canva',
             'description' => 'Pelajari dasar-dasar desain menggunakan Canva untuk pemula. Kelas ini akan mengajarkan Anda cara membuat desain menarik untuk media sosial, presentasi, dan keperluan marketing.',
             'rating_class' => 4.75,
+              'poster_image' => 'class_images/sample_poster.webp',
             'goals' => json_encode([
                 'Memahami antarmuka Canva',
                 'Membuat desain dasar untuk media sosial',
@@ -79,6 +80,7 @@ class ClassModelSeeder extends Seeder
         DB::table('class_models')->insert([
             'class_code' => 'PPR003',
             'slug' => 'premierpro-advanced-editing',
+            'poster_image' => 'class_images/sample_poster.webp',
             'mentor_id' => 3, // Pastikan mentor dengan ID ini sudah ada
             'title' => 'Advanced Video Editing dengan Premiere Pro',
             'description' => 'Kelas lanjutan untuk pengeditan video profesional menggunakan Adobe Premiere Pro. Pelajari teknik editing tingkat lanjut yang digunakan oleh editor profesional.',
@@ -143,6 +145,7 @@ class ClassModelSeeder extends Seeder
         DB::table('class_models')->insert([
             'class_code' => 'CPC005',
             'slug' => 'capcut-mobile-editing',
+              'poster_image' => 'class_images/sample_poster.webp',
             'mentor_id' => 4, // Pastikan mentor dengan ID ini sudah ada
             'title' => 'Editing Video di Smartphone dengan Capcut',
             'description' => 'Belajar editing video profesional menggunakan Capcut di smartphone Anda. Cocok untuk content creator sosial media yang ingin menghasilkan konten berkualitas.',
@@ -178,6 +181,7 @@ class ClassModelSeeder extends Seeder
             'title' => 'Motion Graphics Profesional dengan After Effects',
             'description' => 'Kelas lanjutan untuk motion graphics dan visual effects menggunakan Adobe After Effects. Pelajari teknik yang digunakan di industri film dan iklan.',
             'rating_class' => 4.95,
+              'poster_image' => 'class_images/sample_poster.webp',
             'goals' => json_encode([
                 'Membuat animasi karakter 2D',
                 'Menguasai expressions dan script',

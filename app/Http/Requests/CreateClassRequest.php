@@ -35,6 +35,7 @@ class CreateClassRequest extends FormRequest
             'description'   => 'required|string|min:10',
             'goals' => 'required|array|min:1',
             'requirements' => 'required|array|min:1',
+            'poster'        => 'required', 
         ];
     }
 

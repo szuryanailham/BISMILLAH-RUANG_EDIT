@@ -11,6 +11,7 @@ class ClassModel extends Model
 
  protected $fillable = [
     'mentor_id',
+    'poster_image',
     'class_code',
     'title',
     'slug',
