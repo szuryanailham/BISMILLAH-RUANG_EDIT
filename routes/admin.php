@@ -24,11 +24,11 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
    Route::resource('dashboard/manage-class', ClassesController::class)
     ->parameters(['manage-class' => 'classModel']);
 
-  // routes/web.php
-    Route::get('/dashboard/manage-class/create', 'ClassesController@create');
+
 
     // manage course
    Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
+    Route::get('/dashboard/manage-materi/{class_code}', 'MaterialController@manageMateriClass');
    Route::resource('/dashboard/manage-materi', MaterialController::class)
     ->parameters(['manage-class' => 'classModel']);
 

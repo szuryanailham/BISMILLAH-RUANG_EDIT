@@ -41,11 +41,14 @@ class MaterialController extends Controller
         //
     }
 
+    
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Material $material)
+    public function edit(Material $material , $code_class)
     {
+
          return Inertia::render('Dashboard/manage-materi-dashboard/EditMateri');
     }
 
@@ -63,5 +66,9 @@ class MaterialController extends Controller
     public function destroy(Material $material)
     {
         //
+    }
+
+    public function manageMateriClass($class_code) {
+         return Inertia::render('Dashboard/manage-materi-dashboard/EditMateri');
     }
 }

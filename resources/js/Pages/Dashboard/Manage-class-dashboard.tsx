@@ -249,7 +249,7 @@ function ManageClassDashboard() {
                                     {/* Aksi */}
                                     <div className="flex space-x-3 mt-7">
                                         <Link
-                                            href={`/dashboard/manage-materi/${selectedClass.class_code}/edit`}
+                                            href={`/dashboard/manage-materi/${selectedClass.class_code}`}
                                             className="flex items-center gap-2 px-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                                         >
                                             <Pencil className="w-4 h-4" />
