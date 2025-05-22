@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('embed_url');
             $table->text('description');
             $table->text('pdf_url');
-            $table->integer('order');
             $table->timestamps();
         });
     }

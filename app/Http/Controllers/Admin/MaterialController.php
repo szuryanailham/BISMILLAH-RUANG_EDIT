@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateMateriRequest;
+use App\Models\ClassModel;
 use Inertia\Inertia;
+
 
 class MaterialController extends Controller
 {
@@ -28,9 +31,9 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateMateriRequest $request)
     {
-        //
+        dd($request->pdfFile);
     }
 
     /**
@@ -69,6 +72,12 @@ class MaterialController extends Controller
     }
 
     public function manageMateriClass($class_code) {
-         return Inertia::render('Dashboard/manage-materi-dashboard/EditMateri');
+
+       $class = ClassModel::where('class_code', $class_code)->firstOrFail();
+       $title = $class->title;
+         return Inertia::render('Dashboard/manage-materi-dashboard/EditMateri',[
+            'title' => $title,
+            'materials' =>  $class->materials 
+         ]);
     }
 }

@@ -44,7 +44,7 @@ function CreateClass({ mentors, categories }: PageProps) {
     // useState untuk loading
     const [isLoading, setIsLoading] = useState(false);
     // state preview image
-    const { file, preview, setFile, setPreview, reset } = useImageStore();
+    const { preview, setFile, setPreview, reset } = useImageStore();
     const { toast } = useToast();
     // Inisialisasi form menggunakan react-hook-form dengan validasi Zod
     const form = useForm<z.infer<typeof formSchema>>({
