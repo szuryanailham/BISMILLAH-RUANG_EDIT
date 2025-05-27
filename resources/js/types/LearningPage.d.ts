@@ -26,7 +26,6 @@ export interface Material {
     embed_url: string;
     description: string;
     pdf_url: string; // atau bisa dinamakan download_link
-    order: number;
     requirements: {
         label: string;
         description: string;

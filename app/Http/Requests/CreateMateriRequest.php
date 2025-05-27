@@ -22,10 +22,10 @@ class CreateMateriRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'videoUrl' => ['required', 'url'],
-            'pdf_file' => ['nullable', 'file', 'mimes:pdf', 'max:5120'], // max 5MB
-        ];
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'videoUrl' => 'nullable|url',
+        'pdfFile' => 'required|file|mimes:pdf|max:5120', // contoh validasi file pdf max 5MB
+    ];
     }
 }
