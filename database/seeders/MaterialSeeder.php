@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class MaterialSeeder extends Seeder
@@ -15,10 +16,14 @@ class MaterialSeeder extends Seeder
     {
         $now = Carbon::now();
 
+        // Helper untuk generate materialCode unik
+        $generateCode = fn() => 'MTR-' . strtoupper(Str::random(6));
+
         // Materi untuk kelas Canva Basic
         DB::table('materials')->insert([
             [
-                'class_id' => 1, // Pastikan class_id 1 sesuai dengan ID class_model kelas Canva
+                'class_id' => 1,
+                'materialCode' => $generateCode(),
                 'title' => 'Pengenalan Canva dan Antarmuka Pengguna',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Memahami dasar-dasar antarmuka pengguna di Canva dan fitur-fiturnya.',
@@ -28,6 +33,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 1,
+                'materialCode' => $generateCode(),
                 'title' => 'Membuat Desain untuk Media Sosial',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Cara membuat desain menarik untuk media sosial menggunakan Canva.',
@@ -37,6 +43,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 1,
+                'materialCode' => $generateCode(),
                 'title' => 'Teknik Pemilihan Warna dan Tipografi',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Pelajari cara memilih warna dan font yang tepat untuk desain Anda.',
@@ -49,7 +56,8 @@ class MaterialSeeder extends Seeder
         // Materi untuk kelas Figma UI Design
         DB::table('materials')->insert([
             [
-                'class_id' => 2, // ID class_model Figma
+                'class_id' => 2,
+                'materialCode' => $generateCode(),
                 'title' => 'Pengenalan Figma dan Antarmuka Pengguna',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Menguasai dasar-dasar antarmuka Figma dan fungsionalitas dasar.',
@@ -59,6 +67,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 2,
+                'materialCode' => $generateCode(),
                 'title' => 'Mendesain UI untuk Aplikasi Mobile',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Langkah-langkah mendesain antarmuka untuk aplikasi mobile menggunakan Figma.',
@@ -68,6 +77,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 2,
+                'materialCode' => $generateCode(),
                 'title' => 'Prinsip Desain UI/UX',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Memahami prinsip desain yang efektif untuk pengalaman pengguna terbaik.',
@@ -80,7 +90,8 @@ class MaterialSeeder extends Seeder
         // Materi untuk kelas Premiere Pro Advanced Editing
         DB::table('materials')->insert([
             [
-                'class_id' => 3, // ID class_model Premiere Pro
+                'class_id' => 3,
+                'materialCode' => $generateCode(),
                 'title' => 'Pengenalan Premiere Pro dan Antarmuka Pengguna',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Memahami dasar-dasar antarmuka dan fungsi di Adobe Premiere Pro.',
@@ -90,6 +101,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 3,
+                'materialCode' => $generateCode(),
                 'title' => 'Mengedit Video dan Menambahkan Efek',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Langkah-langkah mengedit video dengan menambahkan efek visual yang kompleks.',
@@ -99,6 +111,7 @@ class MaterialSeeder extends Seeder
             ],
             [
                 'class_id' => 3,
+                'materialCode' => $generateCode(),
                 'title' => 'Menerapkan Color Grading pada Video',
                 'embed_url' => 'https://www.youtube.com/embed/7NOSDKb0HlU?si=DmQ-hEzlNdrD1UAL',
                 'description' => 'Pelajari teknik color grading untuk memberikan mood dan tampilan profesional pada video.',

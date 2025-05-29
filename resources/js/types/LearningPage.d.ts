@@ -23,6 +23,7 @@ export interface ClassData {
 export interface Material {
     id: number;
     title: string;
+    materialCode: string;
     embed_url: string;
     description: string;
     pdf_url: string; // atau bisa dinamakan download_link

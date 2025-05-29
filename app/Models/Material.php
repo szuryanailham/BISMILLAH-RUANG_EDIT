@@ -9,7 +9,7 @@ class Material extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['class_id', 'title', 'embed_url', 'description', 'pdf_url', 'order'];
+    protected $fillable = ['class_id','materialCode', 'title', 'embed_url', 'description', 'pdf_url', 'order'];
 
     public function class()
     {
@@ -30,6 +30,13 @@ class Material extends Model
         ]);
     });
 }
+
+public function getRouteKeyName(): string
+{
+    return 'materialCode';
+}
+
+
 
 }
 

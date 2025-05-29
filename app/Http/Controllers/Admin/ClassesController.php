@@ -61,9 +61,6 @@ public function store(CreateClassRequest $request)
         $goals = array_map(fn($item) => $item['value'], $validated['goals']);
        $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
 
-
-  // ✅ Simpan file poster jika ada
-
         $data = [
             'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
             'title'             => $validated['ClassTittle'],

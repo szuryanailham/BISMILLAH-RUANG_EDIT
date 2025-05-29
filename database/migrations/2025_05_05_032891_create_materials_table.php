@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
+            $table->string('materialCode')->unique();
             $table->foreignId('class_id')->constrained('class_models')->onDelete('cascade');
             $table->string('title');
             $table->text('embed_url');
