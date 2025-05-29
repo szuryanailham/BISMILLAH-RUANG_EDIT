@@ -81,7 +81,7 @@ protected $casts = [
 
 public function getRouteKeyName(): string
 {
-    return 'class_code';
+    return 'slug';
 }
 
 

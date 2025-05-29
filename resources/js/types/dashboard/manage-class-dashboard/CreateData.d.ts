@@ -1,3 +1,4 @@
+import { ClassData } from "./ClassData";
 export type Category = {
     id: number;
     category_class: string;
@@ -12,4 +13,5 @@ export type Mentor = {
 export type PageProps = {
     categories: Category[];
     mentors: Mentor[];
+    classData: ClassData;
 };

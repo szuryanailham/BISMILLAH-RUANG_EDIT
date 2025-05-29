@@ -28,9 +28,10 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
 
     // manage course
    Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
-    Route::get('/dashboard/manage-materi/{class_code}', 'MaterialController@manageMateriClass');
-   Route::resource('/dashboard/manage-materi', MaterialController::class)
-    ->parameters(['manage-class' => 'classModel']);
+    Route::get('/dashboard/manage-materi/{class_code}', 'MaterialController@manageMateriClass')->name('dashboard.materials.manage');
+Route::resource('/dashboard/manage-materi', MaterialController::class)
+    ->parameters(['manage-materi' => 'material']);
+
 Route::post('/materi/store/{class_id}', [MaterialController::class, 'store']);
 
 

@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateClassRequest;
+use App\Http\Requests\EditClassRequest;
 use  Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 
 class ClassesController extends Controller
@@ -55,15 +57,13 @@ public function store(CreateClassRequest $request)
         $validated = $request->validated();
         $posterFile = $request->file('poster')[0];
        $posterPath = $posterFile->store('class_images', 'public');
-
-
-        // Ambil array goals dan requirements dari inputan
+        $urlPoster = asset('storage/' . $posterPath);
         $goals = array_map(fn($item) => $item['value'], $validated['goals']);
-        $requirements = array_map(fn($item) => ['description' => $item['value']], $validated['requirements']);
+       $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
+
 
   // ✅ Simpan file poster jika ada
-        
-        // Siapkan data
+
         $data = [
             'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
             'title'             => $validated['ClassTittle'],
@@ -78,7 +78,7 @@ public function store(CreateClassRequest $request)
             'category_class_id' => $validated['Category_id'],
             'goals'             => $goals,
             'requirements'      => $requirements,     
-            'poster_image' => $posterPath,  
+            'poster_image' => $urlPoster,  
         ];
 
         // Simpan ke database
@@ -111,18 +111,67 @@ public function store(CreateClassRequest $request)
      */
     public function edit(ClassModel $classModel)
     {
-        
-          return Inertia::render('Dashboard/edit-class-dashboard/EditClass');
+        $categories = CategoryClass::all();
+        $mentors = Mentor::all();
+          return Inertia::render('Dashboard/manage-class-dashboard/EditClass', [
+        'categories' => $categories,
+        'mentors' => $mentors,
+        'classData' => $classModel
+    ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClassModel $classModel)
-    {
-        //
-    }
+ public function update(EditClassRequest $request, ClassModel $classModel)
+{
+   
+    try {
+        $validated = $request->validated();
+        if ($request->hasFile('poster')) {
+            if ($classModel->poster_image && Storage::exists($classModel->poster_image)) {
+                Storage::delete($classModel->poster_image);
+            }
 
+            $urlPoster = $request->file('poster')->store('class_posters', 'public');
+        } else {
+            $urlPoster = $classModel->poster_image;
+        }
+
+     $goals = array_map(fn($item) => $item['value'], $validated['goals']);
+
+$requirements = isset($validated['requirements']) 
+    ? array_map(fn($item) => $item['value'], $validated['requirements']) 
+    : [];
+
+       
+        // Data yang akan diupdate
+        $data = [
+            'class_code'         => $classModel->class_code ?? 'CLS-' . strtoupper(Str::random(6)),
+            'title'              => $validated['ClassTittle'],
+            'slug'               => $validated['slug'],
+            'mentor_id'          => $validated['mentor_id'],
+            'description'        => $validated['description'],
+            'is_published'       => $validated['isPublished'],
+            'is_free'            => $validated['isFree'],
+            'price'              => $validated['price'] ?? 0,
+            'level_category'     => $validated['Level'],
+            'video_preview_url'  => $validated['previewUrl'] ?? null,
+            'category_class_id'  => $validated['Category_id'],
+            'goals'              => $goals,
+            'requirements'       => $requirements,
+            'poster_image'       => $urlPoster,
+        ];
+
+        // Update ke database
+        $classModel->update($data);
+        return redirect()->route('manage-class.index')->with('success', 'Data kelas berhasil diperbarui.');
+
+    } catch (\Exception $e) {
+        Log::error('Gagal memperbarui data kelas: ' . $e->getMessage());
+        return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui data kelas.');
+    }
+}
     /**
      * Remove the specified resource from storage.
      */

@@ -47,14 +47,14 @@ function ExperedClassesSection({ classes }: Props) {
                         }
                         mentorName={item.mentor?.name ?? "Unknown Mentor"}
                         isBestSeller={item.students_count > 50} // Tandai best seller jika siswa > 50
-                        href={`/detail-class/${item.id}`} // Link ke halaman detail kelas
+                        href={`/classes/${item.slug}`} // Link ke halaman detail kelas
                     />
                 ))}
             </div>
 
             {/* Tombol untuk menavigasi ke halaman semua kelas */}
             <div className="flex justify-center">
-                <Link href={"/All-Classes"}>
+                <Link href={"/classes"}>
                     <Button
                         variant="outline"
                         className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-5 py-6 rounded-xl mt-7 text-center"

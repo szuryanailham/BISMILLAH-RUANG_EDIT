@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class CreateClassRequest extends FormRequest
@@ -24,7 +25,7 @@ class CreateClassRequest extends FormRequest
     {
         return [
             'ClassTittle'   => 'required|string|max:255',
-            'slug'          => 'required|string|max:255|unique:class_models,slug',
+                      'slug' => ['required', 'string', 'max:255', Rule::unique('class_models', 'slug')->ignore($this->class)],
             'isPublished'   => 'required|boolean',
             'isFree'        => 'required|boolean',
             'price'         => 'nullable|numeric|min:0',

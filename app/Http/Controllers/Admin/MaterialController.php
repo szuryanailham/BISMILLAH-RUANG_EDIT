@@ -96,10 +96,18 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Material $material)
-    {
-        //
+public function destroy(Material $material)
+{
+    try {
+        $material->delete();
+        return redirect()->route('dashboard.materials.manage', $material->class_code)
+            ->with('success', 'Materi berhasil dihapus!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus materi.');
     }
+}
+
+
 
     public function manageMateriClass($class_code) {
 

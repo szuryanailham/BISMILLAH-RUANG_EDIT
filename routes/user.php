@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 Route::namespace('App\Http\Controllers\User')->group(function () {
-    Route::get('/', 'HomeController@index');
-    Route::get('/detail-class/{classModel}', [HomeController::class, 'show']);
-    Route::get('/All-Classes', 'HomeController@AllCourse');
-    Route::get('/Learning-Class/{classModel}', [ClassAccessController::class, 'LearningClass']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/classes', [HomeController::class, 'AllCourse'])->name('classes.index');
+    Route::get('/classes/{classModel}', [HomeController::class, 'show'])->name('classes.show');
+    Route::get('/classes/{classModel}/learn', [ClassAccessController::class, 'LearningClass'])->name('classes.learn');
 });

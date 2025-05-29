@@ -58,7 +58,7 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
                                 classItem.mentor?.name ?? "Unknown Mentor"
                             }
                             isBestSeller={classItem.students_count > 50}
-                            href={`/detail-class/${classItem.class_code}`}
+                            href={`/classes/${classItem.slug}`}
                         />
                     );
                 })}
@@ -66,7 +66,7 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
 
             {/* Tombol Untuk Menelusuri Semua Kelas */}
             <div className="mt-7 flex justify-center">
-                <Link href="/All-Classes">
+                <Link href="/classes">
                     <Button
                         variant="outline"
                         className="rounded-xl border-Base_Color bg-transparent px-5 py-6 text-Base_Color hover:bg-Base_Color hover:text-white"

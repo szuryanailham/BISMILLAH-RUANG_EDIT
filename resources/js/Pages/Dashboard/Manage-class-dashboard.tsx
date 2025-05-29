@@ -81,12 +81,12 @@ function ManageClassDashboard() {
     };
 
     // fungsi untuk memanggil action delete
-    const handleDeleteClass = async (classCode: string) => {
-        setLoadingClassCode(classCode);
+    const handleDeleteClass = async (slug: string) => {
+        setLoadingClassCode(slug);
         setIsLoading(true);
         setTimeout(() => {
             try {
-                router.delete(`/dashboard/manage-class/${classCode}`);
+                router.delete(`/dashboard/manage-class/${slug}`);
             } catch (error) {
                 console.error("Gagal menghapus kelas", error);
             } finally {
@@ -150,7 +150,7 @@ function ManageClassDashboard() {
                                     </td>
                                     <td className="px-4 py-3 text-center space-x-2">
                                         <Link
-                                            href={`/dashboard/manage-class/${kelas.class_code}/edit`}
+                                            href={`/dashboard/manage-class/${kelas.slug}/edit`}
                                             className="inline-flex items-center justify-center w-9 h-9 rounded hover:bg-blue-100"
                                             aria-label="Edit"
                                         >
@@ -164,7 +164,7 @@ function ManageClassDashboard() {
                                                 >
                                                     {isloading &&
                                                     loadingClassCode ===
-                                                        kelas.class_code ? (
+                                                        kelas.slug ? (
                                                         <p className="text-sm text-gray-500">
                                                             Loading...
                                                         </p>
@@ -198,7 +198,7 @@ function ManageClassDashboard() {
                                                     <AlertDialogAction
                                                         onClick={() =>
                                                             handleDeleteClass(
-                                                                kelas.class_code
+                                                                kelas.slug
                                                             )
                                                         }
                                                     >

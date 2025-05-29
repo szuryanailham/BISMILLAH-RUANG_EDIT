@@ -127,6 +127,13 @@ function CreateClass({ mentors, categories }: PageProps) {
         return () => subscription.unsubscribe();
     }, [form]);
 
+    // reset semua state saat render
+    useEffect(() => {
+        reset();
+        setFile(null);
+        setPreview("");
+    }, []);
+
     // Pantau apakah kelas ditandai sebagai gratis
     const isFree = form.watch("isFree");
 
@@ -219,18 +226,18 @@ function CreateClass({ mentors, categories }: PageProps) {
                                     </FormControl>
                                     <FormDescription>
                                         <strong>Kriteria poster kelas:</strong>
-                                        <ul className="list-disc ml-5">
-                                            <li>
-                                                Format gambar: JPEG, PNG, atau
-                                                WEBP (WEBP disarankan)
-                                            </li>
-                                            <li>Ukuran maksimal: 200 KB</li>
-                                            <li>
-                                                Resolusi minimal: 600 × 400
-                                                piksel
-                                            </li>
-                                        </ul>
                                     </FormDescription>
+                                    <ul className="list-disc ml-5 text-sm text-muted-foreground">
+                                        <li>
+                                            Format gambar: JPEG, PNG, atau WEBP
+                                            (WEBP disarankan)
+                                        </li>
+                                        <li>Ukuran maksimal: 200 KB</li>
+                                        <li>
+                                            Resolusi minimal: 600 × 400 piksel
+                                        </li>
+                                    </ul>
+
                                     <FormMessage />
                                 </FormItem>
                             )}

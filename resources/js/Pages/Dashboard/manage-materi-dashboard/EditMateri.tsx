@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 
 // Import layout halaman dashboard
 import DashboardLayout from "@/Layouts/DashboardLayouts";
-
 // Import hook dan schema validasi form
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +16,7 @@ import {
     Trash2,
     MoreVertical,
     PlusIcon,
+    Loader2,
 } from "lucide-react";
 
 // Import komponen UI yang digunakan
@@ -71,7 +71,9 @@ interface EditMateriProps {
 
 function EditMateri({ title, materials, class_id }: EditMateriProps) {
     // State untuk menyimpan video URL yang ingin dipreview
-    const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(
+        null
+    );
 
     // State loading ketika mengirim form
     const [isLoading, setIsLoading] = useState(false);
@@ -100,17 +102,48 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
 
     // Fungsi submit form untuk menambah materi
     const onSubmit = (values: z.infer<typeof CreateMateriSchema>) => {
+        setIsLoading(true);
         router.post(`/materi/store/${class_id}`, values, {
             onSuccess: () => {
                 toast({
                     title: "Berhasil",
                     description: "Materi berhasil disimpan.",
                 });
+                setTimeout(() => {
+                    form.reset({
+                        title: "",
+                        description: "",
+                        videoUrl: "",
+                        pdfFile: undefined,
+                    });
+                    setIsLoading(false);
+                }, 2000);
             },
             onError: () => {
                 toast({
                     title: "Gagal menyimpan",
                     description: "Terjadi kesalahan saat menyimpan materi.",
+                    variant: "destructive",
+                });
+            },
+        });
+    };
+
+    // Fungsi Delete Materi untuk menghapus data
+
+    const handleDelete = (id: number) => {
+        router.delete(`/dashboard/manage-materi/${id}`, {
+            onSuccess: () => {
+                toast({
+                    title: "Berhasil",
+                    description: "Materi berhasil dihapus.",
+                    variant: "default",
+                });
+            },
+            onError: () => {
+                toast({
+                    title: "Gagal",
+                    description: "Materi tidak berhasil dihapus.",
                     variant: "destructive",
                 });
             },
@@ -147,22 +180,30 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                         </p>
                     ) : (
                         materials.map((materi, index) => (
-                            <Card key={index} className="w-full sm:w-[330px] relative">
+                            <Card
+                                key={index}
+                                className="w-full sm:w-[350px] relative"
+                            >
                                 <CardHeader className="relative space-y-2">
                                     {/* Dropdown aksi Edit / Hapus */}
                                     <div className="absolute top-4 right-4">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <button className="p-1 rounded hover:bg-gray-100">
+                                                <Button className="p-1 rounded hover:bg-gray-100">
                                                     <MoreVertical className="w-5 h-5" />
-                                                </button>
+                                                </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                                 <DropdownMenuItem className="flex items-center gap-2">
                                                     <Pencil className="w-4 h-4" />
                                                     Edit
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem className="flex items-center gap-2 text-red-600">
+                                                <DropdownMenuItem
+                                                    onClick={() =>
+                                                        handleDelete(materi.id)
+                                                    }
+                                                    className="flex items-center gap-2 text-red-600"
+                                                >
                                                     <Trash2 className="w-4 h-4" />
                                                     Hapus
                                                 </DropdownMenuItem>
@@ -184,7 +225,9 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                                     <DialogTrigger asChild>
                                         <Button
                                             onClick={() => {
-                                                setSelectedVideoUrl(materi.embed_url);
+                                                setSelectedVideoUrl(
+                                                    materi.embed_url
+                                                );
                                                 setIsAddMode(false);
                                             }}
                                             className="bg-red-600 hover:bg-red-700 text-white gap-2 text-sm"
@@ -195,7 +238,9 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                                     </DialogTrigger>
                                     <Button className="gap-2 text-sm">
                                         <FileText className="w-4 h-4" />
-                                        <Link href={materi.pdf_url}>Unduh Materi</Link>
+                                        <Link href={materi.pdf_url}>
+                                            Unduh Materi
+                                        </Link>
                                     </Button>
                                 </CardFooter>
                             </Card>
@@ -208,16 +253,23 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                     {isAddMode ? (
                         // Form Tambah Materi
                         <div className="space-y-4">
-                            <h1 className="text-lg font-semibold">Tambah Materi Baru</h1>
+                            <h1 className="text-lg font-semibold">
+                                Tambah Materi Baru
+                            </h1>
                             <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <form
+                                    onSubmit={form.handleSubmit(onSubmit)}
+                                    className="space-y-4"
+                                >
                                     {/* Input: Judul Materi */}
                                     <FormField
                                         control={form.control}
                                         name="title"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Judul Materi</FormLabel>
+                                                <FormLabel>
+                                                    Judul Materi
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="text"
@@ -254,7 +306,9 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                                         name="videoUrl"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>URL Video (YouTube)</FormLabel>
+                                                <FormLabel>
+                                                    URL Video (YouTube)
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="text"
@@ -273,13 +327,18 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                                         name="pdfFile"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>File PDF (Opsional)</FormLabel>
+                                                <FormLabel>
+                                                    File PDF (Opsional)
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="file"
                                                         accept=".pdf"
                                                         onChange={(e) =>
-                                                            field.onChange(e.target.files?.[0])
+                                                            field.onChange(
+                                                                e.target
+                                                                    .files?.[0]
+                                                            )
                                                         }
                                                     />
                                                 </FormControl>
@@ -289,15 +348,25 @@ function EditMateri({ title, materials, class_id }: EditMateriProps) {
                                     />
 
                                     {/* Tombol Simpan */}
-                                    <Button type="submit">Simpan Materi</Button>
+                                    <Button type="submit" disabled={isLoading}>
+                                        {isLoading && (
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        )}
+                                        Simpan Materi
+                                    </Button>
                                 </form>
                             </Form>
                         </div>
                     ) : selectedVideoUrl ? (
                         // Preview Video
                         <div className="space-y-4">
-                            <h1 className="text-lg font-semibold">Preview Video Materi</h1>
-                            <div className="w-full rounded overflow-hidden" style={{ aspectRatio: "4 / 3" }}>
+                            <h1 className="text-lg font-semibold">
+                                Preview Video Materi
+                            </h1>
+                            <div
+                                className="w-full rounded overflow-hidden"
+                                style={{ aspectRatio: "4 / 3" }}
+                            >
                                 <iframe
                                     src={getEmbedUrl(selectedVideoUrl)}
                                     title="YouTube video preview"
