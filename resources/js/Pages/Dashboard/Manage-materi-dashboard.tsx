@@ -1,37 +1,15 @@
 import React from "react";
 import DashboardLayout from "@/Layouts/DashboardLayouts";
-const dummyMateri = [
-    {
-        id: 1,
-        urutan: 1,
-        judul: "Pengenalan Editing Foto",
-        mentor: "Ilham Suryana",
-        namaKelas: "Kelas Editing Dasar",
-    },
-    {
-        id: 2,
-        urutan: 2,
-        judul: "Dasar-dasar Lightroom",
-        mentor: "Rizki Hidayat",
-        namaKelas: "Kelas Editing Dasar",
-    },
-    {
-        id: 3,
-        urutan: 3,
-        judul: "Retouching Wajah",
-        mentor: "Dina Arsy",
-        namaKelas: "Kelas Editing Lanjutan",
-    },
-    {
-        id: 4,
-        urutan: 4,
-        judul: "Color Grading",
-        mentor: "Ilham Suryana",
-        namaKelas: "Kelas Editing Lanjutan",
-    },
-];
+import { Material } from "@/types/Material";
 
-function ManageMateriDashboard() {
+// Interface Material contoh, sesuaikan jika sudah ada di "@/types/Material"
+
+interface ManageMateriDashboardProps {
+    Materials: Material[]; // Harus array
+}
+
+const ManageMateriDashboard = ({ Materials }: ManageMateriDashboardProps) => {
+    console.log(Materials);
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
@@ -62,22 +40,22 @@ function ManageMateriDashboard() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {dummyMateri.map((materi, index) => (
+                            {Materials.map((materi, index) => (
                                 <tr key={materi.id}>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         {index + 1}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {materi.judul}
+                                        {materi.title}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                        {materi.urutan}
+                                        2
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                        {materi.namaKelas}
+                                        {materi.class.title}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                        {materi.mentor}
+                                        {materi.class.mentor.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         <button className="text-blue-600 hover:underline text-sm mr-3">
@@ -95,7 +73,8 @@ function ManageMateriDashboard() {
             </div>
         </div>
     );
-}
+};
+
 ManageMateriDashboard.layout = (page: React.ReactNode) => (
     <DashboardLayout>{page}</DashboardLayout>
 );

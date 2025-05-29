@@ -222,6 +222,7 @@ function EditClass({ mentors, categories, classData }: PageProps) {
                                     <FormControl>
                                         <Input
                                             type="file"
+                                            disabled
                                             accept="image/*"
                                             onChange={(e) => {
                                                 const file =
@@ -252,8 +253,9 @@ function EditClass({ mentors, categories, classData }: PageProps) {
 
                         {preview && (
                             <div className="mt-4">
-                                <p className="text-sm text-muted-foreground mb-1">
-                                    Preview:
+                                <p className="text-sm text-muted-foreground mb-1 text-red-500">
+                                    Preview: ("Fitur update image belum
+                                    tersedia")
                                 </p>
                                 <img
                                     src={preview}

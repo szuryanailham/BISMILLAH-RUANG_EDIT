@@ -9,4 +9,17 @@ export interface Material {
     pdf_url: string;
     created_at: string;
     updated_at: string;
+    class: Kelas;
+    mentor: Mentor;
+}
+
+interface Mentor {
+    id: number;
+    name: string;
+}
+
+interface Kelas {
+    id: number;
+    title: string;
+    mentor: Mentor;
 }
