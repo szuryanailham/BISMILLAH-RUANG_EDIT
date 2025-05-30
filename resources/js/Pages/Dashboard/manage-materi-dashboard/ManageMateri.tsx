@@ -70,18 +70,11 @@ interface ManageMateriProps {
 }
 
 function ManageMateri({ title, materials, class_id }: ManageMateriProps) {
-    // State untuk menyimpan video URL yang ingin dipreview
     const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(
         null
     );
-
-    // State loading ketika mengirim form
     const [isLoading, setIsLoading] = useState(false);
-
-    // State untuk menentukan apakah sedang dalam mode tambah materi
     const [isAddMode, setIsAddMode] = useState(false);
-
-    // Inisialisasi form menggunakan React Hook Form + Zod
     const form = useForm<z.infer<typeof CreateMateriSchema>>({
         resolver: zodResolver(CreateMateriSchema),
         defaultValues: {
@@ -92,12 +85,9 @@ function ManageMateri({ title, materials, class_id }: ManageMateriProps) {
         },
     });
 
-    // Debugging: log URL video yang dipilih
     useEffect(() => {
         console.log(selectedVideoUrl);
     }, [selectedVideoUrl]);
-
-    // Inisialisasi toast untuk menampilkan notifikasi
     const { toast } = useToast();
 
     // Fungsi submit form untuk menambah materi
@@ -131,7 +121,6 @@ function ManageMateri({ title, materials, class_id }: ManageMateriProps) {
     };
 
     // Fungsi Delete Materi untuk menghapus data
-
     const handleDelete = (materialCode: string) => {
         router.delete(`/dashboard/manage-materi/${materialCode}`, {
             onSuccess: () => {
