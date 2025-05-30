@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Admin\ClassesController;
+use App\Http\Controllers\Admin\DashboardMentorController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -27,17 +28,17 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
 
 
     // manage course
-   Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
+    Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
     Route::get('/dashboard/manage-materi/{class_code}', 'MaterialController@manageMateriClass')->name('dashboard.materials.manage');
-Route::resource('/dashboard/manage-materi', MaterialController::class)
+    Route::resource('/dashboard/manage-materi', MaterialController::class)
     ->parameters(['manage-materi' => 'material']);
-
-Route::post('/materi/store/{class_id}', [MaterialController::class, 'store']);
+    Route::post('/materi/store/{class_id}', [MaterialController::class, 'store']);
 
 
 
     // Mentor
-    Route::get('/dashboard/manage-mentor', 'DashboardController@manageMentor');
+    Route::resource('/dashboard/manage-mentor', DashboardMentorController::class);
+    // User
     Route::get('/dashboard/manage-users', 'DashboardController@manageUser');
     Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');
 

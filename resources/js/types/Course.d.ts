@@ -22,14 +22,19 @@ type Category_class = {
     description: string;
 };
 
+type Category_class = {
+    name: string;
+};
+
 export type Mentor = {
     id: number;
     name: string;
-    specialist: string;
+    specialist: Category_class;
     description: string;
+    classes_count: number;
     photo: string;
     instagram_link: string;
-    category_class: Category_class; // ✅ Bukan array, karena belongsTo
+    category_class: Category_class;
 };
 export interface Course {
     id: number;

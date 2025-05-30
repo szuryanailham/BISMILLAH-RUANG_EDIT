@@ -46,141 +46,115 @@ const ManageMateriDashboard = ({ Materials }: ManageMateriDashboardProps) => {
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
-            <AlertDialog>
-                <div className="max-w-6xl mx-auto">
-                    <h1 className="text-3xl font-bold mb-6">
-                        Daftar Materi Kelas
-                    </h1>
+            <div className="max-w-6xl mx-auto">
+                <h1 className="text-3xl font-bold mb-6">Daftar Materi Kelas</h1>
 
-                    <div className="overflow-x-auto bg-white shadow-md rounded-xl">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-100">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        #
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Judul Materi
-                                    </th>
+                <div className="overflow-x-auto bg-white shadow-md rounded-xl">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                                    #
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                                    Judul Materi
+                                </th>
 
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Nama Kelas
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Nama Mentor
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Aksi
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {Materials.map((materi, index) => (
-                                    <tr key={materi.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            {index + 1}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {materi.title}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            {materi.class.title}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            {materi.class.mentor.name}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                            <Link
-                                                href={`/dashboard/manage-materi/${materi.materialCode}/edit`}
-                                            >
-                                                <button className="text-blue-600 hover:underline text-sm mr-3">
-                                                    Edit
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                                    Nama Kelas
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                                    Nama Mentor
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                            {Materials.map((materi, index) => (
+                                <tr key={materi.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                        {index + 1}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {materi.title}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                        {materi.class.title}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                        {materi.class.mentor.name}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                        <Link
+                                            href={`/dashboard/manage-materi/${materi.materialCode}/edit`}
+                                        >
+                                            <button className="text-blue-600 hover:underline text-sm mr-3">
+                                                Edit
+                                            </button>
+                                        </Link>
+                                        {/* AlertDialog per materi */}
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <button
+                                                    onClick={() =>
+                                                        setKodeMateri(
+                                                            materi.materialCode
+                                                        )
+                                                    }
+                                                    className="text-red-600 hover:underline text-sm"
+                                                >
+                                                    Hapus
                                                 </button>
-                                            </Link>
-                                            {/* AlertDialog per materi */}
-                                            <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <button
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        Apakah Anda yakin ingin
+                                                        menghapus materi ini?
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        Tindakan ini akan
+                                                        menghapus materi{" "}
+                                                        <strong>
+                                                            {materi.title}
+                                                        </strong>{" "}
+                                                        yang sudah tersimpan di
+                                                        dalam kelas. Setelah
+                                                        dihapus, Anda tidak akan
+                                                        dapat mengakses kembali
+                                                        materi tersebut.{" "}
+                                                        <strong>
+                                                            Proses ini tidak
+                                                            dapat dibatalkan.
+                                                        </strong>
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>
+                                                        Batal
+                                                    </AlertDialogCancel>
+                                                    <AlertDialogAction
                                                         onClick={() =>
-                                                            setKodeMateri(
+                                                            handleDelete(
                                                                 materi.materialCode
                                                             )
                                                         }
-                                                        className="text-red-600 hover:underline text-sm"
+                                                        className="bg-red-600 hover:bg-red-700 text-white"
                                                     >
-                                                        Hapus
-                                                    </button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>
-                                                            Apakah Anda yakin
-                                                            ingin menghapus
-                                                            materi ini?
-                                                        </AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            Tindakan ini akan
-                                                            menghapus materi{" "}
-                                                            <strong>
-                                                                {materi.title}
-                                                            </strong>{" "}
-                                                            yang sudah tersimpan
-                                                            di dalam kelas.
-                                                            Setelah dihapus,
-                                                            Anda tidak akan
-                                                            dapat mengakses
-                                                            kembali materi
-                                                            tersebut.{" "}
-                                                            <strong>
-                                                                Proses ini tidak
-                                                                dapat
-                                                                dibatalkan.
-                                                            </strong>
-                                                        </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>
-                                                            Batal
-                                                        </AlertDialogCancel>
-                                                        <AlertDialogAction
-                                                            onClick={() =>
-                                                                handleDelete(
-                                                                    materi.materialCode
-                                                                )
-                                                            }
-                                                            className="bg-red-600 hover:bg-red-700 text-white"
-                                                        >
-                                                            Hapus Materi
-                                                        </AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    {/* ALERT DELETE : contain alert delete */}
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>
-                                Apakah Anda yakin ingin menghapus materi ini ?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                                Tindakan ini akan menghapus semua materi yang
-                                sudah tersimpan di dalam kelas. Setelah dihapus,
-                                Anda tidak akan dapat mengakses kembali materi
-                                tersebut
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Batal</AlertDialogCancel>
-                            <AlertDialogAction>Hapus Materi</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
+                                                        Hapus Materi
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            </AlertDialog>
+            </div>
         </div>
     );
 };
