@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/Layouts/DashboardLayouts";
 import { Mentor } from "@/types/Course";
 import {
@@ -26,16 +26,53 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/Components/ui/button";
+import { Link, router } from "@inertiajs/react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 interface ManageMentorProps {
     Mentors: Mentor[];
 }
 
 function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
     const { toast } = useToast();
+    const [isloading, setIsLoading] = useState(false);
+
+    const handleDeleteMentor = async (id: number) => {
+        setIsLoading(true);
+
+        router.delete(`/dashboard/manage-mentor/${id}`, {
+            onSuccess: () => {
+                toast({
+                    title: "Mentor berhasil dihapus",
+                    description: `Data mentor dengan ID ${id} telah dihapus.`,
+                });
+            },
+            onError: () => {
+                toast({
+                    title: "Gagal menghapus mentor",
+                    description: "Terjadi kesalahan saat menghapus mentor.",
+                    variant: "destructive",
+                });
+            },
+            onFinish: () => {
+                setIsLoading(false);
+            },
+        });
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6">Daftar Mentor</h1>
+                {/* Header Page */}
+                <div className="flex items-center justify-between mb-6">
+                    <h1 className="text-2xl font-bold">Kelola Kelas</h1>
+                    <Link
+                        href="/dashboard/manage-mentor/create"
+                        className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition"
+                    >
+                        <Plus className="w-4 h-4" />
+                        New Mentor
+                    </Link>
+                </div>
                 <AlertDialog>
                     <div className="overflow-x-auto bg-white shadow-md rounded-xl">
                         <table className="min-w-full divide-y divide-gray-200">
@@ -48,7 +85,7 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
                                         Nama Mentor
                                     </th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
-                                        Bidang
+                                        Specialist
                                     </th>
                                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
                                         Jumlah Kelas
@@ -77,24 +114,25 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
                                             <td className="px-6 py-4 text-sm">
                                                 {mentor.classes_count ?? 0}
                                             </td>
-                                            <td className="px-6 py-4 text-sm">
+                                            <td className="px-6 py-4 text-sm flex gap-3">
                                                 <Dialog>
                                                     <DialogTrigger asChild>
-                                                        <button className="text-blue-600 hover:underline mr-3">
-                                                            Edit
-                                                        </button>
+                                                        <Button className="bg-transparent hover:bg-transparent">
+                                                            <Pencil className="w-4 h-4 text-blue-600" />
+                                                        </Button>
                                                     </DialogTrigger>
                                                     <DialogContent className="sm:max-w-[425px]">
                                                         <DialogHeader>
                                                             <DialogTitle>
-                                                                Edit profile
+                                                                Edit Mentor
                                                             </DialogTitle>
                                                             <DialogDescription>
-                                                                Make changes to
-                                                                your profile
-                                                                here. Click save
-                                                                when you&apos;re
-                                                                done.
+                                                                Lakukan
+                                                                perubahan pada
+                                                                profil Anda di
+                                                                sini. Klik
+                                                                simpan setelah
+                                                                selesai.
                                                             </DialogDescription>
                                                         </DialogHeader>
                                                         <div className="grid gap-4">
@@ -136,16 +174,12 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
 
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
-                                                        <button
-                                                            onClick={() =>
-                                                                alert(
-                                                                    "siap bang"
-                                                                )
-                                                            }
-                                                            className="text-red-600 hover:underline text-sm"
+                                                        <Button
+                                                            className="bg-transparent hover:bg-transparent"
+                                                            aria-label="Hapus"
                                                         >
-                                                            Hapus
-                                                        </button>
+                                                            <Trash2 className="w-5 h-5 text-red-600" />
+                                                        </Button>
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
@@ -186,7 +220,7 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
                                                             </AlertDialogCancel>
                                                             <AlertDialogAction
                                                                 onClick={() =>
-                                                                    console.log(
+                                                                    handleDeleteMentor(
                                                                         mentor.id
                                                                     )
                                                                 }

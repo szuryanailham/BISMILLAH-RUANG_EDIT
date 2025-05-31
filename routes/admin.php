@@ -37,7 +37,9 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
 
 
     // Mentor
-    Route::resource('/dashboard/manage-mentor', DashboardMentorController::class);
+   Route::resource('/dashboard/manage-mentor', DashboardMentorController::class)
+    ->parameters(['manage-mentor' => 'mentor']);
+
     // User
     Route::get('/dashboard/manage-users', 'DashboardController@manageUser');
     Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');

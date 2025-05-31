@@ -22,7 +22,13 @@ type Category_class = {
     description: string;
 };
 
+export type Category = {
+    id: number;
+    category_class: string;
+};
+
 type Category_class = {
+    id: number;
     name: string;
 };
 

@@ -25,14 +25,14 @@ public function manageCourse()
 
 public function manageMentor()
 {
-    $mentors = Mentor::with(['categoryClass', 'classes']) // Eager load relasi
+   $mentors = Mentor::with(['categoryClass', 'classes']) // Eager load relasi
         ->withCount('classes') // Hitung jumlah kelas
         ->latest()
         ->get();
 
     return Inertia::render('Dashboard/Manage-mentor-dashboard', [
         'Mentors' => $mentors
-    ]);
+    ]); 
 }
 
 

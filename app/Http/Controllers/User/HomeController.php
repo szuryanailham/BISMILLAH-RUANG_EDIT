@@ -42,11 +42,10 @@ $expertClasses = ClassModel::with('categoryClass')
 {
     $classModel = ClassModel::with([
         'materials',
-        'mentor', // Ambil semua data relasi materi
-        'mentor.categoryClass'       // Ambil semua data relasi mentor tanpa select kolom tertentu
+        'mentor',
+        'mentor.categoryClass'  
     ])->where('slug', $classModel->slug)
       ->firstOrFail();
-
     return Inertia::render('User/DetailCourse', [
         'course' => $classModel,
     ]);

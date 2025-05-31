@@ -9,7 +9,16 @@ class Mentor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'status', 'rating_mentor', 'description', 'social_links'];
+   protected $fillable = [
+    'name',
+    'photo',
+    'category_class_id',
+    'status',
+    'rating_mentor',
+    'description',
+    'instagram_link',
+];
+
 
     // Relasi Mentor -> Classes (One to Many)
     public function classes()
@@ -21,4 +30,5 @@ class Mentor extends Model
 {
     return $this->belongsTo(CategoryClass::class, 'category_class_id');
 }
+
 }
