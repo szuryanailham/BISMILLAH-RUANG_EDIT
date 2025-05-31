@@ -22,33 +22,35 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
-import { formSchema } from "@/Schema/CreateMentorSchema";
+import { formSchema } from "@/Schema/EditMentorSchema";
 import { Input } from "@/Components/ui/input";
 import { Category } from "@/types/Course";
 import { Switch } from "@/Components/ui/switch";
 import { Textarea } from "@/Components/ui/textarea";
 import { Button } from "@/Components/ui/button";
 import { router } from "@inertiajs/react";
+import { Mentor } from "@/types/Course";
+import { useToast } from "@/hooks/use-toast";
 
-type CreateMentorProps = {
+type EditMentorProps = {
     categories: Category[];
+    mentorData: Mentor;
 };
 
-function CreateMentor({ categories }: CreateMentorProps) {
+function EditMentor({ categories, mentorData }: EditMentorProps) {
+    const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            category_class_id: 1,
-            status: false,
-            rating_mentor: 3,
-            description: "",
-            link_instagram: "",
+            name: mentorData.name,
+            category_class_id: mentorData.category_class_id,
+            status: mentorData.status === 1 ? true : false,
+            description: mentorData.description,
+            link_instagram: mentorData.instagram_link,
             profile_image: undefined,
         },
     });
 
-    // FUNCTION : handle submit function
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         const formData = new FormData();
 
@@ -58,19 +60,45 @@ function CreateMentor({ categories }: CreateMentorProps) {
             values.category_class_id.toString()
         );
         formData.append("status", values.status ? "1" : "0");
-        formData.append("rating_mentor", values.rating_mentor.toString());
         formData.append("description", values.description ?? "");
         formData.append("link_instagram", values.link_instagram ?? "");
+
         if (values.profile_image) {
             formData.append("profile_image", values.profile_image);
         }
-        console.log(formData);
-        router.post("/dashboard/manage-mentor", formData, {
+
+        formData.append("_method", "PUT");
+        router.post(`/dashboard/manage-mentor/${mentorData.id}`, formData, {
             onSuccess: () => {
-                alert("Mentor berhasil ditambahkan!");
+                toast({
+                    title: "Mentor Berhasil diupdate",
+                    description:
+                        "Mentor berhasil diupdate dan disimpan ke database.",
+                });
+                setTimeout(() => {
+                    router.visit("/dashboard/manage-mentor");
+                }, 2000);
             },
             onError: (errors) => {
-                console.error("Validasi gagal:", errors);
+                let description = "Terjadi kesalahan.";
+
+                if (typeof errors === "string") {
+                    description = errors;
+                } else if (errors?.message) {
+                    description = errors.message;
+                } else if (errors?.errors) {
+                    description = Object.values(errors.errors)
+                        .flat()
+                        .join(", ");
+                } else if (typeof errors === "object") {
+                    description = JSON.stringify(errors);
+                }
+
+                toast({
+                    variant: "destructive",
+                    title: "Terjadi Kesalahan",
+                    description,
+                });
             },
         });
     };
@@ -79,7 +107,7 @@ function CreateMentor({ categories }: CreateMentorProps) {
         <div>
             {/* Judul Halaman */}
             <header className="text-center">
-                <h1 className="text-xl">Add Mentor</h1>
+                <h1 className="text-xl">Edit Mentor</h1>
             </header>
 
             {/* FORM : input form */}
@@ -166,31 +194,6 @@ function CreateMentor({ categories }: CreateMentorProps) {
                         />
 
                         {/* Input: Rating Mentor */}
-                        <FormField
-                            control={form.control}
-                            name="rating_mentor"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Rating Mentor</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Contoh: 4.8"
-                                            step="0.01"
-                                            min="0"
-                                            max="5"
-                                            value={field.value}
-                                            onChange={(e) =>
-                                                field.onChange(
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
 
                         {/* Input: Deskripsi */}
                         <FormField
@@ -276,7 +279,7 @@ function CreateMentor({ categories }: CreateMentorProps) {
     );
 }
 
-CreateMentor.layout = (page: React.ReactNode) => (
+EditMentor.layout = (page: React.ReactNode) => (
     <DashboardLayout>{page}</DashboardLayout>
 );
-export default CreateMentor;
+export default EditMentor;

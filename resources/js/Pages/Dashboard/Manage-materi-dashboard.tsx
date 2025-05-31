@@ -88,7 +88,7 @@ const ManageMateriDashboard = ({ Materials }: ManageMateriDashboardProps) => {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                                         <Link
-                                            href={`/dashboard/manage-materi/${materi.materialCode}/edit`}
+                                            href={`/manage-materi/${materi.materialCode}/edit`}
                                         >
                                             <button className="text-blue-600 hover:underline text-sm mr-3">
                                                 Edit

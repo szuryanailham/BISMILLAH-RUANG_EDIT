@@ -17,8 +17,8 @@ return new class extends Migration
                 $table->string('name', 100);
                 $table->string('photo');
                 $table->foreignId('category_class_id')->constrained()->onDelete('cascade');
-                $table->enum('status', ['active', 'inactive', 'guest']);
-                $table->decimal('rating_mentor', 5, 1);
+                $table->unsignedTinyInteger('rating_mentor')->default(0);
+                $table->boolean('status')->default(true);
                 $table->text('description');
                 $table->text('instagram_link');
                 $table->timestamps();

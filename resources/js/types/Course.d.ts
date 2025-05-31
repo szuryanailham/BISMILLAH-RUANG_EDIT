@@ -18,6 +18,7 @@ type MaterialItem = {
 };
 
 type Category_class = {
+    id: number;
     category_class: string;
     description: string;
 };
@@ -36,10 +37,12 @@ export type Mentor = {
     id: number;
     name: string;
     specialist: Category_class;
+    status: number;
     description: string;
     classes_count: number;
     photo: string;
     instagram_link: string;
+    category_class_id: number;
     category_class: Category_class;
 };
 export interface Course {

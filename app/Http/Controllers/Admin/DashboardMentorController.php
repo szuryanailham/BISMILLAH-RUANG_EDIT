@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditMentorRequest;
 use App\Http\Requests\StoreMentorRequest;
 use App\Models\CategoryClass;
 use App\Models\Mentor;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -85,16 +87,37 @@ public function store(StoreMentorRequest $request)
      */
     public function edit(Mentor $mentor)
     {
-        //
+        $categories = CategoryClass::all();
+         return Inertia::render('Dashboard/manage-mentor-dashboard/EditMentor',[
+            'categories' => $categories,
+            'mentorData' => $mentor
+         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mentor $mentor)
+  public function update(StoreMentorRequest $request, Mentor $mentor)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_image')) {
+            if ($mentor->profile_image && Storage::exists($mentor->profile_image)) {
+                Storage::delete($mentor->profile_image);
+            }
+
+            $path = $request->file('profile_image')->store('mentors');
+            $data['profile_image'] = $path;
+        } else {
+            unset($data['profile_image']);
+        }
+
+        $mentor->update($data);
+
+        return redirect()->route('manage-mentor.index', $mentor->id)
+                         ->with('success', 'Mentor berhasil diperbarui.');
     }
+
 
     /**
      * Remove the specified resource from storage.

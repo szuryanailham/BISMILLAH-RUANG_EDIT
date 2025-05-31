@@ -115,62 +115,13 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
                                                 {mentor.classes_count ?? 0}
                                             </td>
                                             <td className="px-6 py-4 text-sm flex gap-3">
-                                                <Dialog>
-                                                    <DialogTrigger asChild>
-                                                        <Button className="bg-transparent hover:bg-transparent">
-                                                            <Pencil className="w-4 h-4 text-blue-600" />
-                                                        </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent className="sm:max-w-[425px]">
-                                                        <DialogHeader>
-                                                            <DialogTitle>
-                                                                Edit Mentor
-                                                            </DialogTitle>
-                                                            <DialogDescription>
-                                                                Lakukan
-                                                                perubahan pada
-                                                                profil Anda di
-                                                                sini. Klik
-                                                                simpan setelah
-                                                                selesai.
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-                                                        <div className="grid gap-4">
-                                                            <div className="grid gap-3">
-                                                                <Label htmlFor="name-1">
-                                                                    Name
-                                                                </Label>
-                                                                <Input
-                                                                    id="name-1"
-                                                                    name="name"
-                                                                    defaultValue="Pedro Duarte"
-                                                                />
-                                                            </div>
-                                                            <div className="grid gap-3">
-                                                                <Label htmlFor="username-1">
-                                                                    Username
-                                                                </Label>
-                                                                <Input
-                                                                    id="username-1"
-                                                                    name="username"
-                                                                    defaultValue="@peduarte"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <DialogFooter>
-                                                            <DialogClose
-                                                                asChild
-                                                            >
-                                                                <Button variant="outline">
-                                                                    Cancel
-                                                                </Button>
-                                                            </DialogClose>
-                                                            <Button type="submit">
-                                                                Save changes
-                                                            </Button>
-                                                        </DialogFooter>
-                                                    </DialogContent>
-                                                </Dialog>
+                                                <Link
+                                                    href={`/dashboard/manage-mentor/${mentor.id}/edit`}
+                                                >
+                                                    <Button className="bg-transparent hover:bg-transparent">
+                                                        <Pencil className="w-4 h-4 text-blue-600" />
+                                                    </Button>
+                                                </Link>
 
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
