@@ -31,11 +31,15 @@ function DetailCourse({ course }: DetailCourseProps) {
                 <div className="max-w-sm bg-Card_Color text-Sixth_Color rounded-xl shadow-sm mt-3">
                     <iframe
                         className="w-full h-64 sm:h-80 md:h-96"
-                        src="https://www.youtube.com/embed/5yx6BWlEVcY"
+                        src={course.video_preview_url?.replace(
+                            "watch?v=",
+                            "embed/"
+                        )}
                         title="Course Video"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                     ></iframe>
+
                     <div className="p-5 text-center flex flex-col justify-center items-center gap-3">
                         <h3 className="mb-2 text-2xl font-bold tracking-tight text-Sixth_Color text-center">
                             Rp{course.price.toLocaleString("id-ID")},00{" "}

@@ -55,6 +55,7 @@ public function store(CreateClassRequest $request)
     try {
         // Ambil data tervalidasi
         $validated = $request->validated();
+      
         $posterFile = $request->file('poster')[0];
        $posterPath = $posterFile->store('class_images', 'public');
         $urlPoster = asset('storage/' . $posterPath);
@@ -77,6 +78,8 @@ public function store(CreateClassRequest $request)
             'requirements'      => $requirements,     
             'poster_image' => $urlPoster,  
         ];
+
+          
 
         // Simpan ke database
         $class = ClassModel::create($data);
@@ -122,7 +125,6 @@ public function store(CreateClassRequest $request)
      */
  public function update(EditClassRequest $request, ClassModel $classModel)
 {
-   
     try {
         $validated = $request->validated();
         if ($request->hasFile('poster')) {

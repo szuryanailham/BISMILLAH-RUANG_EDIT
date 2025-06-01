@@ -29,7 +29,7 @@ class EditClassRequest extends FormRequest
             'mentor_id' => ['required', 'exists:mentors,id'],
             'Level' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'video_preview_url' => ['nullable', 'url'],
+            'previewUrl' => ['nullable', 'url'],
             'goals' => ['nullable', 'array'],
             'goals.*.value' => ['required', 'string'],
             'requirements' => ['nullable', 'array'],

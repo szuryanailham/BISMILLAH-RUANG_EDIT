@@ -25,6 +25,7 @@ interface Props {
 
  */
 const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
+    console.log(classes);
     return (
         <section className="p-5">
             {/* Header Section */}
@@ -40,8 +41,6 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
             {/* List Semua Kelas */}
             <div className="flex flex-col gap-5">
                 {classes.map((classItem) => {
-                    console.log(classItem); // <-- Log di sini
-
                     return (
                         <CardClass
                             key={classItem.id}
@@ -49,7 +48,7 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
                             description={classItem.description}
                             price={classItem.is_free ? 0 : classItem.price}
                             rating={classItem.rating_class}
-                            image="/image/mentors/mentor_sample.png"
+                            image={`${classItem.poster_image}`}
                             categoryIcon={
                                 classItem.category_class?.category_class ??
                                 "Default Category"

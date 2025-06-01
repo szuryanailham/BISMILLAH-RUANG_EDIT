@@ -88,7 +88,6 @@ function EditClass({ mentors, categories, classData }: PageProps) {
     // Handler ketika form disubmit
     function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        console.log(values);
         const formData = new FormData();
         if (values.poster && values.poster.length > 0) {
             formData.append("poster", values.poster[0]);

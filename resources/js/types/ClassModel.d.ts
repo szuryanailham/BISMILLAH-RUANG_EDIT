@@ -26,6 +26,7 @@ export interface ClassModel {
     mentor_id: number;
     title: string;
     description: string;
+    poster_image: string;
     rating_class: number;
     goals: string[];
     requirements: RequirementItem[];
