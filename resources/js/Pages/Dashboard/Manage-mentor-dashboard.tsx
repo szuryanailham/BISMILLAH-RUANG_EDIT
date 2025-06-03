@@ -12,18 +12,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/Components/ui/dialog";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/Components/ui/button";
 import { Link, router } from "@inertiajs/react";
@@ -43,7 +31,7 @@ function ManageMentorDashboard({ Mentors }: ManageMentorProps) {
             onSuccess: () => {
                 toast({
                     title: "Mentor berhasil dihapus",
-                    description: `Data mentor dengan ID ${id} telah dihapus.`,
+                    description: `Data mentor terpilih berhasil dihapus.`,
                 });
             },
             onError: () => {

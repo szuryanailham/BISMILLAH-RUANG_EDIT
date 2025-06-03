@@ -41,7 +41,6 @@ function CreateMentor({ categories }: CreateMentorProps) {
             name: "",
             category_class_id: 1,
             status: false,
-            rating_mentor: 3,
             description: "",
             link_instagram: "",
             profile_image: undefined,
@@ -58,7 +57,6 @@ function CreateMentor({ categories }: CreateMentorProps) {
             values.category_class_id.toString()
         );
         formData.append("status", values.status ? "1" : "0");
-        formData.append("rating_mentor", values.rating_mentor.toString());
         formData.append("description", values.description ?? "");
         formData.append("link_instagram", values.link_instagram ?? "");
         if (values.profile_image) {
@@ -161,33 +159,6 @@ function CreateMentor({ categories }: CreateMentorProps) {
                                             onCheckedChange={field.onChange}
                                         />
                                     </FormControl>
-                                </FormItem>
-                            )}
-                        />
-
-                        {/* Input: Rating Mentor */}
-                        <FormField
-                            control={form.control}
-                            name="rating_mentor"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Rating Mentor</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="Contoh: 4.8"
-                                            step="0.01"
-                                            min="0"
-                                            max="5"
-                                            value={field.value}
-                                            onChange={(e) =>
-                                                field.onChange(
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

@@ -55,13 +55,10 @@ public function store(CreateClassRequest $request)
     try {
         // Ambil data tervalidasi
         $validated = $request->validated();
-      
         $posterFile = $request->file('poster')[0];
-       $posterPath = $posterFile->store('class_images', 'public');
-        $urlPoster = asset('storage/' . $posterPath);
+      $posterPath = $posterFile->store('class_images', 'public');
         $goals = array_map(fn($item) => $item['value'], $validated['goals']);
        $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
-
         $data = [
             'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
             'title'             => $validated['ClassTittle'],
@@ -76,7 +73,7 @@ public function store(CreateClassRequest $request)
             'category_class_id' => $validated['Category_id'],
             'goals'             => $goals,
             'requirements'      => $requirements,     
-            'poster_image' => $urlPoster,  
+            'poster_image' => $posterPath,  
         ];
 
           
@@ -125,6 +122,7 @@ public function store(CreateClassRequest $request)
      */
  public function update(EditClassRequest $request, ClassModel $classModel)
 {
+    
     try {
         $validated = $request->validated();
         if ($request->hasFile('poster')) {
@@ -177,9 +175,10 @@ $requirements = isset($validated['requirements'])
     public function destroy(ClassModel $classModel)
 {
     try {
-        // Hapus data class
+        if ($classModel->poster_image && Storage::disk('public')->delete($classModel->poster_image)) {
+               Storage::disk('public')->delete($classModel->poster_image);
+        }
         $classModel->delete();
-        // Redirect dengan pesan sukses
       return redirect()->route('manage-class.index')->with('deleted', 'Kelas berhasil dihapus.');
 
     } catch (\Exception $e) {

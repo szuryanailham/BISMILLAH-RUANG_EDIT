@@ -48,11 +48,6 @@ public function store(StoreMentorRequest $request)
     $validated = $request->validated();
 
     // Konversi status boolean ke enum
-    $status = match ($validated['status']) {
-        true, '1', 1 => 'active',
-        false, '0', 0 => 'inactive',
-        default => 'guest',
-    };
 
     // Upload dan simpan foto
     $photoPath = null;
@@ -64,8 +59,7 @@ public function store(StoreMentorRequest $request)
         'name' => $validated['name'],
         'photo' => $photoPath ?? '',
         'category_class_id' => $validated['category_class_id'],
-        'status' => $status,
-        'rating_mentor' => $validated['rating_mentor'],
+        'status' => $validated['status'],
         'description' => $validated['description'] ?? '',
         'instagram_link' => $validated['link_instagram'] ?? '',
     ]);
@@ -97,26 +91,23 @@ public function store(StoreMentorRequest $request)
     /**
      * Update the specified resource in storage.
      */
-  public function update(StoreMentorRequest $request, Mentor $mentor)
-    {
-        $data = $request->validated();
+public function update(StoreMentorRequest $request, Mentor $mentor)
+{
+    $data = $request->validated();
+    if ($request->hasFile('profile_image')) {
 
-        if ($request->hasFile('profile_image')) {
-            if ($mentor->profile_image && Storage::exists($mentor->profile_image)) {
-                Storage::delete($mentor->profile_image);
-            }
-
-            $path = $request->file('profile_image')->store('mentors');
-            $data['profile_image'] = $path;
-        } else {
-            unset($data['profile_image']);
+        if ($mentor->photo && Storage::disk('public')->exists($mentor->photo)) {
+            Storage::disk('public')->delete($mentor->photo);
         }
 
-        $mentor->update($data);
-
-        return redirect()->route('manage-mentor.index', $mentor->id)
-                         ->with('success', 'Mentor berhasil diperbarui.');
+        $path = $request->file('profile_image')->store('mentors', 'public');
+        $data['photo'] = $path; 
     }
+    $mentor->update($data);
+    return redirect()->route('manage-mentor.index')
+                     ->with('success', 'Mentor berhasil diperbarui.');
+}
+
 
 
     /**
@@ -125,13 +116,21 @@ public function store(StoreMentorRequest $request)
 public function destroy(Mentor $mentor)
 {
     try {
+        // Hapus file foto jika ada
+        if ($mentor->photo && Storage::disk('public')->exists($mentor->photo)) {
+            Storage::disk('public')->delete($mentor->photo);
+        }
+
+        // Hapus data mentor
         $mentor->delete();
+
         return redirect()->route('manage-mentor.index')
-                         ->with('success', 'Data mentor berhasil dihapus.');
+                         ->with('success', 'Data mentor dan foto berhasil dihapus.');
     } catch (\Exception $e) {
         return redirect()->back()
-                         ->with('error', 'Terjadi kesalahan saat menghapus data mentor.');
+                         ->with('error', 'Terjadi kesalahan saat menghapus data mentor: ' . $e->getMessage());
     }
 }
+
 
 }

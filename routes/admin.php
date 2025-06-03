@@ -1,7 +1,9 @@
 <?php
 use App\Http\Controllers\Admin\ClassesController;
 use App\Http\Controllers\Admin\DashboardMentorController;
+use App\Http\Controllers\Admin\DashboradUsersController;
 use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\dDashboradUsersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +43,12 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
     ->parameters(['manage-mentor' => 'mentor']);
 
     // User
-    Route::get('/dashboard/manage-users', 'DashboardController@manageUser');
+  Route::resource('/dashboard/manage-users', DashboradUsersController::class)
+    ->parameters(['manage-users' => 'users']);
+
+;
+
+    // Order
     Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');
 
 });

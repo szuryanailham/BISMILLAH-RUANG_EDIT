@@ -36,13 +36,6 @@ public function manageMentor()
 }
 
 
-
-         public function manageUser(){
-        return Inertia::render('Dashboard/Manage-user-dashboard');
-    }
-
-    
-
         public function manageOrder(){
         return Inertia::render('Dashboard/Manage-order-dashboard');
     }

@@ -17,20 +17,6 @@ export const formSchema = z.object({
 
     status: z.boolean(),
 
-    rating_mentor: z
-        .number({ invalid_type_error: "Rating harus berupa angka" })
-        .min(0, "Rating minimal 0")
-        .max(5, "Rating maksimal 5")
-        .refine(
-            (val) => {
-                // Cek maksimal 2 digit di belakang koma
-                return /^\d+(\.\d{1,2})?$/.test(val.toString());
-            },
-            {
-                message: "Rating maksimal 2 angka desimal",
-            }
-        ),
-
     description: z
         .string()
         .min(10, { message: "Deskripsi minimal 10 karakter" })

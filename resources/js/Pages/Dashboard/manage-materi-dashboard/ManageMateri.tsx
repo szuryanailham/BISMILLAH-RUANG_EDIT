@@ -237,9 +237,13 @@ function ManageMateri({ title, materials, class_id }: ManageMateriProps) {
                                     </DialogTrigger>
                                     <Button className="gap-2 text-sm">
                                         <FileText className="w-4 h-4" />
-                                        <Link href={materi.pdf_url}>
+                                        <a
+                                            href={`/storage/${materi.pdf_url}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             Unduh Materi
-                                        </Link>
+                                        </a>
                                     </Button>
                                 </CardFooter>
                             </Card>
@@ -285,18 +289,31 @@ function ManageMateri({ title, materials, class_id }: ManageMateriProps) {
                                     <FormField
                                         control={form.control}
                                         name="description"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Deskripsi</FormLabel>
-                                                <FormControl>
-                                                    <Textarea
-                                                        placeholder="Deskripsi singkat materi"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        render={({ field }) => {
+                                            const wordCount =
+                                                field.value?.trim().split(/\s+/)
+                                                    .length || 0;
+                                            return (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        Deskripsi Kelas
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <Textarea
+                                                                {...field}
+                                                                className="min-h-[120px] resize-y"
+                                                                placeholder="Tulis deskripsi lengkap tentang kelas..."
+                                                            />
+                                                            <p className="absolute bottom-2 right-3 text-xs text-muted-foreground">
+                                                                {wordCount} kata
+                                                            </p>
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            );
+                                        }}
                                     />
 
                                     {/* Input: URL Video */}

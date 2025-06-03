@@ -2,6 +2,7 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 import { CardClassProps } from "@/types/CardClass";
 import StarRating from "./StarRating";
+import { formatRupiah } from "@/utils/formatRupiah";
 
 /**
  * CardClass Component
@@ -57,7 +58,7 @@ export default function CardClass({
                         {/* Gambar utama kelas */}
                         <img
                             className="rounded-t-lg w-full"
-                            src={image}
+                            src={`/storage/${image}`}
                             alt={`Class - ${title}`}
                         />
 
@@ -94,7 +95,7 @@ export default function CardClass({
                                 {/* Jika harga 0 atau berakhiran '0000' tampilkan 'Gratis' */}
                                 {!price || price.toString().endsWith("0000")
                                     ? "Gratis"
-                                    : `Rp.${price.toLocaleString("id-ID")},00`}
+                                    : `${formatRupiah(price)}`}
                             </p>
 
                             <div className="flex items-center gap-3">

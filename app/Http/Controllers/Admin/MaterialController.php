@@ -43,15 +43,13 @@ public function store(CreateMateriRequest $request, $class_id)
         }
 
         $pdfPath = $request->file('pdfFile')->store('materi-pdf', 'public');
-
-        $latestId = Material::max('id') ?? 0;
        $materialCode = 'MTR-' . uniqid();
         $materi = Material::create([
             'materialCode' => $materialCode,
             'title'        => $request->title,
             'description'  => $request->description,
             'embed_url'    => $request->videoUrl,
-            'pdf_url'      => $pdfPath,
+            'pdf_url'      =>  $pdfPath,
             'class_id'     => $class_id,
         ]);
 
@@ -91,38 +89,36 @@ public function store(CreateMateriRequest $request, $class_id)
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMateriRequest $request, Material $material)
-    {
-     $validated = $request->validated();
+public function update(UpdateMateriRequest $request, Material $material)
+{
+    $validated = $request->validated();
 
     try {
+        // Cek apakah ada file PDF baru yang di-upload
         if ($request->hasFile('pdfFile')) {
             // Hapus file lama jika ada
             if ($material->pdf_url && Storage::disk('public')->exists($material->pdf_url)) {
                 Storage::disk('public')->delete($material->pdf_url);
             }
-
-            // Upload file baru
-            $pdfPath = $request->file('pdfFile')->store('materi_pdfs', 'public');
-            $validated['pdf_url'] = $pdfPath; // simpan path relatif ke storage, bukan URL lengkap
+            $pdfPath = $request->file(key: 'pdfFile')->store('materi-pdf', 'public');
+            $validated['pdf_url'] = $pdfPath;
+            
         }
 
         // Update data materi
         $material->update([
-            'title' => $validated['title'],
+            'title'       => $validated['title'],
             'description' => $validated['description'],
-            'embed_url' => $validated['embed_url'],
-            'pdf_url' => $validated['pdf_url'] ?? $material->pdf_url, // jika tidak ada upload baru, pakai yang lama
+            'embed_url'   => $validated['embed_url'],
+            'pdf_url'     => $validated['pdf_url'] ?? $material->pdf_url,
         ]);
 
-     return redirect()->back()->with('success', 'Class updated successfully!');
-
+        return redirect()->back()->with('success', 'Materi berhasil diperbarui.');
     } catch (\Throwable $e) {
-        return redirect()->back()
-            ->with('error', 'Update failed: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Gagal memperbarui materi: ' . $e->getMessage());
     }
+}
 
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -130,6 +126,9 @@ public function store(CreateMateriRequest $request, $class_id)
 public function destroy(Material $material)
 {
     try {
+        if ($material->pdf_url && Storage::disk('public')->exists($material->pdf_url)) {
+    Storage::disk('public')->delete($material->pdf_url);
+}
         $material->delete();
         return redirect()->route('dashboard.materials.manage', $material->class_code)
             ->with('success', 'Materi berhasil dihapus!');

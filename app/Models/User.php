@@ -17,6 +17,12 @@ class User extends Model
         'creative_field',
     ];
 
+    // app/Models/User.php
+public function joinedClasses()
+{
+    return $this->belongsToMany(ClassModel::class, 'class_user', 'user_id', 'class_id');
+}
+
     // Relasi User -> Transactions (One to Many)
     public function transactions()
     {

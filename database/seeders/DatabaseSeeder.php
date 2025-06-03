@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CategoryClassSeeder::class,
             MentorSeeder::class,
              ClassModelSeeder::class,
-            MaterialSeeder::class
+            MaterialSeeder::class,
+             ClassUserSeeder::class,
             
         ]);
     }

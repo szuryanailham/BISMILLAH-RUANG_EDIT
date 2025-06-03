@@ -18,6 +18,7 @@ import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
 import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
 import { Label } from "@/Components/ui/label";
+import { formatRupiah } from "@/utils/formatRupiah";
 
 interface DetailCourseProps {
     course: Course;
@@ -42,7 +43,7 @@ function DetailCourse({ course }: DetailCourseProps) {
 
                     <div className="p-5 text-center flex flex-col justify-center items-center gap-3">
                         <h3 className="mb-2 text-2xl font-bold tracking-tight text-Sixth_Color text-center">
-                            Rp{course.price.toLocaleString("id-ID")},00{" "}
+                            {`${formatRupiah(course.price)}.00`}
                             <span className="text-base font-medium">
                                 / orang
                             </span>

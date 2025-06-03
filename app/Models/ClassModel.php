@@ -23,6 +23,7 @@ class ClassModel extends Model
     'students_count',
     'price',
     'is_free',
+    'is_published',
     'token_code',
     'level_category',
     'category_class_id',

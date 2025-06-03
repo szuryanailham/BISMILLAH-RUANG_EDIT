@@ -16,7 +16,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
-
 import {
     Dialog,
     DialogContent,
@@ -28,6 +27,7 @@ import {
 import { Button } from "@/Components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { formatRupiah } from "@/utils/formatRupiah";
+import { Badge } from "@/Components/ui/badge";
 
 function ManageClassDashboard() {
     const { toast } = useToast();
@@ -119,7 +119,7 @@ function ManageClassDashboard() {
                                 <th className="px-4 py-3">Judul Kelas</th>
                                 <th className="px-4 py-3">Mentor</th>
                                 <th className="px-4 py-3">Harga</th>
-                                <th className="px-4 py-3">Rating</th>
+                                <th className="px-4 py-3">Status</th>
                                 <th className="px-4 py-3 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -144,8 +144,22 @@ function ManageClassDashboard() {
                                             : formatRupiah(kelas.price)}
                                     </td>
                                     <td className="px-4 py-3">
-                                        {parseFloat(kelas.rating_class).toFixed(
-                                            1
+                                        {kelas.is_published === 0 ? (
+                                            <Badge
+                                                variant="destructive"
+                                                className="flex items-center bg-transparent hover:bg-transparent gap-2 text-Fourt_Color"
+                                            >
+                                                <span className="w-2 h-2 rounded-full bg-red-500 " />
+                                                Nonaktif
+                                            </Badge>
+                                        ) : (
+                                            <Badge
+                                                variant="default"
+                                                className="flex items-center gap-2 bg-transparent text-Fourt_Color "
+                                            >
+                                                <span className="w-2 h-2 rounded-full bg-green-500" />
+                                                Aktif
+                                            </Badge>
                                         )}
                                     </td>
                                     <td className="px-4 py-3 text-center space-x-2">
