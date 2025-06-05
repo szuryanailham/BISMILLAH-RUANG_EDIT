@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 use App\Models\users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use Inertia\Inertia;
+
 
 class DashboradUsersController extends Controller
 {
@@ -71,10 +73,27 @@ class DashboradUsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, users $users)
-    {
-        //
+public function update(UpdateUserRequest $request, User $users)
+{
+    try {
+        $data = $request->validated();
+
+        // Enkripsi password hanya jika diisi
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $users->update($data);
+
+        return redirect()->back()->with('success', 'Data pengguna berhasil diperbarui.');
+    } catch (\Throwable $e) {
+        Log::error('Gagal update user: '.$e->getMessage());
+
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data pengguna.');
     }
+}
 
     /**
      * Remove the specified resource from storage.

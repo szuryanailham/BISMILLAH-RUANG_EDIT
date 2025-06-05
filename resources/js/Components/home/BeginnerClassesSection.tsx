@@ -30,16 +30,16 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
         <section className="p-5">
             {/* Header Section */}
             <header className="mb-3 flex justify-between">
-                <h1 className="text-xl text-Second_Color w-[50%]">
-                    Generalist Class
+                <h1 className="text-Second_Color text-xl md:text-2xl lg:text-3xl font-bold text-center md:text-left">
+                    Beginner Class
                 </h1>
-                <p className="w-[40%] text-right text-xs">
+                <p className="w-[40%] text-right text-xs md:text-xl">
                     Lorem ipsum odor amet, consectetuer adipiscing
                 </p>
             </header>
 
             {/* List Semua Kelas */}
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 md:flex-row md:gap-3">
                 {classes.map((classItem) => {
                     return (
                         <CardClass

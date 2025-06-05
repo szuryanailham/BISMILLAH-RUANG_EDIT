@@ -3,7 +3,6 @@ import DashboardLayout from "@/Layouts/DashboardLayouts";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -23,9 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { editUserSchema } from "@/Schema/EditUserSchema";
 import { Input } from "@/Components/ui/input";
-import { Category } from "@/types/Course";
-import { Switch } from "@/Components/ui/switch";
-import { Textarea } from "@/Components/ui/textarea";
 import { Button } from "@/Components/ui/button";
 import { router } from "@inertiajs/react";
 import { useToast } from "@/hooks/use-toast";
@@ -35,7 +31,6 @@ interface propsEditUsers {
     users: User;
 }
 function EditUsers({ users }: propsEditUsers) {
-    console.log(users);
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
 
@@ -52,7 +47,48 @@ function EditUsers({ users }: propsEditUsers) {
     });
 
     const onSubmit = (values: z.infer<typeof editUserSchema>) => {
-        alert("oke");
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        formData.append("phone_number", values.phone_number ?? "");
+        formData.append("creative_field", values.creative_field ?? "");
+        formData.append("instagram_link", users.instagram_link ?? "");
+        formData.append("password", users.password ?? "");
+        formData.append("_method", "PUT");
+        console.log(formData);
+        router.post(`/dashboard/manage-users/${users.id}`, formData, {
+            onSuccess: () => {
+                toast({
+                    title: "Data User Berhasil Diperbarui",
+                    description:
+                        "Informasi pengguna telah berhasil diperbarui dan disimpan ke database.",
+                });
+                setTimeout(() => {
+                    router.visit("/dashboard/manage-users");
+                }, 2000);
+            },
+            onError: (errors) => {
+                let description = "Terjadi kesalahan.";
+
+                if (typeof errors === "string") {
+                    description = errors;
+                } else if (errors?.message) {
+                    description = errors.message;
+                } else if (errors?.errors) {
+                    description = Object.values(errors.errors)
+                        .flat()
+                        .join(", ");
+                } else if (typeof errors === "object") {
+                    description = JSON.stringify(errors);
+                }
+
+                toast({
+                    variant: "destructive",
+                    title: "Terjadi Kesalahan",
+                    description,
+                });
+            },
+        });
     };
     return (
         <div>

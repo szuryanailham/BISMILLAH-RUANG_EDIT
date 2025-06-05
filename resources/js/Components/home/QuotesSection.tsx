@@ -18,45 +18,46 @@ import {
 function QuotesSection() {
     return (
         <div className="p-2 px-5">
-            <div className="relative w-full bg-Base_Color p-5 rounded-md text-center overflow-hidden">
+            <div className="relative w-full bg-Base_Color p-5 lg:p-10 rounded-md text-center overflow-hidden lg:h-[400px]">
                 {/* Dekorasi Gambar Floating */}
                 <img
                     src="/image/decor/Decor_1.svg"
                     alt="decoration 1"
-                    className="w-14 h-12 absolute top-14 left-2 animate-float"
+                    className="w-14 md:w-24 h-12 md:h-24 absolute top-14 left-2 animate-float"
                 />
                 <img
                     src="/image/decor/Decor_2.svg"
                     alt="decoration 2"
-                    className="w-10 h-10 absolute top-4 right-2 animate-float-slow"
+                    className="w-10 md:w-20 h-10 md:h-20 absolute top-4 right-2 md:right-10 animate-float-slow"
                 />
                 <img
                     src="/image/decor/Decor_3.svg"
                     alt="decoration 3"
-                    className="w-12 h-12 absolute bottom-4 left-4 animate-float"
+                    className="w-12 md:w-28 h-12 md:h-28 absolute bottom-4 left-4 animate-float"
                 />
                 <img
                     src="/image/decor/Decor_4.svg"
                     alt="decoration 4"
-                    className="w-12 h-12 absolute bottom-2 right-2 animate-float-slow"
+                    className="w-12 md:w-28 h-12 md:h-28 absolute bottom-2 right-2 md:right-10 animate-float-slow"
                 />
+                <div className="w-full lg:mt-[100px] text-center">
+                    {/* Konten Utama Quotes */}
+                    <h1 className="text-3xl md:text-6xl font-semibold leading-tight md:leading-[4rem]">
+                        BUILD YOUR SKILLS{" "}
+                        <span className="text-Second_Color">ONLINE</span>
+                    </h1>
+                    <p className="mt-3 px-4 md:px-0 font-xs text-lg md:w-[40%] mx-auto ">
+                        Pelajari skill kekinian, bangun portofolio digitalmu,
+                        dan raih kesempatan karier dari mana saja.
+                    </p>
 
-                {/* Konten Utama Quotes */}
-                <h1 className="text-3xl font-semibold leading-10">
-                    BUILD YOUR SKILLS{" "}
-                    <span className="text-Second_Color">ONLINE</span>
-                </h1>
-                <p className="px-4 mt-3 font-normal">
-                    Jadilah bagian dari revolusi kreatif dan wujudkan ide-ide
-                    luar biasa bersama kami
-                </p>
-
-                {/* Ikon Sosial Media */}
-                <div className="flex justify-center items-center gap-4 text-2xl mt-7">
-                    <FaFacebookF />
-                    <FaInstagram />
-                    <FaYoutube />
-                    <FaWhatsapp />
+                    {/* Ikon Sosial Media */}
+                    <div className="flex justify-center items-center gap-4 md:gap-10 text-2xl mt-7 md:mt-16">
+                        <FaFacebookF />
+                        <FaInstagram />
+                        <FaYoutube />
+                        <FaWhatsapp />
+                    </div>
                 </div>
             </div>
         </div>

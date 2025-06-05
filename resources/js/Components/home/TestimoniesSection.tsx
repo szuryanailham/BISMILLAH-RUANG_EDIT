@@ -3,42 +3,43 @@ import TestimonyCards from "../TestimonyCards";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
-/**
- * TestimoniesSection Component
- *
- * Komponen ini menampilkan carousel berisi testimonial dari pengguna yang sudah mengikuti course.
- * Carousel menggunakan Embla dengan fitur autoplay (tanpa loop).
- *
- * Komponen `TestimonyCards` diasumsikan sudah menangani konten visual dari masing-masing testimonial.
- */
 export default function TestimoniesSection() {
-    // Inisialisasi carousel dengan autoplay
     const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay()]);
 
     return (
-        <section className="p-3 mt-5">
+        <section className="px-4 mt-10">
             {/* Judul Section Testimony */}
-            <header className="w-full p-2">
-                <h2 className="text-2xl font-bold mb-4 text-Second_Color">
+            <header className="mb-6">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-Second_Color">
                     Testimony
                 </h2>
             </header>
 
-            {/* Container Carousel Testimony */}
+            {/* Carousel Container */}
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                     {/* Slide 1 */}
-                    <div className="flex-[0_0_100%] min-w-0 px-2">
+                    <div className="flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_60%] lg:flex-[0_0_40%] min-w-0 px-2">
                         <TestimonyCards />
                     </div>
 
                     {/* Slide 2 */}
-                    <div className="flex-[0_0_100%] min-w-0 px-2">
+                    <div className="flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_60%] lg:flex-[0_0_40%] min-w-0 px-2">
                         <TestimonyCards />
                     </div>
 
                     {/* Slide 3 */}
-                    <div className="flex-[0_0_100%] min-w-0 px-2">
+                    <div className="flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_60%] lg:flex-[0_0_40%] min-w-0 px-2">
+                        <TestimonyCards />
+                    </div>
+
+                    {/* Slide 4 */}
+                    <div className="flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_60%] lg:flex-[0_0_40%] min-w-0 px-2">
+                        <TestimonyCards />
+                    </div>
+
+                    {/* Slide 5 */}
+                    <div className="flex-[0_0_100%] sm:flex-[0_0_80%] md:flex-[0_0_60%] lg:flex-[0_0_40%] min-w-0 px-2">
                         <TestimonyCards />
                     </div>
                 </div>

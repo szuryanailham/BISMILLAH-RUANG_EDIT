@@ -24,6 +24,7 @@ export const editUserSchema = z.object({
     password: z
         .string()
         .min(6, { message: "Password minimal 6 karakter" })
-        .optional()
-        .or(z.literal("")), // Kosong berarti tidak diubah
+        .or(z.literal(""))
+        .optional(),
+    // Kosong berarti tidak diubah
 });

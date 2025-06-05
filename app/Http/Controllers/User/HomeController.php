@@ -14,29 +14,30 @@ class HomeController extends Controller
      *
      * @return \Inertia\Response
      */
-    public function index(){
+public function index()
+{
+    $beginnerClasses = ClassModel::with(['categoryClass', 'mentor'])
+        ->where('level_category', 'beginner')
+        ->where('is_published', true)
+        ->latest()
+        ->take(3)
+        ->get();
 
- $beginnerClasses = ClassModel::with('categoryClass')
-    ->where('level_category', 'beginner')
-    ->where('is_published', true)
-    ->latest()
-    ->take(3)
-    ->get();
+    $expertClasses = ClassModel::with(['categoryClass', 'mentor'])
+        ->where('level_category', 'expert')
+        ->where('is_published', true)
+        ->latest()
+        ->take(3)
+        ->get();
 
-$expertClasses = ClassModel::with('categoryClass')
-    ->where('level_category', 'expert')
-    ->where('is_published', true)
-    ->latest()
-    ->take(3)
-    ->get();
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'beginnerClasses' => $beginnerClasses,
+        'expertClasses' => $expertClasses,
+    ]);
+}
 
-        return Inertia::render('Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'beginnerClasses' => $beginnerClasses,
-            'expertClasses' => $expertClasses,
-        ]);
-    }
 
    public function show(ClassModel $classModel)
 {

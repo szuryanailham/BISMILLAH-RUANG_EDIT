@@ -22,25 +22,25 @@ function ExperedClassesSection({ classes }: Props) {
     return (
         <div className="px-5 mt-10">
             {/* Header Section: Judul dan deskripsi singkat */}
-            <div className="flex">
-                <h1 className="text-xl w-[50%] mb-3 text-Second_Color">
-                    Expert Class
+            <header className="mb-3 flex justify-between">
+                <h1 className="text-Second_Color text-xl md:text-2xl lg:text-3xl font-bold text-center md:text-left">
+                    Expered Class
                 </h1>
-                <p className="w-[40%] text-right text-xs">
+                <p className="w-[40%] text-right text-xs md:text-xl">
                     Lorem ipsum odor amet, consectetuer adipiscing
                 </p>
-            </div>
+            </header>
 
             {/* Daftar kartu kelas */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
                 {classes.map((item) => (
                     <CardClass
                         key={item.id}
                         title={item.title}
                         description={item.description}
-                        price={item.price}
+                        price={item.is_free ? 0 : item.price}
                         rating={item.rating_class}
-                        image="/image/mentors/mentor_sample.png" // Ganti jika ada gambar mentor spesifik
+                        image={item.poster_image}
                         categoryIcon={
                             item.category_class?.category_class ??
                             "Default Category"

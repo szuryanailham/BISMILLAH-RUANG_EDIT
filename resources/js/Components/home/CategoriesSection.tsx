@@ -15,10 +15,10 @@ import React from "react";
  */
 export default function CategoriesSection(): JSX.Element {
     return (
-        <section className="w-full p-5 mb-5">
+        <section className="w-full p-5 md:p-10 mb-5">
             {/* Judul Category */}
-            <h1 className="text-xl w-[50%] mb-3 text-Second_Color">
-                MORE CATEGORY MORE CRAFTING
+            <h1 className="text-Second_Color text-xl md:text-2xl lg:text-3xl font-bold mb-8 text-center md:text-left">
+                MORE CATEGORY MORE CREATING
             </h1>
 
             {/* Container Card Category */}

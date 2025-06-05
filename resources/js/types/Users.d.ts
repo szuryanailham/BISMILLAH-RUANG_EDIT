@@ -3,6 +3,7 @@ export type CreativeField = "design" | "photographer" | "videographer";
 export interface User {
     id: number;
     name: string;
+    nama: String;
     email: string;
     kelasDiikuti: number;
     email_verified_at: string | null;
