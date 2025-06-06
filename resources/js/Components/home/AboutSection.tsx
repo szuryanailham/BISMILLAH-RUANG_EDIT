@@ -36,7 +36,7 @@ export default function AboutSection(): JSX.Element {
             </p>
 
             {/* Tombol navigasi */}
-            <Link href="/All-Classes">
+            <Link href="/classes">
                 <Button
                     variant="outline"
                     className="mt-20 rounded-xl border-Base_Color bg-transparent 

@@ -9,7 +9,7 @@ function RequirtmentTools({ items }: RequirementToolsProps) {
                 Requirement Tools
             </h1>
             <ul className="space-y-3 max-w-2xl">
-                {items.map((item) => (
+                {items.map((item: string) => (
                     <li key={item} className="flex items-start gap-3">
                         <FiCheckCircle className="text-green-500 w-5 h-5 mt-1" />
                         <span>{item}</span>

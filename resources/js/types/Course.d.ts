@@ -8,7 +8,7 @@ export interface CourseInclude {
 }
 
 type RequirementItem = {
-    description: string;
+    item: string;
 };
 
 type MaterialItem = {
@@ -54,6 +54,7 @@ export interface Course {
     description: string; // Deskripsi Kelas
     rating_class: number; // Rating Kelas
     goals: string[]; //
+    requirements;
     requirements: RequirementItem[]; //
     total_videos: number; // Jumlah Video
     students_count: number; // Jumlah Siswa
@@ -84,4 +85,5 @@ export interface Course {
     }[];
     materials: MaterialItem[];
     mentor: Mentor;
+    requir;
 }

@@ -18,7 +18,7 @@ import {
 function QuotesSection() {
     return (
         <div className="p-2 px-5">
-            <div className="relative w-full bg-Base_Color p-5 lg:p-10 rounded-md text-center overflow-hidden lg:h-[400px]">
+            <div className="relative w-full bg-Base_Color p-5 lg:p-10 rounded-md text-center overflow-hidden lg:h-[450px]">
                 {/* Dekorasi Gambar Floating */}
                 <img
                     src="/image/decor/Decor_1.svg"

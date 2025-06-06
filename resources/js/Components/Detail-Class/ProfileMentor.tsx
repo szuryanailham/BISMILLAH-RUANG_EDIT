@@ -18,35 +18,41 @@ export default function ProfileMentor({
 }: MentorProfileProps) {
     return (
         <div>
-            <h1 className="text-3xl font-semibold text-center text-Second_Color mb-7 w-full max-w-xl mt-5 mx-auto">
+            <h1 className="text-3xl sm:text-4xl font-semibold text-center md:text-left text-Second_Color mb-7 w-full max-w-xl mt-5 mx-auto">
                 Profile Mentor
             </h1>
 
-            <div className="bg-Base_Color w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-md flex flex-col md:flex-row items-center gap-6">
+            <div className="bg-Base_Color w-full max-w-5xl mx-auto p-6 sm:p-8 rounded-2xl shadow-md flex flex-col md:flex-row items-center gap-6 md:h-auto">
                 {/* Image */}
                 <img
-                    src={photo}
+                    src={`/storage/${photo}`}
                     alt={`Foto ${name}`}
-                    className="w-28 h-28 rounded-full object-cover shadow-lg"
+                    className="w-32 h-32 sm:w-40 sm:h-40 md:w-40 md:h-40 rounded-full object-cover shadow-lg"
                 />
 
                 {/* Info */}
-                <div className="text-white space-y-3 text-center md:text-left">
+                <div className="text-white space-y-3 text-center md:text-left max-w-2xl">
                     <div>
-                        <h2 className="text-2xl font-semibold">{name}</h2>
-                        <p className="text-sm text-gray-200">{role}</p>
+                        <h2 className="text-2xl sm:text-3xl font-semibold">
+                            {name}
+                        </h2>
+                        <p className="text-sm sm:text-base text-gray-200">
+                            {role}
+                        </p>
                     </div>
 
-                    <p className="text-sm text-gray-100">{description}</p>
+                    <p className="text-sm sm:text-base text-gray-100 leading-relaxed">
+                        {description}
+                    </p>
 
                     <a
                         href={instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-white hover:text-gray-200 transition"
+                        className="inline-flex items-center gap-2 text-sm sm:text-base text-white hover:text-gray-200 transition"
                     >
-                        <FaInstagram className="text-2xl" />
-                        @{instagram.split("https://instagram.com/")[1]}
+                        <FaInstagram className="text-2xl" />@{name}{" "}
+                        {instagram.split("https://instagram.com/")[1]}
                     </a>
                 </div>
             </div>

@@ -8,18 +8,21 @@ const DescriptionClass: React.FC<DescriptionClassProps> = ({
     rating,
 }) => {
     return (
-        <div>
-            <div className="p-3 mt-5 space-y-2">
+        <div className="w-full px-4 py-5 flex flex-col items-center md:items-start md:pr-20">
+            <div className="space-y-3 md:space-y-4 w-full max-w-3xl">
                 {/* title */}
-                <h1 className="text-2xl text-center font-bold">{title}</h1>
+                <h1 className="text-2xl md:text-4xl font-bold text-center md:text-left">
+                    {title}
+                </h1>
 
                 {/* description */}
-                <p className="p-3 text-center font-light">{description}</p>
+                <p className="text-base font-light text-center  md:text-left">
+                    {description}
+                </p>
 
                 {/* rating */}
-                <div className="flex items-center gap-3 justify-center item-center">
-                    {rating.toFixed(1)}{" "}
-                    {/* Menampilkan rating dengan 1 angka setelah koma */}
+                <div className="flex justify-center md:justify-start items-center gap-3">
+                    <span>{rating.toFixed(1)}</span>
                     <StarRating value={rating} />
                 </div>
             </div>

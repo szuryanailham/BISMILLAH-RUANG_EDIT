@@ -32,7 +32,7 @@ export default function CardClass({
 
     return (
         <Link href={href}>
-            <div className="mt-4 w-full">
+            <div className="mt-4 max-w-xl">
                 <div className="bg-Card_Color rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                     <div className="relative">
                         {isBestSeller && (
@@ -58,7 +58,7 @@ export default function CardClass({
                                 alt={`${categoryIcon} Icon`}
                             />
 
-                            <div className="absolute bottom-2 right-2 bg-Base_Color text-Fourt_Color px-3 py-2 shadow-md rounded-lg text-xs sm:text-sm">
+                            <div className="absolute bottom-2 right-2 bg-Base_Color font-bold text-Fourt_Color px-3 py-2 shadow-md rounded-lg text-xs sm:text-sm">
                                 {mentorName}
                             </div>
                         </div>

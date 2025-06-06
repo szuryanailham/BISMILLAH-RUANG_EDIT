@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
@@ -52,8 +53,24 @@ public function index()
     ]);
 }
 
-    public function AllCourse(){
-        return Inertia::render('User/ListClasses');
-    }
+public function AllCourse(Request $request)
+{
+    $search = $request->query('search');
+
+    $courses = ClassModel::query()
+        ->with(['categoryClass', 'mentor'])
+        ->when($search, function ($query, $search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->get();
+
+    return Inertia::render('User/ListClasses', [
+        'classes' => $courses,
+        'search' => $search,
+    ]);
+}
+
     
 }

@@ -33,8 +33,9 @@ class ClassAccessController extends Controller
             return [
                 'id' => $material->id,
                 'title' => $material->title,
-                'video_url' => $material->video_url,
+                'embed_url' => $material->embed_url,
                 'order' => $material->order,
+                'description' => $material->description,
                 'pdf_url'=> $material->pdf_url
             ];
         }),

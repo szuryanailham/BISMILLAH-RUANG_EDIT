@@ -3,5 +3,5 @@ type RequirementItem = {
 };
 
 export interface RequirementToolsProps {
-    items: string[];
+    items: string;
 }

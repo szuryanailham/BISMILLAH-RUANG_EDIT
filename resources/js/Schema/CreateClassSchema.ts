@@ -34,7 +34,7 @@ export const formSchema = z
         ClassTittle: z
             .string()
             .min(2, { message: "Judul kelas minimal 2 karakter" })
-            .max(50, { message: "Judul kelas maksimal 50 karakter" })
+            .max(100, { message: "Judul kelas maksimal 100 karakter" })
             .refine(sanitizeString, {
                 message:
                     "Judul tidak boleh mengandung tag HTML atau karakter berbahaya",
@@ -54,7 +54,7 @@ export const formSchema = z
         slug: z
             .string()
             .min(2, { message: "Slug minimal 2 karakter" })
-            .max(50, { message: "Slug maksimal 50 karakter" })
+            .max(100, { message: "Slug maksimal 100 karakter" })
             .regex(/^[a-z0-9-]+$/, {
                 message:
                     "Slug hanya boleh mengandung huruf kecil, angka, dan tanda hubung (-)",
@@ -88,8 +88,8 @@ export const formSchema = z
                 message:
                     "Deskripsi tidak boleh mengandung tag HTML atau karakter berbahaya",
             })
-            .refine((val) => val.trim().split(/\s+/).length <= 30, {
-                message: "Deskripsi maksimal 30 kata",
+            .refine((val) => val.trim().split(/\s+/).length <= 50, {
+                message: "Deskripsi maksimal 50 kata",
             }),
 
         Category_id: z.coerce
