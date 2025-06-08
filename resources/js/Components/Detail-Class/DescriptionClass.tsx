@@ -9,14 +9,14 @@ const DescriptionClass: React.FC<DescriptionClassProps> = ({
 }) => {
     return (
         <div className="w-full px-4 py-5 flex flex-col items-center md:items-start md:pr-20">
-            <div className="space-y-3 md:space-y-4 w-full max-w-3xl">
+            <div className="space-y-3 md:space-y-4 w-full max-w-2xl">
                 {/* title */}
-                <h1 className="text-2xl md:text-4xl font-bold text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center md:text-left">
                     {title}
                 </h1>
 
                 {/* description */}
-                <p className="text-base font-light text-center  md:text-left">
+                <p className="w-full text-base font-light text-center md:text-left">
                     {description}
                 </p>
 

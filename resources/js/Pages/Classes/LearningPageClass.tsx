@@ -6,7 +6,6 @@ import { FaRegPlayCircle } from "react-icons/fa";
 import { ClassData, Material } from "@/types/LearningPage";
 import useActiveMaterial from "@/stores/useActiveMaterial";
 import DescriptionClass from "@/Components/Detail-Class/DescriptionClass";
-import RequirtmentTools from "@/Components/Detail-Class/RequirtmentTools";
 import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 
 interface Props {
@@ -35,9 +34,9 @@ function LearningPageClass({ class: classData, materials }: Props) {
     return (
         <div className="p-3">
             {/*================ Learning Course Class ====================== */}
-            <div className="w-full h-full space-y-4 flex flex-col md:flex-row-reverse gap-5">
+            <div className="w-full h-full space-y-4 flex flex-col lg:flex-row-reverse gap-5">
                 {/*================ Video & Deskripsi ====================== */}
-                <div className="md:w-[60%] px-5 space-y-4">
+                <div className="w-full lg:w-[60%] px-5 space-y-4">
                     <h1 className="text-2xl font-bold">
                         {activeMaterial?.title ?? classData.title}
                     </h1>
@@ -83,7 +82,7 @@ function LearningPageClass({ class: classData, materials }: Props) {
                 </div>
 
                 {/*================ List Materi ====================== */}
-                <div className="w-full mt-6 p-2 flex flex-col gap-3 md:w-[40%]">
+                <div className="w-full mt-6 p-2 flex flex-col gap-3 lg:w-[40%]">
                     <h1 className="text-2xl font-bold">Daftar Materi</h1>
                     {materials.map((material, index) => (
                         <Button
@@ -106,15 +105,15 @@ function LearningPageClass({ class: classData, materials }: Props) {
             </div>
 
             {/*================ Deskripsi Kelas, Requirement, Mentor ====================== */}
-            <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2">
+            <div className="flex flex-col lg:flex-row mt-5 item-center">
+                <div className="lg:w-1/2">
                     <DescriptionClass
                         title={classData.title}
                         description={classData.description}
                         rating={5}
                     />
                 </div>
-                <div className="md:w-1/2">
+                <div className="lg:w-1/2">
                     <ProfileMentor
                         name={classData.mentor.name}
                         role={classData.mentor.specialist}

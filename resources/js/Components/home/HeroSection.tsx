@@ -24,7 +24,7 @@ import { MapPin } from "lucide-react";
 function HeroSection() {
     return (
         <>
-            <div className="hidden sm:grid grid-cols-2 gap-2">
+            <div className="hidden sm:grid grid-cols-2 gap-2 px-3">
                 {/* Kartu 1: Header & CTA */}
                 <div className="w-full h-[420px] rounded-md bg-Sixth_Color px-6 py-6 flex flex-col justify-between">
                     {/* Bagian Atas */}

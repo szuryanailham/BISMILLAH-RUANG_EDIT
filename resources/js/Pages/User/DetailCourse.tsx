@@ -26,9 +26,9 @@ interface DetailCourseProps {
 function DetailCourse({ course }: DetailCourseProps) {
     return (
         <>
-            <div className="px-3 flex flex-col md:flex-row-reverse gap-3">
+            <div className="px-3 flex flex-col md:flex-row-reverse gap-3 md:gap-0">
                 {/* Card Profile Detail  */}
-                <div className="w-full flex justify-center p-3 h-fit md:w-[40%]">
+                <div className="w-full flex justify-center px-2 h-fit md:w-1/2 lg:w-[40%]">
                     <div className="max-x-md bg-Card_Color text-Sixth_Color rounded-xl shadow-sm mt-3">
                         <iframe
                             className="w-full h-64 sm:h-80 md:h-96 rounded-t-lg"
@@ -194,16 +194,16 @@ function DetailCourse({ course }: DetailCourseProps) {
                     </div>
 
                     {/* Mentor Profile */}
-                    <div className="w-full p-3">
-                        <ProfileMentor
-                            name={course.mentor.name}
-                            role={course.mentor.category_class.category_class}
-                            description={course.mentor.description}
-                            photo={course.mentor.photo}
-                            instagram={course.mentor.instagram_link}
-                        />
-                    </div>
                 </div>
+            </div>
+            <div className="w-full p-3">
+                <ProfileMentor
+                    name={course.mentor.name}
+                    role={course.mentor.category_class.category_class}
+                    description={course.mentor.description}
+                    photo={course.mentor.photo}
+                    instagram={course.mentor.instagram_link}
+                />
             </div>
         </>
     );

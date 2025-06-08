@@ -18,11 +18,11 @@ export default function ProfileMentor({
 }: MentorProfileProps) {
     return (
         <div>
-            <h1 className="text-3xl sm:text-4xl font-semibold text-center md:text-left text-Second_Color mb-7 w-full max-w-xl mt-5 mx-auto">
+            <h1 className="text-3xl sm:text-4xl font-semibold text-center text-Second_Color mb-7 w-full max-w-xl mt-5 mx-auto">
                 Profile Mentor
             </h1>
 
-            <div className="bg-Base_Color w-full max-w-5xl mx-auto p-6 sm:p-8 rounded-2xl shadow-md flex flex-col md:flex-row items-center gap-6 md:h-auto">
+            <div className="bg-Base_Color w-full max-w-3xl mx-auto p-6 sm:p-8 rounded-2xl shadow-md flex flex-col md:flex-row items-center gap-6 md:h-auto ">
                 {/* Image */}
                 <img
                     src={`/storage/${photo}`}
