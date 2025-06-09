@@ -1,11 +1,24 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { Button } from "@/Components/ui/button";
 import { Dialog, DialogTrigger } from "@/Components/ui/dialog";
 import { useAuthDialog } from "@/stores/useAuthDialog";
 import DialogRegister from "@/Components/auth/DialogRegister";
 import DialogLogin from "@/Components/auth/DialogLogin";
 import { Link } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
+toast;
+import {
+    Menubar,
+    MenubarContent,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarTrigger,
+} from "@/Components/ui/menubar";
+import { toast } from "@/hooks/use-toast";
+import { Toaster } from "@/Components/ui/toaster";
 /**
  * AppLayouts Component
  *
@@ -13,7 +26,29 @@ import { Link } from "@inertiajs/react";
  * Menyediakan struktur dasar halaman dengan header, footer, dan dialog login/register.
  */
 export default function AppLayouts({ children }: PropsWithChildren) {
-    const { isRegister, openLogin, openRegister } = useAuthDialog();
+    const { isRegister, openLogin, isOpen } = useAuthDialog();
+    const { props } = usePage();
+    const { auth } = usePage().props as {
+        auth: {
+            user: {
+                name: string;
+                profile_photo_url?: string;
+            };
+        };
+    };
+    const firstName = auth?.user?.name?.split(" ")[0];
+    const photoUrl =
+        auth?.user?.profile_photo_url ?? "https://github.com/shadcn.png";
+    const user = props.auth?.user;
+
+    useEffect(() => {
+        if (props.toast && typeof props.toast === "string") {
+            toast({
+                title: props.toast,
+                variant: "default",
+            });
+        }
+    }, [props.toast]);
 
     return (
         <div className="min-h-screen bg-Fourt_Color text-white">
@@ -37,16 +72,71 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                     </span>
                                 </h1>
                             </Link>
-
                             {/* Tombol Login */}
-                            <DialogTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-7"
-                                >
-                                    Login
-                                </Button>
-                            </DialogTrigger>
+                            {user ? (
+                                // Jika sudah login, tampilkan Profile (bisa diarahkan ke /profile atau halaman dashboard user)
+                                <Menubar className="bg-transparent border-none">
+                                    <MenubarMenu>
+                                        <MenubarTrigger asChild>
+                                            <div
+                                                className="cursor-pointer border border-Base_Color px-4 py-2 rounded-md text-Base_Color 
+        hover:bg-Base_Color hover:text-white flex items-center gap-2 transition-colors 
+        bg-transparent data-[state=open]:bg-Base_Color data-[state=open]:text-white"
+                                            >
+                                                <span className="text-sm font-medium">
+                                                    {firstName}
+                                                </span>
+                                                <img
+                                                    src={photoUrl}
+                                                    alt="User Avatar"
+                                                    className="w-7 h-7 rounded-full object-cover"
+                                                />
+                                            </div>
+                                        </MenubarTrigger>
+
+                                        <MenubarContent
+                                            align="end"
+                                            className="bg-Fourt_Color text-Sixth_Color shadow-lg rounded-md py-2 w-40"
+                                        >
+                                            <MenubarItem asChild>
+                                                <Link
+                                                    href="/my-classes"
+                                                    className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                                >
+                                                    My Class
+                                                </Link>
+                                            </MenubarItem>
+                                            <MenubarItem asChild>
+                                                <Link
+                                                    href="/profile"
+                                                    className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                                >
+                                                    Profile
+                                                </Link>
+                                            </MenubarItem>
+                                            <MenubarSeparator />
+                                            <MenubarItem asChild>
+                                                <Link
+                                                    href="/logout"
+                                                    method="post"
+                                                    className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                                >
+                                                    Logout
+                                                </Link>
+                                            </MenubarItem>
+                                        </MenubarContent>
+                                    </MenubarMenu>
+                                </Menubar>
+                            ) : (
+                                <DialogTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className="border-Base_Color text-Base_Color hover:bg-Base_Color hover:text-white bg-transparent px-7"
+                                    >
+                                        Login
+                                    </Button>
+                                </DialogTrigger>
+                            )}
                         </div>
                     </div>
 
@@ -59,7 +149,10 @@ export default function AppLayouts({ children }: PropsWithChildren) {
             <div className="h-[84px]" />
 
             {/* Konten utama */}
-            <main>{children}</main>
+            <main>
+                {children}
+                <Toaster />
+            </main>
 
             {/* Footer */}
             <footer className="p-2 text-center">

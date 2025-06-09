@@ -23,9 +23,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/Components/ui/form";
+import { router } from "@inertiajs/react";
+import { toast } from "@/hooks/use-toast";
 
 export default function DialogLogin() {
-    const { openRegister } = useAuthDialog();
+    const { openRegister, close } = useAuthDialog();
     const form = useForm<z.infer<typeof loginUserSchema>>({
         resolver: zodResolver(loginUserSchema),
         defaultValues: {
@@ -35,8 +37,24 @@ export default function DialogLogin() {
     });
 
     const onSubmit = (values: z.infer<typeof loginUserSchema>) => {
-        console.log(values);
-        // Kirim data ke backend atau lakukan login
+        router.post("/login", values, {
+            onSuccess: () => {
+                toast({
+                    title: "Login Berhasil",
+                    description: "Selamat datang kembali!",
+                });
+                form.reset();
+            },
+            onError: (errors) => {
+                if (errors.email || errors.password) {
+                    toast({
+                        title: "Login Gagal",
+                        description: "Email atau password salah.",
+                        variant: "destructive",
+                    });
+                }
+            },
+        });
     };
 
     return (

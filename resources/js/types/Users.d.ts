@@ -15,4 +15,8 @@ export interface User {
     created_at: string;
     joined_classes_count: number;
     updated_at: string;
+    phone_number?: string;
+    creative_field?: string; // kalau sudah ganti jadi string enum / string biasa
+    birth_date?: string; // tambahkan ini, tipe string dalam format tanggal (YYYY-MM-DD)
+    photo?: string;
 }

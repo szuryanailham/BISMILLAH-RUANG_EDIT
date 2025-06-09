@@ -33,20 +33,23 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->route('home')
+            ->with('success', 'Class created successfully!');
     }
 
     /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
+{
+    Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        $request->session()->regenerateToken();
+    // Tambahkan flash message
+    return redirect('/')
+        ->with('toast', 'Anda berhasil logout');
+}
 
-        return redirect('/');
-    }
 }

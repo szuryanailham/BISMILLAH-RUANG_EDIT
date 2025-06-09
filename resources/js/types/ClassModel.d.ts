@@ -6,6 +6,7 @@ export type RequirementItem = {
 
 export interface Category {
     id: number;
+    name: string;
     category_class:
         | "Capcut"
         | "Figma"

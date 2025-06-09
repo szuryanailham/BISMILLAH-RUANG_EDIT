@@ -5,8 +5,15 @@ use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
 use Inertia\Inertia;
 
-class ClassAccessController extends Controller
+class EnrolledClassController extends Controller
 {
+    public function index(){
+        $classData = ClassModel::all();
+         return Inertia::render('User/my-classes',[
+            'classes' => $classData
+         ]);
+    }
+
     //
        public function LearningClass(ClassModel $classModel){
         $classModel->load(['materials', 'mentor']);

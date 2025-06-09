@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     DialogContent,
     DialogFooter,
@@ -24,6 +24,7 @@ import { router } from "@inertiajs/react";
 import { z } from "zod";
 function DialogRegister() {
     const { openLogin } = useAuthDialog();
+    const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
     const form = useForm<RegisterSchema>({
         resolver: zodResolver(registerSchema),
@@ -43,6 +44,7 @@ function DialogRegister() {
             password: values.password,
             password_confirmation: values.password_confirmation,
         };
+        setIsLoading(true);
         router.post("/register", payload, {
             onSuccess: () => {
                 toast({
@@ -51,7 +53,6 @@ function DialogRegister() {
                         "Akun kamu berhasil didaftarkan. Silakan login untuk melanjutkan.",
                     variant: "default",
                 });
-                console.log("Siap ");
             },
             onError: (errors) => {
                 toast({
@@ -62,6 +63,9 @@ function DialogRegister() {
                 });
 
                 console.error("Error validasi:", errors);
+            },
+            onFinish: () => {
+                setIsLoading(false); // ⬅️ Reset loading setelah selesai
             },
         });
     }
@@ -173,8 +177,9 @@ function DialogRegister() {
                     <Button
                         type="submit"
                         className="w-full bg-Base_Color hover:bg-opacity-90 text-white"
+                        disabled={isLoading} // ⬅️ Disable saat loading
                     >
-                        Daftar
+                        {isLoading ? "Mendaftarkan..." : "Daftar"}
                     </Button>
 
                     <div className="text-center">

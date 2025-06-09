@@ -1,43 +1,102 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { PageProps } from '@/types';
-import { Head } from '@inertiajs/react';
-import DeleteUserForm from './Partials/DeleteUserForm';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import AppLayouts from "@/Layouts/AppLayout";
+import React from "react";
+import { useForm as useInertiaForm } from "@inertiajs/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@/types/Users";
+import { z } from "zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/Components/ui/form";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 
-export default function Edit({
-    mustVerifyEmail,
-    status,
-}: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
+const schema = z.object({
+    name: z.string().min(2, "Nama minimal 2 karakter"),
+    email: z.string().email("Email tidak valid"),
+});
+
+interface propsUser {
+    user: User;
+}
+
+function Edit({ user }: propsUser) {
+    const inertiaForm = useInertiaForm({
+        name: user.name,
+        email: user.email,
+    });
+
+    const form = useForm({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            name: user.name,
+            email: user.email,
+        },
+    });
+
+    const onSubmit = () => {
+        console.log("siap bang");
+    };
+
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Profile
-                </h2>
-            }
-        >
-            <Head title="Profile" />
+        <>
+            <div className="max-w-xl mx-auto p-4">
+                <h1 className="text-2xl font-semibold mb-4">Edit Profil</h1>
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Nama</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Nama lengkap"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                    </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Email aktif"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <DeleteUserForm className="max-w-xl" />
-                    </div>
-                </div>
+                        <Button type="submit" disabled={inertiaForm.processing}>
+                            Simpan
+                        </Button>
+                    </form>
+                </Form>
             </div>
-        </AuthenticatedLayout>
+        </>
     );
 }
+
+Edit.layout = (page: React.ReactNode) => <AppLayouts>{page}</AppLayouts>;
+
+export default Edit;

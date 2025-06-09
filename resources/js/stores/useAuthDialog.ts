@@ -1,14 +1,18 @@
-// stores/useAuthDialog.ts
 import { create } from "zustand";
 
 interface AuthDialogState {
     isRegister: boolean;
+    isOpen: boolean;
     openLogin: () => void;
     openRegister: () => void;
+    close: () => void;
 }
 
 export const useAuthDialog = create<AuthDialogState>((set) => ({
     isRegister: false,
-    openLogin: () => set({ isRegister: false }),
-    openRegister: () => set({ isRegister: true }),
+    isOpen: false,
+    openLogin: () => set({ isRegister: false, isOpen: true }),
+    openRegister: () => set({ isRegister: true, isOpen: true }),
+    close: () => set({ isOpen: false }),
+    resetToLogin: () => set({ isRegister: false }), // Tambahan ini
 }));
