@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboradUsersController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\dDashboradUsersController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,13 +22,12 @@ use Inertia\Inertia;
 
 
 Route::namespace('App\Http\Controllers\Admin')->group(function () {
-    Route::get('/dashboard', 'DashboardController@index');
+    Route::middleware(['auth', 'verified',IsAdmin::class])->group(function () {
+ Route::get('/dashboard', 'DashboardController@index');
 
     // manage class 
    Route::resource('dashboard/manage-class', ClassesController::class)
     ->parameters(['manage-class' => 'classModel']);
-
-
 
     // manage course
     Route::get('/dashboard/manage-course', 'DashboardController@manageCourse');
@@ -35,8 +35,6 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
     Route::resource('/dashboard/manage-materi', MaterialController::class)
     ->parameters(['manage-materi' => 'material']);
     Route::post('/materi/store/{class_id}', [MaterialController::class, 'store']);
-
-
 
     // Mentor
    Route::resource('/dashboard/manage-mentor', DashboardMentorController::class)
@@ -46,9 +44,9 @@ Route::namespace('App\Http\Controllers\Admin')->group(function () {
   Route::resource('/dashboard/manage-users', DashboradUsersController::class)
     ->parameters(['manage-users' => 'users']);
 
-;
-
     // Order
     Route::get('/dashboard/manage-orders', 'DashboardController@manageOrder');
 
+    });
+   
 });

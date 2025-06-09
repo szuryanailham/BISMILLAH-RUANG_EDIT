@@ -80,8 +80,8 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                         <MenubarTrigger asChild>
                                             <div
                                                 className="cursor-pointer border border-Base_Color px-4 py-2 rounded-md text-Base_Color 
-        hover:bg-Base_Color hover:text-white flex items-center gap-2 transition-colors 
-        bg-transparent data-[state=open]:bg-Base_Color data-[state=open]:text-white"
+                                                 hover:bg-Base_Color hover:text-white flex items-center gap-2 transition-colors 
+                                                      bg-transparent data-[state=open]:bg-Base_Color data-[state=open]:text-white"
                                             >
                                                 <span className="text-sm font-medium">
                                                     {firstName}
@@ -98,6 +98,19 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                             align="end"
                                             className="bg-Fourt_Color text-Sixth_Color shadow-lg rounded-md py-2 w-40"
                                         >
+                                            {/* Hanya untuk admin */}
+                                            {user?.status === "admin" && (
+                                                <MenubarItem asChild>
+                                                    <Link
+                                                        href="/dashboard"
+                                                        className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
+                                                    >
+                                                        Dashboard (Admin)
+                                                    </Link>
+                                                </MenubarItem>
+                                            )}
+
+                                            {/* Umum untuk semua user */}
                                             <MenubarItem asChild>
                                                 <Link
                                                     href="/my-classes"
@@ -106,6 +119,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                                     My Class
                                                 </Link>
                                             </MenubarItem>
+
                                             <MenubarItem asChild>
                                                 <Link
                                                     href="/profile"
@@ -114,11 +128,14 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                                     Profile
                                                 </Link>
                                             </MenubarItem>
+
                                             <MenubarSeparator />
+
                                             <MenubarItem asChild>
                                                 <Link
                                                     href="/logout"
                                                     method="post"
+                                                    as="button"
                                                     className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                                                 >
                                                     Logout
