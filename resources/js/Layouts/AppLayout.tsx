@@ -57,7 +57,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                 <Dialog
                     onOpenChange={(isOpen) => {
                         if (!isOpen) {
-                            openLogin(); // Reset ke login form saat dialog ditutup
+                            openLogin();
                         }
                     }}
                 >
@@ -122,7 +122,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
 
                                             <MenubarItem asChild>
                                                 <Link
-                                                    href="/profile"
+                                                    href="/edit-profile"
                                                     className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left"
                                                 >
                                                     Profile
@@ -158,14 +158,12 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                     </div>
 
                     {/* Menampilkan form Login atau Register */}
+                    {/* {!isRegister ? <DialogLogin /> : <DialogRegister />} */}
                     {!isRegister ? <DialogLogin /> : <DialogRegister />}
                 </Dialog>
             </header>
-
-            {/* Spacer untuk menghindari konten tertutup header */}
             <div className="h-[84px]" />
 
-            {/* Konten utama */}
             <main>
                 {children}
                 <Toaster />

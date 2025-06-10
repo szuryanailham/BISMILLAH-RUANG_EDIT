@@ -32,7 +32,7 @@ export default function CardClass({
 
     return (
         <Link href={href}>
-            <div className="mt-4 w-full max-w-[400px]">
+            <div className="mt-4 w-full sm:max-w-[300px] md:max-w-[300px] lg:max-w-[500px]">
                 <div className="bg-Card_Color rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
                     <div className="relative">
                         {isBestSeller && (
@@ -70,7 +70,7 @@ export default function CardClass({
                             <h5 className="text-lg sm:text-xl font-bold text-Sixth_Color mb-2 line-clamp-2">
                                 {title}
                             </h5>
-                            <p className="text-sm text-Sixth_Color mb-4 line-clamp-2 ">
+                            <p className="text-sm text-Sixth_Color mb-4  line-clamp-2 ">
                                 {description}
                             </p>
                         </div>

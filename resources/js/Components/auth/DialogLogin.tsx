@@ -123,6 +123,7 @@ export default function DialogLogin() {
                         type="button"
                         variant="outline"
                         className="w-full flex items-center justify-center gap-2 bg-transparent text-Sixth_Color"
+                        onClick={() => (window.location.href = "/auth/google")}
                     >
                         <img
                             src="/image/icons/google_icons.svg"

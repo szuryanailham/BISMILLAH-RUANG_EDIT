@@ -4,10 +4,12 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-class User extends Authenticatable 
+class User extends Authenticatable implements MustVerifyEmail 
 {
     use HasFactory;
+     use Notifiable;
 
     protected $fillable = [
         'name',
@@ -15,7 +17,10 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'instagram_link',
+        'email_verified_at',
         'creative_field',
+        'google_id',
+        'avatar'
     ];
 
     // app/Models/User.php

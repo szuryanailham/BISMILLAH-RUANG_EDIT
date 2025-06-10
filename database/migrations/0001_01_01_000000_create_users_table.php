@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('profile_image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('google_id')->nullable()->unique();
+              $table->string('avatar')->nullable();
             $table->string('phone_number')->nullable(); // Nomor HP
             $table->enum('creative_field', ['design', 'photographer', 'videographer'])->nullable();
             $table->string('instagram_link')->nullable(); // Link Instagram

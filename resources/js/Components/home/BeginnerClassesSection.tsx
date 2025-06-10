@@ -27,7 +27,7 @@ interface Props {
 const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
     console.log(classes);
     return (
-        <section className="p-5">
+        <section className="px-5 mt-10">
             {/* Header Section */}
             <header className="mb-3 flex justify-between">
                 <h1 className="text-Second_Color text-xl md:text-2xl lg:text-3xl font-bold text-center md:text-left">
@@ -40,27 +40,23 @@ const BeginnerClassesSection: React.FC<Props> = ({ classes }) => {
 
             {/* List Semua Kelas */}
             <div className="flex flex-col md:flex-row gap-2">
-                {classes.map((classItem) => {
-                    return (
-                        <CardClass
-                            key={classItem.id}
-                            title={classItem.title}
-                            description={classItem.description}
-                            price={classItem.is_free ? 0 : classItem.price}
-                            rating={classItem.rating_class}
-                            image={`${classItem.poster_image}`}
-                            categoryIcon={
-                                classItem.category_class?.category_class ??
-                                "Default Category"
-                            }
-                            mentorName={
-                                classItem.mentor?.name ?? "Unknown Mentor"
-                            }
-                            isBestSeller={classItem.students_count > 50}
-                            href={`/classes/${classItem.slug}`}
-                        />
-                    );
-                })}
+                {classes.map((item) => (
+                    <CardClass
+                        key={item.id}
+                        title={item.title}
+                        description={item.description}
+                        price={item.is_free ? 0 : item.price}
+                        rating={item.rating_class}
+                        image={item.poster_image}
+                        categoryIcon={
+                            item.category_class?.category_class ??
+                            "Default Category"
+                        }
+                        mentorName={item.mentor?.name ?? "Unknown Mentor"}
+                        isBestSeller={item.students_count > 50} // Tandai best seller jika siswa > 50
+                        href={`/classes/${item.slug}`} // Link ke halaman detail kelas
+                    />
+                ))}
             </div>
 
             {/* Tombol Untuk Menelusuri Semua Kelas */}
