@@ -66,7 +66,7 @@ protected $casts = [
     // Relasi Class -> ClassAccess (One to Many)
     public function classAccesses()
     {
-        return $this->hasMany(Class_access::class);
+        return $this->hasMany(enrollments::class);
     }
 
     // Relasi Class -> TokenUsages (Many to Many via TokenUsages)

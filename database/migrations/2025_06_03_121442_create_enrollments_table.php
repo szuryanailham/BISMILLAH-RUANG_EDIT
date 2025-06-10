@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('class_user', function (Blueprint $table) {
+       Schema::create('enrollments', function (Blueprint $table) {
     $table->id();
     $table->foreignId('class_id')->constrained('class_models')->onDelete('cascade');
     $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->timestamp('enrolled_at')->useCurrent();
     $table->timestamps();
 });
     }

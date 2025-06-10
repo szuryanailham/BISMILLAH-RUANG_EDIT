@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             MentorSeeder::class,
              ClassModelSeeder::class,
             MaterialSeeder::class,
-             ClassUserSeeder::class,
+            EnrollmentsClass::class,
             
         ]);
     }

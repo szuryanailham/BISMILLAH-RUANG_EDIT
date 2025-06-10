@@ -32,60 +32,58 @@ export default function CardClass({
 
     return (
         <Link href={href}>
-            <div className="mt-4 w-full sm:max-w-[300px] md:max-w-[300px] lg:max-w-[500px]">
-                <div className="bg-Card_Color rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <div className="relative">
-                        {isBestSeller && (
-                            <div className="absolute top-2 left-2 bg-Second_Color text-Fourt_Color px-3 py-1 text-xs rounded-md shadow-md">
-                                Best Seller
-                            </div>
-                        )}
+            <div className="mt-4 w-full sm:max-w-[300px] md:max-w-[300px] lg:max-w-[500px] bg-Card_Color rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div className="relative">
+                    {isBestSeller && (
+                        <div className="absolute top-2 left-2 bg-Second_Color text-Fourt_Color px-3 py-1 text-xs rounded-md shadow-md">
+                            Best Seller
+                        </div>
+                    )}
 
+                    <img
+                        className="rounded-t-lg w-full h-48 object-cover"
+                        src={`/storage/${image}`}
+                        alt={`Class - ${title}`}
+                    />
+
+                    {/* Kategori & Mentor */}
+                    <div>
                         <img
-                            className="rounded-t-lg w-full h-48 object-cover"
-                            src={`/storage/${image}`}
-                            alt={`Class - ${title}`}
+                            className="w-10 sm:w-12 absolute bottom-2 left-2"
+                            src={
+                                categoryIconsMap[categoryIcon] ||
+                                "/image/icons/default.svg"
+                            }
+                            alt={`${categoryIcon} Icon`}
                         />
 
-                        {/* Kategori & Mentor */}
-                        <div>
-                            <img
-                                className="w-10 sm:w-12 absolute bottom-2 left-2"
-                                src={
-                                    categoryIconsMap[categoryIcon] ||
-                                    "/image/icons/default.svg"
-                                }
-                                alt={`${categoryIcon} Icon`}
-                            />
-
-                            <div className="absolute bottom-2 right-2 bg-Base_Color font-bold text-Fourt_Color px-3 py-2 shadow-md rounded-lg text-xs sm:text-sm">
-                                {mentorName}
-                            </div>
+                        <div className="absolute bottom-2 right-2 bg-Base_Color font-bold text-Fourt_Color px-3 py-2 shadow-md rounded-lg text-xs sm:text-sm">
+                            {mentorName}
                         </div>
                     </div>
+                </div>
 
-                    {/* Konten */}
-                    <div className="p-4 flex flex-col justify-between h-[230px]">
-                        <div>
-                            <h5 className="text-lg sm:text-xl font-bold text-Sixth_Color mb-2 line-clamp-2">
-                                {title}
-                            </h5>
-                            <p className="text-sm text-Sixth_Color mb-4  line-clamp-2 ">
-                                {description}
-                            </p>
-                        </div>
+                {/* Konten */}
+                <div className="p-4 flex flex-col justify-between h-[230px]">
+                    <div>
+                        <h5 className="text-2xl md:text-xl font-bold text-Sixth_Color mb-2 line-clamp-2 max-w-full lg:max-w-[75%]">
+                            {title}
+                        </h5>
+                        <p className="text-md text-Sixth_Color mb-4  line-clamp-2 ">
+                            {description}
+                        </p>
+                    </div>
 
-                        <div className="flex justify-between items-center mt-auto">
-                            <p className=" text-xl font-semibold text-Primary_Color">
-                                {!price || price.toString().endsWith("0000")
-                                    ? "Gratis"
-                                    : formatRupiah(price)}
-                            </p>
+                    <div className="flex justify-between items-center mt-auto">
+                        <p className=" text-xl font-semibold text-Primary_Color">
+                            {!price || price.toString().endsWith("0000")
+                                ? "Gratis"
+                                : formatRupiah(price)}
+                        </p>
 
-                            <div className="flex items-center gap-1 text-sm">
-                                {rating}
-                                <StarRating value={rating} />
-                            </div>
+                        <div className="flex items-center gap-1 text-sm">
+                            {rating}
+                            <StarRating value={rating} />
                         </div>
                     </div>
                 </div>

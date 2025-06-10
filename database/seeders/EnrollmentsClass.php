@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\ClassModel;
 use Illuminate\Support\Facades\DB;
 
-class ClassUserSeeder extends Seeder
+class EnrollmentsClass extends Seeder
 {
     public function run(): void
     {
@@ -19,7 +19,7 @@ class ClassUserSeeder extends Seeder
             $enrolledClasses = $classes->random(rand(1, 3))->pluck('id');
 
             foreach ($enrolledClasses as $classId) {
-                DB::table('class_user')->insert([
+                DB::table('enrollments')->insert([
                     'user_id' => $user->id,
                     'class_id' => $classId,
                     'created_at' => now(),

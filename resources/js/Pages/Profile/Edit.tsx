@@ -4,7 +4,6 @@ import { useForm as useInertiaForm } from "@inertiajs/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@/types/Users";
-import { z } from "zod";
 import {
     Form,
     FormControl,
@@ -15,11 +14,16 @@ import {
 } from "@/Components/ui/form";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
-
-const schema = z.object({
-    name: z.string().min(2, "Nama minimal 2 karakter"),
-    email: z.string().email("Email tidak valid"),
-});
+import { EditProfileSchema } from "@/Schema/EditProfileSchema";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/Components/ui/select";
 
 interface propsUser {
     user: User;
@@ -32,10 +36,13 @@ function Edit({ user }: propsUser) {
     });
 
     const form = useForm({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(EditProfileSchema),
         defaultValues: {
             name: user.name,
             email: user.email,
+            phone_number: user.phone_number ?? " ",
+            instagram_link: user.instagram_link ?? "",
+            creative_field: user.creative_field ?? undefined,
         },
     });
 
@@ -53,6 +60,7 @@ function Edit({ user }: propsUser) {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-4"
                     >
+                        {/* INPUT : Name of User */}
                         <FormField
                             control={form.control}
                             name="name"
@@ -69,7 +77,25 @@ function Edit({ user }: propsUser) {
                                 </FormItem>
                             )}
                         />
+                        {/* INPUT : Number Phone */}
+                        <FormField
+                            control={form.control}
+                            name="instagram_link"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Number Phone</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Number Phone"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
+                        {/* INPUT : Email of user */}
                         <FormField
                             control={form.control}
                             name="email"
@@ -86,8 +112,61 @@ function Edit({ user }: propsUser) {
                                 </FormItem>
                             )}
                         />
+                        {/* INPUT : Creative Field */}
+                        <FormField
+                            control={form.control}
+                            name="creative_field"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Bidang Kreatif</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value || undefined}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Pilih bidang kreatif" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="design">
+                                                Design
+                                            </SelectItem>
+                                            <SelectItem value="photographer">
+                                                Photographer
+                                            </SelectItem>
+                                            <SelectItem value="videographer">
+                                                Videographer
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        {/* INPUT : Instagram Link */}
+                        <FormField
+                            control={form.control}
+                            name="instagram_link"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Link Instagarm</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Link Instagram"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                        <Button type="submit" disabled={inertiaForm.processing}>
+                        <Button
+                            type="submit"
+                            disabled={inertiaForm.processing}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        >
                             Simpan
                         </Button>
                     </form>
