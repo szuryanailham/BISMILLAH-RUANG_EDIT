@@ -165,7 +165,7 @@ function Edit({ user }: propsUser) {
                         <Button
                             type="submit"
                             disabled={inertiaForm.processing}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            className="bg-Base_Color text-white font-medium px-6 py-2 rounded-md transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
                         >
                             Simpan
                         </Button>

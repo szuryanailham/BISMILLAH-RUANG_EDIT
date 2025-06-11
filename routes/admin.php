@@ -22,7 +22,7 @@ use Inertia\Inertia;
 
 
 Route::namespace('App\Http\Controllers\Admin')->group(function () {
-    Route::middleware(['auth', 'verified',IsAdmin::class])->group(function () {
+Route::middleware(['auth', 'verified',IsAdmin::class])->group(function () {
  Route::get('/dashboard', 'DashboardController@index');
 
     // manage class 

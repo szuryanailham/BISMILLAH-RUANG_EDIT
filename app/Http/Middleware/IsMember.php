@@ -15,9 +15,9 @@ class IsMember
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->status === 'member') {
-            return $next($request);
-        }
+        if (auth()->check() && (auth()->user()->status === 'member' || auth()->user()->status === 'admin')) {
+    return $next($request);
+}
 
         // Bisa abort atau redirect sesuai kebutuhan
         abort(403, 'Unauthorized - Member only.');

@@ -18,7 +18,7 @@ import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
 import { Label } from "@/Components/ui/label";
 import { formatRupiah } from "@/utils/formatRupiah";
-
+import { Link } from "@inertiajs/react";
 interface DetailCourseProps {
     course: Course;
 }
@@ -45,15 +45,28 @@ function DetailCourse({ course }: DetailCourseProps) {
 
                         <div className="p-5 text-center flex flex-col justify-center items-center gap-3">
                             <h3 className="mb-2 text-2xl font-bold tracking-tight text-Sixth_Color text-center">
-                                {`${formatRupiah(course.price)}.00`}
+                                {course.is_free
+                                    ? "Gratis "
+                                    : `${formatRupiah(course.price)}.00`}
                                 <span className="text-base font-medium">
                                     / orang
                                 </span>
                             </h3>
-                            <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
-                                <FaShoppingCart className="text-xl" />
-                                Beli Kelas
-                            </Button>
+                            {course.is_free ? (
+                                <Link
+                                    href={`/class/${course.slug}/enrollment-free`}
+                                >
+                                    <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
+                                        <FaShoppingCart className="text-xl" />
+                                        Ambil Kelas
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Primary hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
+                                    <FaShoppingCart className="text-xl" />
+                                    Beli Kelas
+                                </Button>
+                            )}
                         </div>
 
                         <div className="w-full px-5">

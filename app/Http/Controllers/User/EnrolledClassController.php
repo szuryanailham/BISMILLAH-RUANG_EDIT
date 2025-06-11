@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\ClassModel;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class EnrolledClassController extends Controller
 {
@@ -13,6 +14,29 @@ class EnrolledClassController extends Controller
             'classes' => $classData
          ]);
     }
+
+public function enrollmentFree(ClassModel $classModel)
+{
+    $user = auth()->user();
+
+    // Cek apakah user sudah login
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+
+   if ($classModel->is_free == true && $classModel->price == 0.0) {
+      $user->enrolledClasses()->syncWithoutDetaching([$classModel->id]);
+      return redirect()->route('user.classes')->with('toast', [
+    'title' => 'Berhasil Mendaftar',
+    'description' => 'Kelas gratis berhasil kamu ambil.',
+    'variant' => 'success',
+]);
+   }
+
+    return redirect()->back()->with('error', 'Kelas ini bukan kelas gratis.');
+}
+
 
     //
        public function LearningClass(ClassModel $classModel){

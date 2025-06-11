@@ -17,7 +17,12 @@ Route::namespace('App\Http\Controllers\User')->group(function () {
     Route::get('/classes/{classModel}/learn', [EnrolledClassController::class, 'LearningClass'])->name('classes.learn');
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/my-classes', [EnrolledClassController::class, 'index'])->name('user.classes');
+
+    // ROUTE : ambil kelas Gratis
+    Route::get('/class/{classModel}/enrollment-free', [EnrolledClassController::class, 'enrollmentFree'])->middleware('auth');
      });
+
+    
   
 
     

@@ -69,7 +69,7 @@ export default function CardClass({
                         <h5 className="text-2xl md:text-xl font-bold text-Sixth_Color mb-2 line-clamp-2 max-w-full lg:max-w-[75%]">
                             {title}
                         </h5>
-                        <p className="text-md text-Sixth_Color mb-4  line-clamp-2 ">
+                        <p className="text-sm text-Sixth_Color mb-4 line-clamp-2 ">
                             {description}
                         </p>
                     </div>

@@ -28,4 +28,6 @@ class EnrollmentsClass extends Seeder
             }
         }
     }
+
+
 }
