@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('home')
-            ->with('success', 'Class created successfully!');
+            ->with('success', 'Anda Berhasil Login!');
     }
 
     /**

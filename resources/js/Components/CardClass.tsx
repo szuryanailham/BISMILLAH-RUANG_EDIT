@@ -28,8 +28,9 @@ export default function CardClass({
         PremierePro: "/image/icons/Premiere.svg",
         Lightroom: "/image/icons/Lightroom.svg",
         DaVinciResolve: "/image/icons/DaVinci.svg",
+        AfterEffects: "/image/icons/AfterEffects.svg",
     };
-
+    console.log(categoryIcon);
     return (
         <Link href={href}>
             <div className="mt-4 w-full sm:max-w-[300px] md:max-w-[300px] lg:max-w-[500px] bg-Card_Color rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -49,7 +50,7 @@ export default function CardClass({
                     {/* Kategori & Mentor */}
                     <div>
                         <img
-                            className="w-10 sm:w-12 absolute bottom-2 left-2"
+                            className=" w-12 lg:w-12 absolute bottom-2 left-2"
                             src={
                                 categoryIconsMap[categoryIcon] ||
                                 "/image/icons/default.svg"

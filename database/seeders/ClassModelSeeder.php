@@ -13,7 +13,6 @@ class ClassModelSeeder extends Seeder
     public function run(): void
     {
         DB::table('class_models')->insert([
-            // ===== BEGINNER CLASS =====
             [
                 'class_code' => 'CNV001',
                 'slug' => 'canva-basic-design',
@@ -25,13 +24,12 @@ class ClassModelSeeder extends Seeder
                 'goals' => json_encode([
                     'Memahami antarmuka Canva',
                     'Membuat desain dasar untuk media sosial',
-                    'Menguasai teknik pemilihan warna dan tipografi',
-                    'Mengekspor desain dalam berbagai format'
+                    'Menguasai teknik pemilihan warna dan tipografi'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'Laptop atau komputer'],
-                    ['description' => 'Koneksi internet stabil'],
-                    ['description' => 'Akun Canva (gratis)']
+                    'Laptop atau komputer',
+                    'Koneksi internet stabil',
+                    'Akun Canva (gratis)'
                 ]),
                 'total_videos' => 12,
                 'students_count' => 245,
@@ -53,15 +51,14 @@ class ClassModelSeeder extends Seeder
                 'rating_class' => 4.70,
                 'poster_image' => 'class_images/sample_poster.webp',
                 'goals' => json_encode([
-                    'Memahami antarmuka dan fitur Capcut',
+                    'Memahami antarmuka Capcut',
                     'Editing video dasar hingga menengah',
-                    'Menambahkan transisi dan efek menarik',
-                    'Mengoptimalkan video untuk media sosial'
+                    'Menambahkan transisi dan efek menarik'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'Smartphone (Android/iOS)'],
-                    ['description' => 'Aplikasi Capcut terinstal'],
-                    ['description' => 'Ruang penyimpanan minimal 5GB']
+                    'Smartphone (Android/iOS)',
+                    'Aplikasi Capcut terinstal',
+                    'Ruang penyimpanan minimal 5GB'
                 ]),
                 'total_videos' => 15,
                 'students_count' => 320,
@@ -83,14 +80,13 @@ class ClassModelSeeder extends Seeder
                 'rating_class' => 4.60,
                 'poster_image' => 'class_images/sample_poster.webp',
                 'goals' => json_encode([
-                    'Menggunakan aplikasi Snapseed dan Lightroom Mobile',
+                    'Menggunakan aplikasi Snapseed dan Lightroom',
                     'Teknik pencahayaan dan filter',
-                    'Retouch wajah sederhana',
-                    'Export ke media sosial tanpa pecah'
+                    'Retouch wajah sederhana'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'Smartphone dengan kamera bagus'],
-                    ['description' => 'Aplikasi editing terinstal']
+                    'Smartphone dengan kamera bagus',
+                    'Aplikasi editing terinstal'
                 ]),
                 'total_videos' => 10,
                 'students_count' => 210,
@@ -103,8 +99,6 @@ class ClassModelSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // ===== EXPERT CLASS =====
             [
                 'class_code' => 'PPR003',
                 'slug' => 'premierpro-advanced-editing',
@@ -116,15 +110,12 @@ class ClassModelSeeder extends Seeder
                 'goals' => json_encode([
                     'Menguasai teknik color grading profesional',
                     'Membuat efek visual yang kompleks',
-                    'Mengedit audio dan sound design',
-                    'Workflow editing yang efisien',
-                    'Mengoptimalkan video untuk berbagai platform'
+                    'Workflow editing yang efisien'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'Laptop/PC dengan spesifikasi tinggi'],
-                    ['description' => 'Adobe Premiere Pro CC terbaru'],
-                    ['description' => 'Pengalaman dasar editing video'],
-                    ['description' => 'Hardisk eksternal (direkomendasikan)']
+                    'Laptop/PC dengan spesifikasi tinggi',
+                    'Adobe Premiere Pro CC terbaru',
+                    'Pengalaman dasar editing video'
                 ]),
                 'total_videos' => 35,
                 'students_count' => 92,
@@ -148,16 +139,12 @@ class ClassModelSeeder extends Seeder
                 'goals' => json_encode([
                     'Membuat animasi karakter 2D',
                     'Menguasai expressions dan script',
-                    'Menciptakan visual effects kompleks',
-                    'Integrasi dengan Premiere Pro dan Photoshop',
-                    'Membuat template motion graphics'
+                    'Integrasi dengan Premiere Pro dan Photoshop'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'PC/Mac dengan spesifikasi tinggi (min 16GB RAM)'],
-                    ['description' => 'Adobe After Effects CC'],
-                    ['description' => 'Adobe Premiere Pro dan Photoshop'],
-                    ['description' => 'Pemahaman dasar After Effects'],
-                    ['description' => 'SSD (sangat direkomendasikan)']
+                    'PC/Mac dengan spesifikasi tinggi (min 16GB RAM)',
+                    'Adobe After Effects CC',
+                    'Pemahaman dasar After Effects'
                 ]),
                 'total_videos' => 40,
                 'students_count' => 75,
@@ -181,13 +168,12 @@ class ClassModelSeeder extends Seeder
                 'goals' => json_encode([
                     'Menguasai color wheel dan curves',
                     'Menerapkan LUTs secara profesional',
-                    'Grading sesuai mood film',
-                    'Mengatur tone skin dan highlight dengan tepat'
+                    'Grading sesuai mood film'
                 ]),
                 'requirements' => json_encode([
-                    ['description' => 'Software Davinci Resolve / Premiere Pro'],
-                    ['description' => 'Footage 10-bit untuk latihan'],
-                    ['description' => 'Monitor dengan color calibration']
+                    'Software Davinci Resolve / Premiere Pro',
+                    'Footage 10-bit untuk latihan',
+                    'Monitor dengan color calibration'
                 ]),
                 'total_videos' => 25,
                 'students_count' => 130,

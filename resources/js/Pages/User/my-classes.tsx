@@ -8,6 +8,7 @@ interface Props {
 }
 
 const MyClassUser = ({ classes }: Props) => {
+    console.log(classes);
     return (
         <div className="px-4 py-10 max-w-7xl mx-auto">
             <h1 className="text-3xl font-bold text-Second_Color text-center mb-6">
@@ -32,7 +33,7 @@ const MyClassUser = ({ classes }: Props) => {
                                 classItem.mentor?.name ?? "Unknown Mentor"
                             }
                             isBestSeller={classItem.students_count > 50}
-                            href={`/classes/${classItem.slug}`}
+                            href={`/classes/${classItem.slug}/learn`}
                         />
                     ))}
                 </div>

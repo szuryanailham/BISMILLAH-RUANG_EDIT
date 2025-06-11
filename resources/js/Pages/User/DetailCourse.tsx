@@ -18,12 +18,54 @@ import ProfileMentor from "@/Components/Detail-Class/ProfileMentor";
 import { Course } from "@/types/Course";
 import { Label } from "@/Components/ui/label";
 import { formatRupiah } from "@/utils/formatRupiah";
-import { Link } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
+import { User } from "@/types/Users";
+import { toast } from "@/hooks/use-toast";
 interface DetailCourseProps {
     course: Course;
 }
 
-function DetailCourse({ course }: DetailCourseProps) {
+interface DetailCourseProps {
+    course: Course;
+    auth: {
+        user: User | null;
+    };
+}
+
+function DetailCourse({ course, auth }: DetailCourseProps) {
+    const handleEnrollFreeClass = (class_code: string) => {
+        if (!auth.user) {
+            if (typeof window !== "undefined") {
+                window.location.href = "/login";
+            }
+            return null;
+        }
+        router.post(
+            `/class/${class_code}/enrollment-free`,
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Kelas berhasil diambil",
+                        description: "Selamat kelas berhasil diambil",
+                    });
+                },
+                onError: (errors: Errors) => {
+                    const errorMessages = Object.values(errors)
+                        .flat()
+                        .join("\n");
+
+                    toast({
+                        title: "Terjadi Kesalahan",
+                        description: errorMessages || "Mohon coba lagi nanti.",
+                        variant: "destructive",
+                    });
+                },
+            }
+        );
+    };
+
     return (
         <>
             <div className="px-3 flex flex-col md:flex-row-reverse gap-3 md:gap-0">
@@ -53,18 +95,19 @@ function DetailCourse({ course }: DetailCourseProps) {
                                 </span>
                             </h3>
                             {course.is_free ? (
-                                <Link
-                                    href={`/class/${course.slug}/enrollment-free`}
+                                <Button
+                                    onClick={() =>
+                                        handleEnrollFreeClass(course.class_code)
+                                    }
+                                    className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3"
                                 >
-                                    <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
-                                        <FaShoppingCart className="text-xl" />
-                                        Ambil Kelas
-                                    </Button>
-                                </Link>
-                            ) : (
-                                <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Primary hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
                                     <FaShoppingCart className="text-xl" />
-                                    Beli Kelas
+                                    Ambil Kelas
+                                </Button>
+                            ) : (
+                                <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
+                                    <FaShoppingCart className="text-xl" />
+                                    beli Kelas
                                 </Button>
                             )}
                         </div>

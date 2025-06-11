@@ -15,11 +15,9 @@ class MaterialSeeder extends Seeder
     public function run(): void
     {
         $now = Carbon::now();
-
-        // Helper untuk generate materialCode unik
         $generateCode = fn() => 'MTR-' . strtoupper(Str::random(6));
 
-        // Materi untuk kelas Canva Basic
+        // Materi Canva Basic
         DB::table('materials')->insert([
             [
                 'class_id' => 1,
@@ -50,10 +48,10 @@ class MaterialSeeder extends Seeder
                 'pdf_url' => 'https://example.com/pdf/canva-color-typography.pdf',
                 'created_at' => $now,
                 'updated_at' => $now,
-            ]
+            ],
         ]);
 
-        // Materi untuk kelas Figma UI Design
+        // Materi Figma UI Design
         DB::table('materials')->insert([
             [
                 'class_id' => 2,
@@ -84,10 +82,10 @@ class MaterialSeeder extends Seeder
                 'pdf_url' => 'https://example.com/pdf/figma-ui-ux-principles.pdf',
                 'created_at' => $now,
                 'updated_at' => $now,
-            ]
+            ],
         ]);
 
-        // Materi untuk kelas Premiere Pro Advanced Editing
+        // Materi Premiere Pro Advanced Editing
         DB::table('materials')->insert([
             [
                 'class_id' => 3,
@@ -118,7 +116,7 @@ class MaterialSeeder extends Seeder
                 'pdf_url' => 'https://example.com/pdf/premiere-color-grading.pdf',
                 'created_at' => $now,
                 'updated_at' => $now,
-            ]
+            ],
         ]);
     }
 }

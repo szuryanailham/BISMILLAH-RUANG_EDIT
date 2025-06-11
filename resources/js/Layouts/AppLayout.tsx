@@ -42,10 +42,11 @@ export default function AppLayouts({ children }: PropsWithChildren) {
     const user = props.auth?.user;
 
     useEffect(() => {
-        if (props.toast && typeof props.toast === "string") {
+        if (props.toast && typeof props.toast === "object") {
             toast({
-                title: props.toast,
-                variant: "default",
+                title: props.toast.title,
+                description: props.toast.description,
+                variant: props.toast.variant ?? "default",
             });
         }
     }, [props.toast]);

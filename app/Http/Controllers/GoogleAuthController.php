@@ -36,10 +36,13 @@ return $provider->with(['prompt' => 'select_account'])->redirect();
 
                 Auth::login($newUser);
 
-                return redirect()->intended('/');
+                // return redirect()->intended('/');
+                 return redirect()->route('home')
+                    ->with('success', 'Anda Berhasil Login!');
             } else {
                 Auth::login($user);
-                return redirect()->intended('/');
+                 return redirect()->route('home')
+                    ->with('success', 'Anda Berhasil Login!');
             }
     }
 }

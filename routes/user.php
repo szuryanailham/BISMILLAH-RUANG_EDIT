@@ -19,7 +19,7 @@ Route::namespace('App\Http\Controllers\User')->group(function () {
     Route::get('/my-classes', [EnrolledClassController::class, 'index'])->name('user.classes');
 
     // ROUTE : ambil kelas Gratis
-    Route::get('/class/{classModel}/enrollment-free', [EnrolledClassController::class, 'enrollmentFree'])->middleware('auth');
+    Route::post('/class/{class_code}/enrollment-free', [EnrolledClassController::class, 'enrollmentFree'])->middleware('auth');
      });
 
     
