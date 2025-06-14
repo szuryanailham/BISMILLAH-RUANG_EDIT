@@ -1,23 +1,20 @@
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { Button } from "@/Components/ui/button";
 import { Dialog, DialogTrigger } from "@/Components/ui/dialog";
 import { useAuthDialog } from "@/stores/useAuthDialog";
 import DialogRegister from "@/Components/auth/DialogRegister";
 import DialogLogin from "@/Components/auth/DialogLogin";
+import LoadingOverlay from "@/Components/LoadingOverlay";
 import { Link } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
-
-toast;
 import {
     Menubar,
     MenubarContent,
     MenubarItem,
     MenubarMenu,
     MenubarSeparator,
-    MenubarShortcut,
     MenubarTrigger,
 } from "@/Components/ui/menubar";
-import { toast } from "@/hooks/use-toast";
 import { Toaster } from "@/Components/ui/toaster";
 /**
  * AppLayouts Component
@@ -27,7 +24,9 @@ import { Toaster } from "@/Components/ui/toaster";
  */
 export default function AppLayouts({ children }: PropsWithChildren) {
     const { isRegister, openLogin, isOpen } = useAuthDialog();
+    const [isPageLoaded, setIsPageLoaded] = useState(false);
     const { props } = usePage();
+
     const { auth } = usePage().props as {
         auth: {
             user: {
@@ -36,20 +35,31 @@ export default function AppLayouts({ children }: PropsWithChildren) {
             };
         };
     };
+
     const firstName = auth?.user?.name?.split(" ")[0];
     const photoUrl =
         auth?.user?.profile_photo_url ?? "https://github.com/shadcn.png";
     const user = props.auth?.user;
 
     useEffect(() => {
-        if (props.toast && typeof props.toast === "object") {
-            toast({
-                title: props.toast.title,
-                description: props.toast.description,
-                variant: props.toast.variant ?? "default",
-            });
+        const handleLoad = () => {
+            setTimeout(() => {
+                setIsPageLoaded(true);
+            }, 1200);
+        };
+
+        if (document.readyState === "complete") {
+            handleLoad();
+        } else {
+            window.addEventListener("load", handleLoad);
         }
-    }, [props.toast]);
+
+        return () => {
+            window.removeEventListener("load", handleLoad);
+        };
+    }, []);
+
+    if (!isPageLoaded) return <LoadingOverlay />;
 
     return (
         <div className="min-h-screen bg-Fourt_Color text-white">

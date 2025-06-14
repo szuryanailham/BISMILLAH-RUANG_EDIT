@@ -1,11 +1,19 @@
-import Checkbox from "@/Components/Checkbox";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/AppLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { FormEventHandler } from "react";
+import { Head, Link, router } from "@inertiajs/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { loginUserSchema } from "@/Schema/LoginUserSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/Components/ui/form";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { toast } from "@/hooks/use-toast";
 
 export default function Login({
     status,
@@ -14,23 +22,38 @@ export default function Login({
     status?: string;
     canResetPassword: boolean;
 }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
-        password: "",
-        remember: false as boolean,
+    const form = useForm<z.infer<typeof loginUserSchema>>({
+        resolver: zodResolver(loginUserSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        post(route("login"), {
-            onFinish: () => reset("password"),
+    const onSubmit = (values: z.infer<typeof loginUserSchema>) => {
+        router.post("/login", values, {
+            onSuccess: () => {
+                toast({
+                    title: "Login Berhasil",
+                    description: "Selamat datang kembali!",
+                });
+                form.reset();
+            },
+            onError: (errors) => {
+                if (errors.email || errors.password) {
+                    toast({
+                        title: "Login Gagal",
+                        description: "Email atau password salah.",
+                        variant: "destructive",
+                    });
+                }
+            },
         });
     };
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
+            <Head title="Login" />
 
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
@@ -38,66 +61,100 @@ export default function Login({
                 </div>
             )}
 
-            <form onSubmit={submit} className="space-y-6">
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
+            <div className="max-w-md w-full mx-auto p-5 rounded-md shadow-xl bg-Fourt_Color">
+                <h1 className="text-2xl font-semibold text-center mb-6 text-Second_Color">
+                    Login
+                </h1>
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused
-                        onChange={(e) => setData("email", e.target.value)}
-                    />
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-5"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="Email"
+                                            className="w-full rounded-md border text-Sixth_Color px-4 bg-Fourt_Color py-3 text-sm focus:outline-none focus:ring-2 focus:ring-Second_Color"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type="password"
+                                            {...field}
+                                            placeholder="Password"
+                                            className="w-full bg-Fourt_Color text-Sixth_Color rounded-md border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-Second_Color"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                <div>
-                    <InputLabel htmlFor="password" value="Password" />
+                        {canResetPassword && (
+                            <div className="text-right text-sm">
+                                <Link
+                                    href="/forgot-password"
+                                    className="text-Second_Color hover:underline"
+                                >
+                                    Lupa Password?
+                                </Link>
+                            </div>
+                        )}
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData("password", e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="flex items-center">
-                    <Checkbox
-                        name="remember"
-                        checked={data.remember}
-                        onChange={(e) =>
-                            setData("remember", e.target.checked || false)
-                        }
-                    />
-                    <span className="ms-2 text-sm text-gray-600">
-                        Remember me
-                    </span>
-                </div>
-
-                <div className="flex items-center justify-end gap-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route("password.request")}
-                            className="text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        <Button
+                            type="submit"
+                            className="w-full bg-Base_Color hover:bg-opacity-90 text-white py-3"
                         >
-                            Forgot your password?
-                        </Link>
-                    )}
+                            Login
+                        </Button>
 
-                    <PrimaryButton disabled={processing}>Log in</PrimaryButton>
-                </div>
-            </form>
+                        <div className="relative text-center">
+                            <span className="text-gray-400 text-sm">atau</span>
+                        </div>
+
+                        <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full flex items-center justify-center gap-2 bg-transparent text-Sixth_Color py-3"
+                            onClick={() =>
+                                (window.location.href = "/auth/google")
+                            }
+                        >
+                            <img
+                                src="/image/icons/google_icons.svg"
+                                alt="Google"
+                                className="w-5 h-5"
+                            />
+                            Login dengan Google
+                        </Button>
+                    </form>
+                </Form>
+                <p className="w-full text-sm text-gray-500 py-4 text-center">
+                    Belum punya akun?{" "}
+                    <Link
+                        href="/register"
+                        className="text-Second_Color hover:underline cursor-pointer"
+                    >
+                        Daftar
+                    </Link>
+                </p>
+            </div>
         </GuestLayout>
     );
 }

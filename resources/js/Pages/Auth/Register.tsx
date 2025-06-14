@@ -1,121 +1,208 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
+import React, { useState } from "react";
 import GuestLayout from "@/Layouts/AppLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { FormEventHandler } from "react";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/Components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, RegisterSchema } from "@/Schema/register-schema";
+import { useAuthDialog } from "@/stores/useAuthDialog";
+import { Link, router } from "@inertiajs/react";
+import { z } from "zod";
 
-export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
+function Register() {
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
+    const form = useForm<RegisterSchema>({
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+        },
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    function onSubmit(values: z.infer<typeof registerSchema>) {
+        const payload = {
+            name: values.firstName + " " + values.lastName,
+            email: values.email,
+            password: values.password,
+            password_confirmation: values.password_confirmation,
+        };
+        setIsLoading(true);
+        router.post("/register", payload, {
+            onSuccess: () => {
+                toast({
+                    title: "Pendaftaran Berhasil",
+                    description:
+                        "Akun kamu berhasil didaftarkan. Silakan login untuk melanjutkan.",
+                    variant: "default",
+                });
+            },
+            onError: (errors) => {
+                toast({
+                    title: "Gagal Mendaftar",
+                    description:
+                        "Silakan periksa kembali isian formulir dan coba lagi.",
+                    variant: "destructive",
+                });
 
-        post(route("register"), {
-            onFinish: () => reset("password", "password_confirmation"),
+                console.error("Error validasi:", errors);
+            },
+            onFinish: () => {
+                setIsLoading(false); // ⬅️ Reset loading setelah selesai
+            },
         });
-    };
-
+    }
     return (
         <GuestLayout>
-            <Head title="Register" />
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData("name", e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData("email", e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData("password", e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData("password_confirmation", e.target.value)
-                        }
-                        required
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route("login")}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            <div>
+                <h1 className="text-2xl font-semibold text-center mb-6 text-Second_Color">
+                    Sign Up
+                </h1>
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="flex flex-col gap-4 max-w-lg w-full mx-auto py-6 px-4"
                     >
-                        Already registered?
-                    </Link>
+                        {/* First & Last Name - Horizontal Flex */}
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <FormField
+                                control={form.control}
+                                name="firstName"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Nama Depan"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="lastName"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Nama Belakang"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
-            </form>
+                        {/* Email */}
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type="email"
+                                            placeholder="Email"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Password */}
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type="password"
+                                            placeholder="Password"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        Gunakan minimal 8 karakter dengan
+                                        kombinasi huruf besar, angka, dan
+                                        simbol.
+                                    </p>
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Password Confirmation */}
+                        <FormField
+                            control={form.control}
+                            name="password_confirmation"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            type="password"
+                                            placeholder="Konfirmasi Password"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            className="w-full bg-Base_Color hover:bg-opacity-90 text-white"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? "Mendaftarkan..." : "Daftar"}
+                        </Button>
+
+                        {/* OR Divider */}
+                        <div className="text-center">
+                            <span className="text-gray-400 text-sm">atau</span>
+                        </div>
+
+                        {/* Google Button */}
+
+                        <Button
+                            onClick={() =>
+                                (window.location.href = "/auth/google")
+                            }
+                            type="button"
+                            variant="outline"
+                            className="w-full flex items-center justify-center gap-2 text-Fifth_Color"
+                        >
+                            <img
+                                src="/image/icons/google_icons.svg"
+                                alt="Google"
+                                className="w-5 h-5"
+                            />
+                            Daftar dengan Google
+                        </Button>
+                    </form>
+                </Form>
+            </div>
         </GuestLayout>
     );
 }
+
+export default Register;
