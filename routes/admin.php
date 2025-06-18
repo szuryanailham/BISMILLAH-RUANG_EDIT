@@ -1,14 +1,16 @@
 <?php
+
+use App\Http\Controllers\Admin\CategoryClass;
 use App\Http\Controllers\Admin\ClassesController;
 use App\Http\Controllers\Admin\DashboardMentorController;
 use App\Http\Controllers\Admin\DashboradUsersController;
 use App\Http\Controllers\Admin\MaterialController;
-use App\Http\Controllers\Admin\dDashboradUsersController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -42,6 +44,10 @@ Route::middleware(['auth', 'verified',IsAdmin::class])->group(function () {
 
     // User
   Route::resource('/dashboard/manage-users', DashboradUsersController::class)
+    ->parameters(['manage-users' => 'users']);
+
+    // Manage Category
+    Route::resource('/dashboard/manage-categories', CategoryClass::class)
     ->parameters(['manage-users' => 'users']);
 
     // Order

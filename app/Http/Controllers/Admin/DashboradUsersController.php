@@ -17,7 +17,7 @@ class DashboradUsersController extends Controller
      */
    public function index()
 {
-    $users = User::withCount('joinedClasses')
+    $users = User::withCount('enrolledClasses')
         ->latest()
         ->get()
         ->map(fn($user) => [

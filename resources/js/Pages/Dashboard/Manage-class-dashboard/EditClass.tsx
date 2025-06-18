@@ -89,36 +89,67 @@ function EditClass({ mentors, categories, classData }: PageProps) {
     function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
         const formData = new FormData();
-        if (values.poster && values.poster.length > 0) {
-            formData.append("poster", values.poster[0]);
-        }
-        router.put(`/dashboard/manage-class/${classData.slug}`, values, {
-            onSuccess: () => {
-                toast({
-                    title: "Kelas Berhasil diupdate",
-                    description:
-                        "Kelas berhasil diupdate dan disimpan ke database.",
-                });
+        formData.append("ClassTittle", values.ClassTittle);
+        formData.append("slug", values.slug);
+        formData.append("description", values.description);
+        formData.append("mentor_id", String(values.mentor_id));
+        formData.append("Category_id", String(values.Category_id));
+        formData.append("Level", values.Level);
+        formData.append("isFree", values.isFree ? "1" : "0");
+        formData.append("isPublished", values.isPublished ? "1" : "0");
 
-                // Redirect setelah 2 detik
-                setTimeout(() => {
-                    router.visit("/dashboard/manage-class");
-                    setIsLoading(false);
-                    reset();
-                    setFile(null);
-                    setPreview("");
-                }, 2000);
-            },
-            onError: (errors) => {
-                console.log(errors);
-                toast({
-                    variant: "destructive",
-                    title: "Terjadi Kesalahan",
-                    description: "Periksa kembali isian formulir update kamu.",
-                });
-                setIsLoading(false);
-            },
+        if (values.price !== undefined) {
+            formData.append("price", String(values.price));
+        }
+
+        // Tambahkan array goals
+        values.goals.forEach((goal, index) => {
+            formData.append(`goals[${index}]`, goal.value);
         });
+
+        // Tambahkan array requirements
+        values.requirements.forEach((req, index) => {
+            formData.append(`requirements[${index}]`, req.value);
+        });
+
+        router.post(
+            `/dashboard/manage-class/${classData.slug}?_method=PUT`,
+            formData,
+            {
+                forceFormData: true,
+                onSuccess: () => {
+                    toast({
+                        title: "Kelas Berhasil diupdate",
+                        description:
+                            "Kelas berhasil diupdate dan disimpan ke database.",
+                    });
+
+                    setTimeout(() => {
+                        router.visit("/dashboard/manage-class");
+                        setIsLoading(false);
+                        reset();
+                        setFile(null);
+                        setPreview("");
+                    }, 2000);
+                },
+                onError: (errors) => {
+                    console.error(errors);
+
+                    const errorMessage =
+                        typeof errors === "object" && errors !== null
+                            ? Object.values(errors).flat().join(", ")
+                            : "Periksa kembali isian formulir kamu.";
+
+                    toast({
+                        variant: "destructive",
+                        title: "Terjadi Kesalahan",
+                        description: errorMessage,
+                    });
+
+                    setIsLoading(false);
+                },
+            }
+        );
     }
 
     // Auto-generate slug dari judul kelas setiap kali judul berubah

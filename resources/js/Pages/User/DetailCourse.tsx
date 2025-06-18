@@ -51,14 +51,24 @@ function DetailCourse({ course, auth }: DetailCourseProps) {
                         description: "Selamat kelas berhasil diambil",
                     });
                 },
-                onError: (errors: Errors) => {
-                    const errorMessages = Object.values(errors)
-                        .flat()
-                        .join("\n");
+                onError: (errors) => {
+                    let errorMessages =
+                        "Terjadi kesalahan. Mohon coba lagi nanti.";
+
+                    if (errors && typeof errors === "object") {
+                        const messages = Object.values(errors)
+                            .filter((msg) => Array.isArray(msg)) // pastikan isian array
+                            .flat()
+                            .filter(Boolean); // hilangkan undefined/null
+
+                        if (messages.length > 0) {
+                            errorMessages = messages.join("\n");
+                        }
+                    }
 
                     toast({
                         title: "Terjadi Kesalahan",
-                        description: errorMessages || "Mohon coba lagi nanti.",
+                        description: errorMessages,
                         variant: "destructive",
                     });
                 },

@@ -32,11 +32,13 @@ export default function AppLayouts({ children }: PropsWithChildren) {
             user: {
                 name: string;
                 profile_photo_url?: string;
+                status?: string;
             };
         };
     };
 
     const firstName = auth?.user?.name?.split(" ")[0];
+    const statusUser = auth?.user?.status;
     const photoUrl =
         auth?.user?.profile_photo_url ?? "https://github.com/shadcn.png";
     const user = props.auth?.user;
@@ -61,6 +63,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
 
     if (!isPageLoaded) return <LoadingOverlay />;
 
+    console.log(user);
     return (
         <div className="min-h-screen bg-Fourt_Color text-white">
             {/* Header tetap di atas layar */}
@@ -110,7 +113,7 @@ export default function AppLayouts({ children }: PropsWithChildren) {
                                             className="bg-Fourt_Color text-Sixth_Color shadow-lg rounded-md py-2 w-40"
                                         >
                                             {/* Hanya untuk admin */}
-                                            {user?.status === "admin" && (
+                                            {statusUser === "admin" && (
                                                 <MenubarItem asChild>
                                                     <Link
                                                         href="/dashboard"

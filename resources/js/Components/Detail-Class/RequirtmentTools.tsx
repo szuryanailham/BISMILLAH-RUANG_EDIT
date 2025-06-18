@@ -1,16 +1,18 @@
 import { FiCheckCircle } from "react-icons/fi";
-import { RequirementToolsProps } from "@/types/RequirementTools";
 
-function RequirtmentTools({ items }: RequirementToolsProps) {
-    console.log(items);
+export interface RequirementToolsProps {
+    items: string[];
+}
+
+function RequirementTools({ items }: RequirementToolsProps) {
     return (
         <div className="flex flex-col items-center justify-center px-4 py-8 text-Sixth_Color">
             <h1 className="text-3xl font-semibold text-center text-Second_Color mb-7 w-full max-w-xl">
                 Requirement Tools
             </h1>
             <ul className="space-y-3 max-w-2xl">
-                {items.map((item: string) => (
-                    <li key={item} className="flex items-start gap-3">
+                {items.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
                         <FiCheckCircle className="text-green-500 w-5 h-5 mt-1" />
                         <span>{item}</span>
                     </li>
@@ -20,4 +22,4 @@ function RequirtmentTools({ items }: RequirementToolsProps) {
     );
 }
 
-export default RequirtmentTools;
+export default RequirementTools;

@@ -14,6 +14,9 @@ import {
 } from "@/Components/ui/alert-dialog";
 import { Link, router } from "@inertiajs/react";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/Components/ui/button";
+import { Trash2 } from "lucide-react";
+
 interface ManageMateriDashboardProps {
     Materials: Material[];
 }
@@ -87,26 +90,22 @@ const ManageMateriDashboard = ({ Materials }: ManageMateriDashboardProps) => {
                                         {materi.class.mentor.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                        <Link
-                                            href={`/manage-materi/${materi.materialCode}/edit`}
-                                        >
-                                            <button className="text-blue-600 hover:underline text-sm mr-3">
-                                                Edit
-                                            </button>
-                                        </Link>
                                         {/* AlertDialog per materi */}
                                         <AlertDialog>
                                             <AlertDialogTrigger asChild>
-                                                <button
+                                                <Button
                                                     onClick={() =>
                                                         setKodeMateri(
                                                             materi.materialCode
                                                         )
                                                     }
-                                                    className="text-red-600 hover:underline text-sm"
+                                                    className="group relative flex items-center gap-1 rounded-md bg-transparent text-sm text-red-600 transition-all duration-200 hover:bg-red-50 hover:text-red-700 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-300"
                                                 >
-                                                    Hapus
-                                                </button>
+                                                    <Trash2 className="w-5 h-5 text-red-600 transition-colors duration-200 group-hover:text-red-700" />
+                                                    <span className="sr-only">
+                                                        Hapus Materi
+                                                    </span>
+                                                </Button>
                                             </AlertDialogTrigger>
                                             <AlertDialogContent>
                                                 <AlertDialogHeader>

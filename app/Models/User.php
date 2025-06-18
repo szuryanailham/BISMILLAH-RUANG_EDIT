@@ -38,6 +38,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Token::class, 'token_usages')->withTimestamps();
     }
 
+
 public function enrolledClasses()
 {
     return $this->belongsToMany(ClassModel::class, 'enrollments', 'user_id', 'class_id')

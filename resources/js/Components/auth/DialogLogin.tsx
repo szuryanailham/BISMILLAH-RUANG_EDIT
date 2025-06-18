@@ -27,7 +27,7 @@ import { router } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 
 export default function DialogLogin() {
-    const { openRegister, close } = useAuthDialog();
+    const { openRegister } = useAuthDialog();
     const form = useForm<z.infer<typeof loginUserSchema>>({
         resolver: zodResolver(loginUserSchema),
         defaultValues: {

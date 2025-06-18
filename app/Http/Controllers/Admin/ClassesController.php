@@ -55,10 +55,11 @@ public function store(CreateClassRequest $request)
     try {
         // Ambil data tervalidasi
         $validated = $request->validated();
-        $posterFile = $request->file('poster')[0];
+        $posterFile = $request->file('poster');
       $posterPath = $posterFile->store('class_images', 'public');
-        $goals = array_map(fn($item) => $item['value'], $validated['goals']);
-       $requirements = array_map(fn($item) => $item['value'], $validated['requirements']);
+       $goals = $validated['goals'];
+$requirements = $validated['requirements'];
+
         $data = [
             'class_code'        => 'CLS-' . strtoupper(Str::random(6)),
             'title'             => $validated['ClassTittle'],
@@ -75,9 +76,6 @@ public function store(CreateClassRequest $request)
             'requirements'      => $requirements,     
             'poster_image' => $posterPath,  
         ];
-
-          
-
         // Simpan ke database
         $class = ClassModel::create($data);
 
@@ -122,7 +120,7 @@ public function store(CreateClassRequest $request)
      */
  public function update(EditClassRequest $request, ClassModel $classModel)
 {
-    
+
     try {
         $validated = $request->validated();
         if ($request->hasFile('poster')) {
@@ -135,13 +133,9 @@ public function store(CreateClassRequest $request)
             $urlPoster = $classModel->poster_image;
         }
 
-     $goals = array_map(fn($item) => $item['value'], $validated['goals']);
+             $goals = $validated['goals'];
+            $requirements = $validated['requirements'];
 
-$requirements = isset($validated['requirements']) 
-    ? array_map(fn($item) => $item['value'], $validated['requirements']) 
-    : [];
-
-       
         // Data yang akan diupdate
         $data = [
             'class_code'         => $classModel->class_code ?? 'CLS-' . strtoupper(Str::random(6)),

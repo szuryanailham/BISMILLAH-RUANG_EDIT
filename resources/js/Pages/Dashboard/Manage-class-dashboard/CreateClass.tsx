@@ -82,12 +82,38 @@ function CreateClass({ mentors, categories }: PageProps) {
     // Handler ketika form disubmit
     function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        console.log(values);
+
         const formData = new FormData();
-        if (values.poster && values.poster.length > 0) {
-            formData.append("poster", values.poster[0]);
+
+        formData.append("ClassTittle", values.ClassTittle);
+        formData.append("slug", values.slug);
+        formData.append("description", values.description);
+        formData.append("mentor_id", String(values.mentor_id));
+        formData.append("Category_id", String(values.Category_id));
+        formData.append("Level", values.Level);
+        formData.append("isFree", values.isFree ? "1" : "0");
+        formData.append("isPublished", values.isPublished ? "1" : "0");
+
+        if (values.price !== undefined) {
+            formData.append("price", String(values.price));
         }
-        router.post("/dashboard/manage-class", values, {
+
+        if (values.poster && values.poster.length > 0) {
+            formData.append("poster", values.poster[0]); // ✅ Ambil file pertama
+        }
+
+        // Tambahkan array goals
+        values.goals.forEach((goal, index) => {
+            formData.append(`goals[${index}]`, goal.value);
+        });
+
+        // Tambahkan array requirements
+        values.requirements.forEach((req, index) => {
+            formData.append(`requirements[${index}]`, req.value);
+        });
+
+        router.post("/dashboard/manage-class", formData, {
+            forceFormData: true, // ✅ Wajib saat kirim FormData
             onSuccess: () => {
                 toast({
                     title: "Kelas Berhasil dibuat",
