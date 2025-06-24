@@ -26,13 +26,14 @@ interface DetailCourseProps {
 }
 
 interface DetailCourseProps {
+    classModelId: number;
     course: Course;
     auth: {
         user: User | null;
     };
 }
 
-function DetailCourse({ course, auth }: DetailCourseProps) {
+function DetailCourse({ course, auth, classModelId }: DetailCourseProps) {
     const handleEnrollFreeClass = (class_code: string) => {
         if (!auth.user) {
             if (typeof window !== "undefined") {
@@ -71,6 +72,22 @@ function DetailCourse({ course, auth }: DetailCourseProps) {
                         description: errorMessages,
                         variant: "destructive",
                     });
+                },
+            }
+        );
+    };
+
+    const handleCheckout = () => {
+        router.post(
+            `/checkout/${classModelId}`,
+            {},
+            {
+                onSuccess: () => {
+                    console.log("Redirecting ke Xendit...");
+                },
+                onError: (errors) => {
+                    console.error("Terjadi kesalahan:", errors);
+                    alert("Checkout gagal");
                 },
             }
         );
@@ -115,7 +132,10 @@ function DetailCourse({ course, auth }: DetailCourseProps) {
                                     Ambil Kelas
                                 </Button>
                             ) : (
-                                <Button className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3">
+                                <Button
+                                    onClick={handleCheckout}
+                                    className="w-full px-7 py-5 text-lg font-semibold text-white bg-Base_Color hover:bg-opacity-90 transition duration-200 rounded-md shadow-md hover:shadow-lg flex items-center justify-center gap-3"
+                                >
                                     <FaShoppingCart className="text-xl" />
                                     beli Kelas
                                 </Button>
