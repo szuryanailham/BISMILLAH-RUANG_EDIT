@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ruang-edit-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - ruang-edit-network
+    depends_on:
+      - db
+      - redis
+
+  webserver:
+    image: nginx:alpine
+    container_name: ruang-edit-webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/ssl/:/etc/nginx/ssl/
+    networks:
+      - ruang-edit-network
+
+  db:
+    image: mysql:8.0
+    container_name: ruang-edit-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ruang_edit
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_PASSWORD: your_password
+      MYSQL_USER: ruang_edit_user
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - ruang-edit-network
+
+  redis:
+    image: redis:alpine
+    container_name: ruang-edit-redis
+    restart: unless-stopped
+    networks:
+      - ruang-edit-network
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  ruang-edit-network:
+    driver: bridge
