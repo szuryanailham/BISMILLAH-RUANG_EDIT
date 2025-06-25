@@ -83,7 +83,7 @@ function DetailCourse({ course, auth, classModelId }: DetailCourseProps) {
             {},
             {
                 onSuccess: () => {
-                    console.log("Redirecting ke Xendit...");
+                    alert("Fitur masih dibuat ");
                 },
                 onError: (errors) => {
                     console.error("Terjadi kesalahan:", errors);
