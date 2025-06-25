@@ -6,43 +6,39 @@ services:
             context: .
             dockerfile: Dockerfile
         container_name: ruang-edit-app
-        working_dir: /var/www/html
         volumes:
-            - ./app:/var/www/html
-        depends_on:
-            - mysql
+            - .:/var/www/html
         networks:
             - ruang-edit-net
+        depends_on:
+            - mysql
 
     mysql:
         image: mysql:8.0
         container_name: ruang-edit-mysql
-        restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: ruang_edit
-            MYSQL_USER: ilham
-            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: secret
         volumes:
-            - ruang-edit-mysql:/var/lib/mysql
+            - ruang-edit-db:/var/lib/mysql
         networks:
             - ruang-edit-net
 
     nginx:
-        image: nginx:latest
+        image: nginx:alpine
         container_name: ruang-edit-nginx
         ports:
-            - "8000:80"
+            - "8080:80"
         volumes:
-            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - ./app:/var/www/html
+            - .:/var/www/html
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
         networks:
             - ruang-edit-net
 
-volumes:
-    ruang-edit-mysql:
-
 networks:
     ruang-edit-net:
+
+volumes:
+    ruang-edit-db:
