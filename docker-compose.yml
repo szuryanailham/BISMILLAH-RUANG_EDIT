@@ -1,7 +1,7 @@
 services:
     app:
         build:
-            context: .
+            context: . # tetap di root folder 'ruang-edit'
             dockerfile: Dockerfile
         container_name: ruang-edit-app
         working_dir: /var/www/html
@@ -11,6 +11,8 @@ services:
             - mysql
         networks:
             - ruang-edit-net
+        environment:
+            COMPOSER_ALLOW_SUPERUSER: 1
 
     mysql:
         image: mysql:8.0
@@ -25,6 +27,11 @@ services:
             - ruang-edit-mysql:/var/lib/mysql
         networks:
             - ruang-edit-net
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
     nginx:
         image: nginx:latest
