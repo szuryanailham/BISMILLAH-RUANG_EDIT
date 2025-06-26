@@ -109,11 +109,12 @@ $requirements = $validated['requirements'];
     {
         $categories = CategoryClass::all();
         $mentors = Mentor::all();
-          return Inertia::render('Dashboard/manage-class-dashboard/EditClass', [
-        'categories' => $categories,
-        'mentors' => $mentors,
-        'classData' => $classModel
-    ]);
+         return Inertia::render('Dashboard/Manage-class-dashboard/EditClass', [
+    'categories' => $categories,
+    'mentors' => $mentors,
+    'classData' => $classModel
+]);
+
     }
 
     /**
