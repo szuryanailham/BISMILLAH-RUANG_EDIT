@@ -34,16 +34,17 @@ class ClassesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-   public function create()
+public function create()
 {
     $categories = CategoryClass::all();
     $mentors = Mentor::all();
 
-    return Inertia::render('Dashboard/manage-class-dashboard/CreateClass', [
+    return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass', [
         'categories' => $categories,
         'mentors' => $mentors,
     ]);
 }
+
 
 
     /**
