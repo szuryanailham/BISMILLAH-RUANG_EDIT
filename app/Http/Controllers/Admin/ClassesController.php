@@ -39,7 +39,7 @@ public function create()
     $categories = CategoryClass::all();
     $mentors = Mentor::all();
 
-    return Inertia::render('Dashboard/Manage-class-dashboard/CreateClass', [
+    return Inertia::render('Dashboard/manage-class-dashboard/CreateClass', [
         'categories' => $categories,
         'mentors' => $mentors,
     ]);
@@ -109,7 +109,7 @@ $requirements = $validated['requirements'];
     {
         $categories = CategoryClass::all();
         $mentors = Mentor::all();
-         return Inertia::render('Dashboard/Manage-class-dashboard/EditClass', [
+         return Inertia::render('Dashboard/manage-class-dashboard/EditClass', [
     'categories' => $categories,
     'mentors' => $mentors,
     'classData' => $classModel
